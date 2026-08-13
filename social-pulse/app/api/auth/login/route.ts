@@ -50,6 +50,7 @@ export async function POST(req: Request) {
     return response;
   } catch (err: unknown) {
     console.error('Login API error:', err);
-    return NextResponse.json({ ok: false, error: 'Database error during login.' }, { status: 500 });
+    const errorDetails = err instanceof Error ? err.message : 'Database error during login.';
+    return NextResponse.json({ ok: false, error: errorDetails }, { status: 500 });
   }
 }
