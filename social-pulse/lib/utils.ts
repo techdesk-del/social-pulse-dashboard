@@ -52,3 +52,4 @@ export function trendColors(dir: TrendDir): { s: string; c: string; arrow: strin
   if (dir === 'down') return { s: COLORS.downSoft, c: COLORS.down, arrow: '▼' };
   return { s: COLORS.flatSoft, c: COLORS.flat, arrow: '▬' };
 }
+

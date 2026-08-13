@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PLATFORMS } from '../lib/constants';
 import { formatWeekLabel, nextMonday, num } from '../lib/utils';
 import { emptyLinkedIn, emptyInstagram, emptyFacebook } from '../lib/constants';
@@ -17,6 +17,7 @@ interface Props {
   onSetFormWeekDate: (val: string) => void;
   onToggleSection: (id: string) => void;
   onSave: (weekId: string, draft: FormDraft) => void;
+  onDelete?: (weekId: string) => void;
   onDraftChange: (draft: FormDraft) => void;
 }
 
@@ -31,12 +32,20 @@ export default function DataModal({
   onSetFormWeekDate,
   onToggleSection,
   onSave,
+  onDelete,
   onDraftChange,
 }: Props) {
   const isNew = formWeekId === null;
   const proposedDate = newWeekDate ?? nextMonday(weeks.length ? weeks[weeks.length - 1].weekId : null);
   const weekId = isNew ? proposedDate : formWeekId;
   const existing = weeks.find((w) => w.weekId === weekId);
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  // Reset delete confirmation whenever formWeekId changes
+  useEffect(() => {
+    setConfirmDelete(false);
+  }, [formWeekId]);
 
   const li = draft.linkedin ?? (existing ? existing.linkedin : emptyLinkedIn());
   const ig = draft.instagram ?? (existing ? existing.instagram : emptyInstagram());
@@ -59,6 +68,12 @@ export default function DataModal({
   function handleSave() {
     const captured = captureDraft();
     onSave(weekId!, captured);
+  }
+
+  function handleDelete() {
+    if (weekId && onDelete) {
+      onDelete(weekId);
+    }
   }
 
   function handleToggle(id: string) {
@@ -169,8 +184,35 @@ export default function DataModal({
             </label>
           </div>
         ) : (
-          <div className="week-select-wrap">
+          <div className="week-select-wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div className="week-static">Editing {formatWeekLabel(weekId!)}</div>
+            {!confirmDelete ? (
+              <button
+                type="button"
+                className="delete-btn"
+                onClick={() => setConfirmDelete(true)}
+                title="Remove entire week permanently"
+                id="btn-delete-week"
+              >
+                🗑️ Remove Week
+              </button>
+            ) : null}
+          </div>
+        )}
+
+        {confirmDelete && !isNew && (
+          <div className="delete-confirm-box">
+            <div className="delete-confirm-text">
+              Are you sure you want to remove week starting <b>{formatWeekLabel(weekId!)}</b>? This will permanently delete its metrics.
+            </div>
+            <div className="delete-confirm-actions">
+              <button type="button" className="delete-confirm-btn" onClick={handleDelete} id="btn-confirm-delete-week">
+                Yes, Delete Week
+              </button>
+              <button type="button" className="delete-cancel-btn" onClick={() => setConfirmDelete(false)}>
+                Cancel
+              </button>
+            </div>
           </div>
         )}
 
@@ -194,3 +236,5 @@ export default function DataModal({
     </div>
   );
 }
+
+

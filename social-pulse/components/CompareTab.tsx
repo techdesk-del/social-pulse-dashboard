@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import { num, fmtNum, formatWeekLabel, getTrend, trendColors } from '../lib/utils';
 import { PLATFORMS } from '../lib/constants';
 import type { WeekEntry, PlatformKey } from '../lib/types';
@@ -75,12 +76,12 @@ export default function CompareTab({ weeks, compareTab, onSetCompareTab }: Props
           <tbody>
             {cfg.groups ? (
               cfg.groups.map((g) => (
-                <>
-                  <tr className="group-row" key={g.title}>
+                <Fragment key={g.title}>
+                  <tr className="group-row">
                     <td colSpan={weeks.length + 1}>{g.title}</td>
                   </tr>
                   {rowsForFields(g.fields)}
-                </>
+                </Fragment>
               ))
             ) : (
               rowsForFields(cfg.metrics)

@@ -724,11 +724,213 @@ select.field-input {
   padding: 11px 18px;
   background: transparent;
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: 99px;
   color: var(--text-dim);
   font-family: var(--f-body);
   font-size: 13.5px;
   cursor: pointer;
+}
+
+.delete-btn {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  border-radius: 7px;
+  padding: 6px 12px;
+  font-family: var(--f-display);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.delete-btn:hover {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: rgba(239, 68, 68, 0.55);
+  color: #fca5a5;
+}
+
+.delete-confirm-box {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px dashed rgba(239, 68, 68, 0.35);
+  border-radius: 9px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.delete-confirm-text {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.45;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.delete-confirm-btn {
+  flex: 1;
+  background: #dc2626;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 14px;
+  color: #ffffff;
+  font-family: var(--f-display);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.delete-confirm-btn:hover {
+  background: #b91c1c;
+}
+
+.delete-cancel-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 8px 14px;
+  color: var(--text-dim);
+  font-family: var(--f-body);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.delete-cancel-btn:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+/* ── Excluded dates badge in header ── */
+.excluded-dates-badge {
+  font-size: 11px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+  padding: 3px 8px;
+  border-radius: 99px;
+  font-family: var(--f-mono);
+  font-weight: 500;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* ── Manage Dates in Week pills ── */
+.manage-dates-section {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 12px 0 14px;
+}
+
+.manage-dates-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.manage-dates-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--f-display);
+}
+
+.manage-dates-tip {
+  font-size: 11px;
+  color: var(--text-faint);
+  font-family: var(--f-mono);
+}
+
+.date-pills-wrap {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.date-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 4px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.date-pill.active {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.date-pill.active:hover {
+  border-color: rgba(59, 130, 246, 0.7);
+  background: rgba(59, 130, 246, 0.16);
+}
+
+.date-pill.excluded {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+  opacity: 0.75;
+}
+
+.date-pill.excluded:hover {
+  opacity: 1;
+  border-color: rgba(239, 68, 68, 0.7);
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.date-pill-day {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  font-family: var(--f-display);
+}
+
+.date-pill-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--f-mono);
+}
+
+.date-pill.excluded .date-pill-num {
+  text-decoration: line-through;
+  color: #f87171;
+}
+
+.date-pill-status {
+  font-size: 9.5px;
+  font-family: var(--f-mono);
+  color: var(--text-faint);
+  margin-top: 1px;
+}
+
+.date-pill.active .date-pill-status {
+  color: #60a5fa;
+}
+
+.date-pill.excluded .date-pill-status {
+  color: #f87171;
+}
+
+@media (max-width: 600px) {
+  .date-pills-wrap {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 /* ── Responsive ── */

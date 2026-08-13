@@ -81,3 +81,4 @@ export interface FormDraft {
   instagram: Partial<InstagramData> | null;
   facebook: Partial<FacebookData> | null;
 }
+

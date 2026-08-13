@@ -13,6 +13,9 @@ export async function GET() {
 
     await connectToDatabase();
 
+    // Clean up any old week entries before July 6th, 2025
+    await WeekEntry.deleteMany({ userId: session.userId, weekId: { $lt: '2025-07-06' } });
+
     let weeks = await WeekEntry.find({ userId: session.userId }).sort({ weekId: 1 }).lean();
 
     // If user has no entries yet, seed initial demo weeks for them
@@ -83,3 +86,42 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'Database save failed' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getAuthSession();
+    if (!session) {
+      return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    let weekId = searchParams.get('weekId');
+
+    if (!weekId) {
+      try {
+        const body = await req.json();
+        weekId = body.weekId;
+      } catch {
+        // body may not exist if passed via query param
+      }
+    }
+
+    if (!weekId) {
+      return NextResponse.json({ ok: false, error: 'weekId is required for deletion' }, { status: 400 });
+    }
+
+    await connectToDatabase();
+
+    const result = await WeekEntry.deleteOne({ userId: session.userId, weekId });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ ok: false, error: 'Week entry not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ ok: true, deletedWeekId: weekId });
+  } catch (err: unknown) {
+    console.error('DELETE /api/weeks error:', err);
+    return NextResponse.json({ ok: false, error: 'Database delete failed' }, { status: 500 });
+  }
+}
+

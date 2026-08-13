@@ -4,6 +4,7 @@ import { num, shortWeekLabel, fmtNum } from '../lib/utils';
 import { PLATFORMS, COLORS } from '../lib/constants';
 import KpiCard from './KpiCard';
 import LineChart from './charts/LineChart';
+import BarChart from './charts/BarChart';
 import PieChart from './charts/PieChart';
 import type { WeekEntry, PlatformKey } from '../lib/types';
 
@@ -21,20 +22,30 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
   const prev = activeIndex > 0 ? (weeks[activeIndex - 1][platformKey] as unknown as Record<string, number>) : null;
   const upTo = weeks.slice(0, activeIndex + 1);
 
+  // Line chart for metric deep dive
   const lineLabels = upTo.map((w) => shortWeekLabel(w.weekId));
   const lineData = upTo.map((w) => num((w[platformKey] as unknown as Record<string, number>)[chartMetric]));
   const metricLabel = cfg.metrics.find((m) => m.key === chartMetric)?.label ?? chartMetric;
 
-  // Pie chart config
+  // Primary metric trend line data across all weeks
+  const primaryLineData = upTo.map((w) => num((w[platformKey] as unknown as Record<string, number>)[cfg.primaryKey]));
+
+  // Bar chart config for platform metrics breakdown this week
+  const barMetrics = cfg.metrics.slice(0, 6);
+  const barLabels = barMetrics.map((m) => m.label);
+  const barData = barMetrics.map((m) => num(curr[m.key]));
+  const barColors = barMetrics.map(() => cfg.accent);
+
+  // Pie chart config for engagement mix
   let pieLabels: string[], pieColors: string[], pieKeys: string[];
   if (platformKey === 'linkedin') {
     pieLabels = ['Reactions', 'Comments', 'Reposts'];
     pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
     pieKeys = ['reactions', 'comments', 'reposts'];
   } else {
-    pieLabels = ['Content Interactions', 'Link Clicks'];
-    pieColors = [cfg.accent, COLORS.flat];
-    pieKeys = ['contentInteractions', 'linkClicks'];
+    pieLabels = ['Content Interactions', 'Link Clicks', 'Profile Visits'];
+    pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
+    pieKeys = ['contentInteractions', 'linkClicks', 'profileVisits'];
   }
   const pieData = pieKeys.map((k) => num(curr[k]));
 
@@ -77,10 +88,50 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
         <div className="kpi-grid">{cardsFor(cfg.metrics)}</div>
       )}
 
+      {/* ── Top Row: 3 Synced Platform Charts ── */}
+      <div className="charts-row-3">
+        <div className="card chart-card">
+          <div className="chart-title" style={{ marginBottom: 10 }}>
+            {cfg.label} metrics breakdown — this week
+          </div>
+          <div style={{ height: 190 }}>
+            <BarChart labels={barLabels} data={barData} colors={barColors} />
+          </div>
+        </div>
+
+        <div className="card chart-card">
+          <div className="chart-title" style={{ marginBottom: 10 }}>
+            Engagement mix — this week
+          </div>
+          <div style={{ height: 170 }}>
+            <PieChart data={pieData} colors={pieColors} labels={pieLabels} />
+          </div>
+          <div style={{ marginTop: 8 }}>
+            {pieLabels.map((l, i) => (
+              <div className="legend-row" key={l}>
+                <span className="legend-dot" style={{ background: pieColors[i] }} />
+                {l}
+                <span className="legend-val">{fmtNum(num(curr[pieKeys[i]]))}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="card chart-card">
+          <div className="chart-title" style={{ marginBottom: 10 }}>
+            {cfg.primaryLabel} trend — all weeks
+          </div>
+          <div style={{ height: 190 }}>
+            <LineChart labels={lineLabels} data={primaryLineData} color={cfg.accent} label={cfg.primaryLabel} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Bottom Row: Metric Deep-Dive & Exposure Ratio ── */}
       <div className="charts-row">
         <div className="card chart-card">
           <div className="chart-head">
-            <div className="chart-title">Trend over time</div>
+            <div className="chart-title">Metric Deep-Dive</div>
             <select
               className="metric-select"
               value={chartMetric}
@@ -92,51 +143,38 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
               ))}
             </select>
           </div>
-          <div style={{ height: 230 }}>
+          <div style={{ height: 210 }}>
             <LineChart labels={lineLabels} data={lineData} color={cfg.accent} label={metricLabel} />
           </div>
         </div>
 
-        <div className="card chart-card">
-          <div className="chart-title" style={{ marginBottom: 10 }}>Engagement mix — this week</div>
-          <div style={{ height: 190 }}>
-            <PieChart data={pieData} colors={pieColors} labels={pieLabels} />
+        <div className="card visitor-card">
+          <div className="chart-title" style={{ marginBottom: 16 }}>
+            {platformKey === 'linkedin' ? 'Visitor breakdown' : `${cfg.primaryLabel} vs. ${cfg.secondaryLabel}`}
           </div>
-          {pieLabels.map((l, i) => (
-            <div className="legend-row" key={l}>
-              <span className="legend-dot" style={{ background: pieColors[i] }} />
-              {l}
-              <span className="legend-val">{fmtNum(num(curr[pieKeys[i]]))}</span>
+          <div className="vbar-row">
+            <div className="vbar-label">{cfg.primaryLabel}</div>
+            <div className="vbar-track">
+              <div
+                className="vbar-fill"
+                style={{ width: `${(leftVal / maxV) * 100}%`, background: cfg.accent }}
+              />
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="card visitor-card">
-        <div className="chart-title" style={{ marginBottom: 12 }}>
-          {platformKey === 'linkedin' ? 'Visitor breakdown' : `Views vs. ${cfg.secondaryLabel}`}
-        </div>
-        <div className="vbar-row">
-          <div className="vbar-label">{cfg.primaryLabel}</div>
-          <div className="vbar-track">
-            <div
-              className="vbar-fill"
-              style={{ width: `${(leftVal / maxV) * 100}%`, background: cfg.accent }}
-            />
+            <div className="vbar-value">{fmtNum(leftVal)}</div>
           </div>
-          <div className="vbar-value">{fmtNum(leftVal)}</div>
-        </div>
-        <div className="vbar-row">
-          <div className="vbar-label">{cfg.secondaryLabel}</div>
-          <div className="vbar-track">
-            <div
-              className="vbar-fill"
-              style={{ width: `${(rightVal / maxV) * 100}%`, background: COLORS.textFaint }}
-            />
+          <div className="vbar-row" style={{ marginTop: 14 }}>
+            <div className="vbar-label">{cfg.secondaryLabel}</div>
+            <div className="vbar-track">
+              <div
+                className="vbar-fill"
+                style={{ width: `${(rightVal / maxV) * 100}%`, background: COLORS.textFaint }}
+              />
+            </div>
+            <div className="vbar-value">{fmtNum(rightVal)}</div>
           </div>
-          <div className="vbar-value">{fmtNum(rightVal)}</div>
         </div>
       </div>
     </>
   );
 }
+

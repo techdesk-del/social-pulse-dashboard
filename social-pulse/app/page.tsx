@@ -134,6 +134,32 @@ export default function DashboardPage() {
     [weeks]
   );
 
+  const deleteWeek = useCallback(
+    async (weekId: string) => {
+      try {
+        const res = await fetch(`/api/weeks?weekId=${encodeURIComponent(weekId)}`, {
+          method: 'DELETE',
+        });
+        const data = await res.json();
+        if (data.ok) {
+          setWeeks((prev) => {
+            const idx = prev.findIndex((w) => w.weekId === weekId);
+            const next = prev.filter((w) => w.weekId !== weekId);
+            const nextActiveIdx = Math.max(0, Math.min(idx, next.length - 1));
+            setState((s) => ({ ...s, activeIndex: nextActiveIdx, formOpen: false }));
+            return next;
+          });
+        } else {
+          alert(data.error || 'Failed to delete week from MongoDB.');
+        }
+      } catch (err) {
+        console.error('Delete week error', err);
+        alert('Network error while deleting week.');
+      }
+    },
+    []
+  );
+
   // ── PDF Export ──
   const handleExportPdf = async () => {
     setPdfLoading(true);
@@ -263,6 +289,7 @@ export default function DashboardPage() {
           onSetFormWeekDate={setFormWeekDate}
           onToggleSection={toggleFormSection}
           onSave={saveWeek}
+          onDelete={deleteWeek}
           onDraftChange={setDraft}
         />
       )}

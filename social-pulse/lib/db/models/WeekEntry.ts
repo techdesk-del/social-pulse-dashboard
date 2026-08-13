@@ -62,6 +62,11 @@ const WeekEntrySchema = new Schema<IWeekEntry>(
 // Compound unique index so each user can only have 1 entry per weekId
 WeekEntrySchema.index({ userId: 1, weekId: 1 }, { unique: true });
 
+// Force model re-registration in HMR development mode to ensure schema updates like excludedDates are active
+if (mongoose.models.WeekEntry) {
+  delete mongoose.models.WeekEntry;
+}
+
 const WeekEntry: Model<IWeekEntry> =
   mongoose.models.WeekEntry || mongoose.model<IWeekEntry>('WeekEntry', WeekEntrySchema);
 

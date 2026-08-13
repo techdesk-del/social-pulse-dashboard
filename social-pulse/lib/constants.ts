@@ -109,15 +109,9 @@ export function emptyFacebook(): FacebookData {
 
 export const SEED_WEEKS = [
   {
-    weekId: '2025-06-23',
-    linkedin: { impressions: 4120, reach: 2800, profileViews: 312, newFollowers: 18, reactions: 94, comments: 21, reposts: 7 },
-    instagram: { reach: 3100, impressions: 5200, profileVisits: 210, follows: 14, contentInteractions: 188, linkClicks: 32 },
-    facebook: { viewers: 2600, reach: 3400, profileVisits: 180, follows: 9, contentInteractions: 145, linkClicks: 28 },
-  },
-  {
-    weekId: '2025-06-30',
-    linkedin: { impressions: 5340, reach: 3600, profileViews: 398, newFollowers: 24, reactions: 118, comments: 29, reposts: 11 },
-    instagram: { reach: 3780, impressions: 6100, profileVisits: 265, follows: 19, contentInteractions: 224, linkClicks: 41 },
-    facebook: { viewers: 2950, reach: 3820, profileVisits: 202, follows: 12, contentInteractions: 167, linkClicks: 35 },
+    weekId: '2025-07-07',
+    linkedin: { impressions: 5890, reach: 3950, profileViews: 425, newFollowers: 28, reactions: 132, comments: 34, reposts: 14 },
+    instagram: { reach: 4120, impressions: 6850, profileVisits: 290, follows: 22, contentInteractions: 245, linkClicks: 48 },
+    facebook: { viewers: 3200, reach: 4150, profileVisits: 225, follows: 15, contentInteractions: 182, linkClicks: 40 },
   },
 ];
