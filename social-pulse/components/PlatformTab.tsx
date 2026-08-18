@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { num, shortWeekLabel, fmtNum } from '../lib/utils';
 import { PLATFORMS, COLORS } from '../lib/constants';
 import KpiCard from './KpiCard';
@@ -22,26 +23,54 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
   const prev = activeIndex > 0 ? (weeks[activeIndex - 1][platformKey] as unknown as Record<string, number>) : null;
   const upTo = weeks.slice(0, activeIndex + 1);
 
+  // Sub-tab selection for platforms with groups (e.g. LinkedIn: Content, Visitors, Followers, Search Appearances)
+  const [activeGroup, setActiveGroup] = useState<string>(cfg.groups ? cfg.groups[0].title : 'all');
+
+  const selectedGroupDef = cfg.groups?.find((g) => g.title.toLowerCase() === activeGroup.toLowerCase());
+  const activeMetrics = selectedGroupDef ? selectedGroupDef.fields : cfg.metrics;
+
+  // Active chart metric validation
+  const currentMetricKey = activeMetrics.some((m) => m.key === chartMetric)
+    ? chartMetric
+    : activeMetrics[0]?.key ?? cfg.primaryKey;
+
   // Line chart for metric deep dive
   const lineLabels = upTo.map((w) => shortWeekLabel(w.weekId));
-  const lineData = upTo.map((w) => num((w[platformKey] as unknown as Record<string, number>)[chartMetric]));
-  const metricLabel = cfg.metrics.find((m) => m.key === chartMetric)?.label ?? chartMetric;
+  const lineData = upTo.map((w) => num((w[platformKey] as unknown as Record<string, number>)[currentMetricKey]));
+  const metricLabel = cfg.metrics.find((m) => m.key === currentMetricKey)?.label ?? currentMetricKey;
 
-  // Primary metric trend line data across all weeks
-  const primaryLineData = upTo.map((w) => num((w[platformKey] as unknown as Record<string, number>)[cfg.primaryKey]));
+  // Primary metric trend line data
+  const primaryTrendKey = selectedGroupDef?.fields[0]?.key ?? cfg.primaryKey;
+  const primaryTrendLabel = selectedGroupDef?.fields[0]?.label ?? cfg.primaryLabel;
+  const primaryLineData = upTo.map((w) => num((w[platformKey] as unknown as Record<string, number>)[primaryTrendKey]));
 
-  // Bar chart config for platform metrics breakdown this week
-  const barMetrics = cfg.metrics.slice(0, 6);
+  // Bar chart config
+  const barMetrics = activeMetrics.slice(0, 6);
   const barLabels = barMetrics.map((m) => m.label);
   const barData = barMetrics.map((m) => num(curr[m.key]));
   const barColors = barMetrics.map(() => cfg.accent);
 
-  // Pie chart config for engagement mix
+  // Pie chart config
   let pieLabels: string[], pieColors: string[], pieKeys: string[];
   if (platformKey === 'linkedin') {
-    pieLabels = ['Reactions', 'Comments', 'Reposts'];
-    pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
-    pieKeys = ['reactions', 'comments', 'reposts'];
+    if (activeGroup.toLowerCase() === 'visitors') {
+      pieLabels = ['Page Views', 'Unique Visitors', 'Custom Buttons'];
+      pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
+      pieKeys = ['pageViews', 'uniqueVisitors', 'customButtonClick'];
+    } else if (activeGroup.toLowerCase() === 'followers') {
+      pieLabels = ['Total Followers', 'New Followers (300d)'];
+      pieColors = [cfg.accent, COLORS.up];
+      pieKeys = ['totalFollowers', 'newFollowers300Days'];
+    } else if (activeGroup.toLowerCase() === 'search appearances') {
+      pieLabels = ['Page Searches', 'Impressions'];
+      pieColors = [cfg.accent, COLORS.textFaint];
+      pieKeys = ['pageSearches', 'impressions'];
+    } else {
+      // Content or All
+      pieLabels = ['Reactions', 'Comments', 'Reposts'];
+      pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
+      pieKeys = ['reactions', 'comments', 'reposts'];
+    }
   } else {
     pieLabels = ['Content Interactions', 'Link Clicks', 'Profile Visits'];
     pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
@@ -49,8 +78,21 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
   }
   const pieData = pieKeys.map((k) => num(curr[k]));
 
-  const leftVal = num(curr[cfg.primaryKey]);
-  const rightVal = num(curr[cfg.secondaryKey]);
+  // Ratio / Comparison card
+  let compLeftKey = cfg.primaryKey;
+  let compRightKey = cfg.secondaryKey;
+  let compLeftLabel = cfg.primaryLabel;
+  let compRightLabel = cfg.secondaryLabel;
+
+  if (selectedGroupDef && selectedGroupDef.fields.length >= 2) {
+    compLeftKey = selectedGroupDef.fields[0].key;
+    compLeftLabel = selectedGroupDef.fields[0].label;
+    compRightKey = selectedGroupDef.fields[1].key;
+    compRightLabel = selectedGroupDef.fields[1].label;
+  }
+
+  const leftVal = num(curr[compLeftKey]);
+  const rightVal = num(curr[compRightKey]);
   const maxV = Math.max(leftVal, rightVal, 1);
 
   function cardsFor(fields: { key: string; label: string }[]) {
@@ -71,19 +113,63 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
 
   return (
     <>
+      {/* ── Sub-tabs for platforms with categories (LinkedIn: Content, Visitors, Followers, Search Appearances) ── */}
+      {cfg.groups && (
+        <div className="tab-pills" style={{ marginTop: 2, marginBottom: 18 }}>
+          {cfg.groups.map((g) => {
+            const active = activeGroup.toLowerCase() === g.title.toLowerCase();
+            return (
+              <button
+                key={g.title}
+                type="button"
+                id={`subtab-${g.title.toLowerCase().replace(/\s+/g, '-')}`}
+                className={`pill-btn${active ? ' active' : ''}`}
+                style={active ? { color: cfg.accent, borderColor: cfg.accent, fontWeight: 700 } : {}}
+                onClick={() => {
+                  setActiveGroup(g.title);
+                  if (g.fields.length > 0) {
+                    onMetricChange(g.fields[0].key);
+                  }
+                }}
+              >
+                <span className="pill-dot" style={{ background: cfg.accent }} />
+                {g.title}
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            id="subtab-all"
+            className={`pill-btn${activeGroup === 'all' ? ' active' : ''}`}
+            style={activeGroup === 'all' ? { color: cfg.accent, borderColor: cfg.accent, fontWeight: 700 } : {}}
+            onClick={() => setActiveGroup('all')}
+          >
+            <span className="pill-dot" style={{ background: cfg.accent }} />
+            All Details
+          </button>
+        </div>
+      )}
+
+      {/* ── KPI Cards ── */}
       {cfg.groups ? (
-        cfg.groups.map((g, gi) => (
-          <div key={g.title}>
-            <div className="group-head">
-              <span className="group-num" style={{ background: cfg.accent }}>
-                {gi + 1}
-              </span>
-              {g.title}
-              <span className="group-line" />
+        activeGroup === 'all' ? (
+          cfg.groups.map((g, gi) => (
+            <div key={g.title} style={{ marginBottom: 18 }}>
+              <div className="group-head">
+                <span className="group-num" style={{ background: cfg.accent }}>
+                  {gi + 1}
+                </span>
+                {g.title}
+                <span className="group-line" />
+              </div>
+              <div className="kpi-grid">{cardsFor(g.fields)}</div>
             </div>
-            <div className="kpi-grid">{cardsFor(g.fields)}</div>
+          ))
+        ) : (
+          <div className="kpi-grid" style={{ marginBottom: 18 }}>
+            {cardsFor(activeMetrics)}
           </div>
-        ))
+        )
       ) : (
         <div className="kpi-grid">{cardsFor(cfg.metrics)}</div>
       )}
@@ -92,7 +178,7 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
       <div className="charts-row-3">
         <div className="card chart-card">
           <div className="chart-title" style={{ marginBottom: 10 }}>
-            {cfg.label} metrics breakdown — this week
+            {selectedGroupDef ? `${selectedGroupDef.title} metrics` : `${cfg.label} metrics`} — this week
           </div>
           <div style={{ height: 190 }}>
             <BarChart labels={barLabels} data={barData} colors={barColors} />
@@ -101,7 +187,7 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
 
         <div className="card chart-card">
           <div className="chart-title" style={{ marginBottom: 10 }}>
-            Engagement mix — this week
+            {selectedGroupDef ? `${selectedGroupDef.title} distribution` : 'Engagement mix'} — this week
           </div>
           <div style={{ height: 170 }}>
             <PieChart data={pieData} colors={pieColors} labels={pieLabels} />
@@ -111,7 +197,7 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
               <div className="legend-row" key={l}>
                 <span className="legend-dot" style={{ background: pieColors[i] }} />
                 {l}
-                <span className="legend-val">{fmtNum(num(curr[pieKeys[i]]))}</span>
+                <span className="legend-val">{fmtNum(num(curr[pieKeys[i]])) || '0'}</span>
               </div>
             ))}
           </div>
@@ -119,10 +205,10 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
 
         <div className="card chart-card">
           <div className="chart-title" style={{ marginBottom: 10 }}>
-            {cfg.primaryLabel} trend — all weeks
+            {primaryTrendLabel} trend — all weeks
           </div>
           <div style={{ height: 190 }}>
-            <LineChart labels={lineLabels} data={primaryLineData} color={cfg.accent} label={cfg.primaryLabel} />
+            <LineChart labels={lineLabels} data={primaryLineData} color={cfg.accent} label={primaryTrendLabel} />
           </div>
         </div>
       </div>
@@ -134,11 +220,11 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
             <div className="chart-title">Metric Deep-Dive</div>
             <select
               className="metric-select"
-              value={chartMetric}
+              value={currentMetricKey}
               onChange={(e) => onMetricChange(e.target.value)}
               id={`metric-select-${platformKey}`}
             >
-              {cfg.metrics.map((m) => (
+              {activeMetrics.map((m) => (
                 <option key={m.key} value={m.key}>{m.label}</option>
               ))}
             </select>
@@ -150,10 +236,10 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
 
         <div className="card visitor-card">
           <div className="chart-title" style={{ marginBottom: 16 }}>
-            {platformKey === 'linkedin' ? 'Visitor breakdown' : `${cfg.primaryLabel} vs. ${cfg.secondaryLabel}`}
+            {`${compLeftLabel} vs. ${compRightLabel}`}
           </div>
           <div className="vbar-row">
-            <div className="vbar-label">{cfg.primaryLabel}</div>
+            <div className="vbar-label">{compLeftLabel}</div>
             <div className="vbar-track">
               <div
                 className="vbar-fill"
@@ -162,19 +248,20 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
             </div>
             <div className="vbar-value">{fmtNum(leftVal)}</div>
           </div>
-          <div className="vbar-row" style={{ marginTop: 14 }}>
-            <div className="vbar-label">{cfg.secondaryLabel}</div>
-            <div className="vbar-track">
-              <div
-                className="vbar-fill"
-                style={{ width: `${(rightVal / maxV) * 100}%`, background: COLORS.textFaint }}
-              />
+          {compRightKey !== compLeftKey && (
+            <div className="vbar-row" style={{ marginTop: 14 }}>
+              <div className="vbar-label">{compRightLabel}</div>
+              <div className="vbar-track">
+                <div
+                  className="vbar-fill"
+                  style={{ width: `${(rightVal / maxV) * 100}%`, background: COLORS.textFaint }}
+                />
+              </div>
+              <div className="vbar-value">{fmtNum(rightVal)}</div>
             </div>
-            <div className="vbar-value">{fmtNum(rightVal)}</div>
-          </div>
+          )}
         </div>
       </div>
     </>
   );
 }
-

@@ -96,12 +96,38 @@ export default function DataModal({
 
   function SectionFields({ platformKey, values }: { platformKey: PlatformKey; values: Record<string, number> }) {
     const cfg = PLATFORMS[platformKey];
-    const fields = cfg.groups
-      ? cfg.groups.flatMap((g) => g.fields)
-      : cfg.metrics;
+    if (cfg.groups) {
+      return (
+        <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {cfg.groups.map((g) => (
+            <div key={g.title} style={{ background: 'var(--surface-raised)', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border-soft)' }}>
+              <div style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: cfg.accent }} />
+                {g.title}
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                {g.fields.map((f) => (
+                  <label className="field-label" key={f.key}>
+                    {f.label}
+                    <input
+                      className="field-input"
+                      type="number"
+                      min="0"
+                      placeholder="0"
+                      data-field={f.key}
+                      defaultValue={values[f.key] ?? 0}
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
     return (
       <>
-        {fields.map((f) => (
+        {cfg.metrics.map((f) => (
           <label className="field-label" key={f.key}>
             {f.label}
             <input

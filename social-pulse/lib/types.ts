@@ -1,11 +1,23 @@
 export interface LinkedInData {
+  // Content
   impressions: number;
-  reach: number;
-  profileViews: number;
-  newFollowers: number;
   reactions: number;
   comments: number;
   reposts: number;
+  // Visitors
+  pageViews: number;
+  uniqueVisitors: number;
+  customButtonClick: number;
+  // Followers
+  totalFollowers: number;
+  newFollowers300Days: number;
+  // Search Appearances
+  pageSearches: number;
+
+  // Optional backward compatibility
+  reach?: number;
+  profileViews?: number;
+  newFollowers?: number;
 }
 
 export interface InstagramData {

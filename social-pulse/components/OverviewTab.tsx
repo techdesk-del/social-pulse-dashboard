@@ -29,9 +29,11 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
       num(prev.instagram.contentInteractions) + num(prev.facebook.contentInteractions)
     : null;
 
-  const totalNewFollows = num(curr.linkedin.newFollowers) + num(curr.instagram.follows) + num(curr.facebook.follows);
+  const liFollows = (w: WeekEntry) => num(w.linkedin.newFollowers300Days || w.linkedin.newFollowers);
+
+  const totalNewFollows = liFollows(curr) + num(curr.instagram.follows) + num(curr.facebook.follows);
   const prevNewFollows = prev
-    ? num(prev.linkedin.newFollowers) + num(prev.instagram.follows) + num(prev.facebook.follows)
+    ? liFollows(prev) + num(prev.instagram.follows) + num(prev.facebook.follows)
     : null;
 
   const totalClicks = num(curr.instagram.linkClicks) + num(curr.facebook.linkClicks);
@@ -42,11 +44,11 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
   }
 
   const lineLabels = upTo.map((w) => shortWeekLabel(w.weekId));
-  const lineData = upTo.map((w) => num(w.linkedin.newFollowers) + num(w.instagram.follows) + num(w.facebook.follows));
+  const lineData = upTo.map((w) => liFollows(w) + num(w.instagram.follows) + num(w.facebook.follows));
 
   const barNames = ['LinkedIn', 'Instagram', 'Facebook'];
   const barColors = [COLORS.li, COLORS.ig, COLORS.fb];
-  const barVals = [num(curr.linkedin.newFollowers), num(curr.instagram.follows), num(curr.facebook.follows)];
+  const barVals = [liFollows(curr), num(curr.instagram.follows), num(curr.facebook.follows)];
   const reachVals = [num(curr.linkedin.impressions), num(curr.instagram.reach), num(curr.facebook.viewers)];
 
   return (

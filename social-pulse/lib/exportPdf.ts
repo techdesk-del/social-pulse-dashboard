@@ -153,7 +153,9 @@ export async function exportPDF(weeks: WeekEntry[], activeIndex: number): Promis
     y += 5;
 
     const weekHeaders = weeks.map((w) => formatWeekLabel(w.weekId));
-    const liFields = PLATFORMS.linkedin.groups!.flatMap((g) => g.fields);
+    const liFields = PLATFORMS.linkedin.groups
+      ? PLATFORMS.linkedin.groups.flatMap((g) => g.fields)
+      : PLATFORMS.linkedin.metrics;
     const liRows = liFields.map((f) => {
       const cells = weeks.map((w) => fmtNum(num((w.linkedin as unknown as Record<string, number>)[f.key])));
       return [f.label, ...cells];

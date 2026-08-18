@@ -28,35 +28,51 @@ export const PLATFORMS: Record<string, PlatformConfig> = {
     label: 'LinkedIn',
     accent: COLORS.li,
     soft: COLORS.liSoft,
-    primaryKey: 'reach',
-    primaryLabel: 'Organic Reach',
-    secondaryKey: 'profileViews',
-    secondaryLabel: 'Profile Views',
+    primaryKey: 'impressions',
+    primaryLabel: 'Impressions',
+    secondaryKey: 'reactions',
+    secondaryLabel: 'Reactions',
     metrics: [
       { key: 'impressions', label: 'Impressions' },
-      { key: 'reach', label: 'Organic Reach' },
-      { key: 'profileViews', label: 'Profile Views' },
-      { key: 'newFollowers', label: 'New Followers' },
       { key: 'reactions', label: 'Reactions' },
       { key: 'comments', label: 'Comments' },
       { key: 'reposts', label: 'Reposts' },
+      { key: 'pageViews', label: 'Page Views' },
+      { key: 'uniqueVisitors', label: 'Unique Visitors' },
+      { key: 'customButtonClick', label: 'Custom Button Clicks' },
+      { key: 'totalFollowers', label: 'Total Followers' },
+      { key: 'newFollowers300Days', label: 'New Followers in 300 Days' },
+      { key: 'pageSearches', label: 'Page Searches' },
     ],
     groups: [
       {
-        title: 'Reach & Visibility',
+        title: 'Content',
         fields: [
           { key: 'impressions', label: 'Impressions' },
-          { key: 'reach', label: 'Organic Reach' },
-          { key: 'profileViews', label: 'Profile Views' },
-          { key: 'newFollowers', label: 'New Followers' },
-        ],
-      },
-      {
-        title: 'Engagement',
-        fields: [
           { key: 'reactions', label: 'Reactions' },
           { key: 'comments', label: 'Comments' },
           { key: 'reposts', label: 'Reposts' },
+        ],
+      },
+      {
+        title: 'Visitors',
+        fields: [
+          { key: 'pageViews', label: 'Page Views' },
+          { key: 'uniqueVisitors', label: 'Unique Visitors' },
+          { key: 'customButtonClick', label: 'Custom Button Clicks' },
+        ],
+      },
+      {
+        title: 'Followers',
+        fields: [
+          { key: 'totalFollowers', label: 'Total Followers' },
+          { key: 'newFollowers300Days', label: 'New Followers in 300 Days' },
+        ],
+      },
+      {
+        title: 'Search Appearances',
+        fields: [
+          { key: 'pageSearches', label: 'Page Searches' },
         ],
       },
     ],
@@ -98,7 +114,18 @@ export const PLATFORMS: Record<string, PlatformConfig> = {
 };
 
 export function emptyLinkedIn(): LinkedInData {
-  return { impressions: 0, reach: 0, profileViews: 0, newFollowers: 0, reactions: 0, comments: 0, reposts: 0 };
+  return {
+    impressions: 0,
+    reactions: 0,
+    comments: 0,
+    reposts: 0,
+    pageViews: 0,
+    uniqueVisitors: 0,
+    customButtonClick: 0,
+    totalFollowers: 0,
+    newFollowers300Days: 0,
+    pageSearches: 0,
+  };
 }
 export function emptyInstagram(): InstagramData {
   return { reach: 0, impressions: 0, profileVisits: 0, follows: 0, contentInteractions: 0, linkClicks: 0 };
@@ -110,7 +137,18 @@ export function emptyFacebook(): FacebookData {
 export const SEED_WEEKS = [
   {
     weekId: '2025-07-07',
-    linkedin: { impressions: 5890, reach: 3950, profileViews: 425, newFollowers: 28, reactions: 132, comments: 34, reposts: 14 },
+    linkedin: {
+      impressions: 5890,
+      reactions: 132,
+      comments: 34,
+      reposts: 14,
+      pageViews: 425,
+      uniqueVisitors: 310,
+      customButtonClick: 28,
+      totalFollowers: 1250,
+      newFollowers300Days: 85,
+      pageSearches: 195,
+    },
     instagram: { reach: 4120, impressions: 6850, profileVisits: 290, follows: 22, contentInteractions: 245, linkClicks: 48 },
     facebook: { viewers: 3200, reach: 4150, profileVisits: 225, follows: 15, contentInteractions: 182, linkClicks: 40 },
   },

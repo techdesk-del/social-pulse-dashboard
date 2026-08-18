@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 import type { LinkedInData, InstagramData, FacebookData } from '../../types';
 
 export interface IWeekEntry extends Document {
-  userId: mongoose.Types.ObjectId;
+  userId?: string | mongoose.Types.ObjectId;
   weekId: string; // "YYYY-MM-DD"
   linkedin: LinkedInData;
   instagram: InstagramData;
@@ -14,12 +14,18 @@ export interface IWeekEntry extends Document {
 const LinkedInSchema = new Schema<LinkedInData>(
   {
     impressions: { type: Number, default: 0 },
-    reach: { type: Number, default: 0 },
-    profileViews: { type: Number, default: 0 },
-    newFollowers: { type: Number, default: 0 },
     reactions: { type: Number, default: 0 },
     comments: { type: Number, default: 0 },
     reposts: { type: Number, default: 0 },
+    pageViews: { type: Number, default: 0 },
+    uniqueVisitors: { type: Number, default: 0 },
+    customButtonClick: { type: Number, default: 0 },
+    totalFollowers: { type: Number, default: 0 },
+    newFollowers300Days: { type: Number, default: 0 },
+    pageSearches: { type: Number, default: 0 },
+    reach: { type: Number, default: 0 },
+    profileViews: { type: Number, default: 0 },
+    newFollowers: { type: Number, default: 0 },
   },
   { _id: false }
 );
@@ -50,7 +56,7 @@ const FacebookSchema = new Schema<FacebookData>(
 
 const WeekEntrySchema = new Schema<IWeekEntry>(
   {
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    userId: { type: String, required: false, default: 'default_user', index: true },
     weekId: { type: String, required: true },
     linkedin: { type: LinkedInSchema, default: () => ({}) },
     instagram: { type: InstagramSchema, default: () => ({}) },

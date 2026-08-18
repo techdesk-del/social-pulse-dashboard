@@ -2,15 +2,12 @@
 
 import { formatWeekLabel } from '../lib/utils';
 import type { WeekEntry } from '../lib/types';
-import type { Session } from '../lib/auth';
 
 interface Props {
-  activeWeek: WeekEntry;
-  session: Session;
+  activeWeek?: WeekEntry;
   onImport: () => void;
   onExportPdf: () => void;
   onAdd: () => void;
-  onLogout: () => void;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   pdfLoading?: boolean;
@@ -18,11 +15,9 @@ interface Props {
 
 export default function Header({
   activeWeek,
-  session,
   onImport,
   onExportPdf,
   onAdd,
-  onLogout,
   fileInputRef,
   onFileChange,
   pdfLoading,
@@ -33,25 +28,27 @@ export default function Header({
         <div className="eyebrow">WEEKLY PERFORMANCE DASHBOARD</div>
         <div className="title">
           Social Pulse{' '}
-          <span className="week-range">{formatWeekLabel(activeWeek.weekId)}</span>
+          {activeWeek && <span className="week-range">{formatWeekLabel(activeWeek.weekId)}</span>}
         </div>
       </div>
 
       <div className="header-actions">
-        {/* User avatar + name + logout */}
-        <div className="header-user">
-          <div className="header-avatar">
-            {session.name.charAt(0).toUpperCase()}
-          </div>
-          <span className="header-username">{session.name}</span>
-          <button className="btn btn-logout" onClick={onLogout} id="btn-logout" title="Sign out">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <polyline points="16 17 21 12 16 7"/>
-              <line x1="21" y1="12" x2="9" y2="12"/>
-            </svg>
-            Sign out
-          </button>
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            fontSize: 12,
+            color: 'var(--up)',
+            background: 'var(--up-soft)',
+            padding: '5px 12px',
+            borderRadius: 999,
+            fontWeight: 600,
+          }}
+          title="All changes are automatically saved to local storage & database"
+        >
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--up)' }} />
+          Auto-saved
         </div>
 
         <div className="header-divider" />

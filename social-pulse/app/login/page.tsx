@@ -15,8 +15,8 @@ export default function LoginPage() {
   const [showPass, setShowPass] = useState(false);
 
   useEffect(() => {
-    if (!loading && session) router.replace('/');
-  }, [session, loading, router]);
+    router.replace('/');
+  }, [router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
