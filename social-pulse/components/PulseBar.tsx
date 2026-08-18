@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function PulseBar({ weeks, activeIndex, accent, onSelectWeek }: Props) {
+  if (!weeks || weeks.length === 0) return null;
+
   const maxH = 30;
   const minH = 8;
 

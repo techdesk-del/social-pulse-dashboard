@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../lib/db/mongodb';
 import WeekEntry from '../../../lib/db/models/WeekEntry';
 import { getAuthSession } from '../../../lib/auth-server';
-import { SEED_WEEKS } from '../../../lib/constants';
 
 async function resolveUserId(): Promise<string> {
   try {
@@ -22,20 +21,7 @@ export async function GET() {
       // Clean up old week entries before July 6th, 2025
       await WeekEntry.deleteMany({ userId, weekId: { $lt: '2025-07-06' } });
 
-      let weeks = await WeekEntry.find({ userId }).sort({ weekId: 1 }).lean();
-
-      // If user has no entries yet, seed initial demo weeks for them
-      if (weeks.length === 0) {
-        const seedDocs = SEED_WEEKS.map((sw) => ({
-          userId,
-          weekId: sw.weekId,
-          linkedin: sw.linkedin,
-          instagram: sw.instagram,
-          facebook: sw.facebook,
-        }));
-        await WeekEntry.insertMany(seedDocs);
-        weeks = await WeekEntry.find({ userId }).sort({ weekId: 1 }).lean();
-      }
+      const weeks = await WeekEntry.find({ userId }).sort({ weekId: 1 }).lean();
 
       const formattedWeeks = weeks.map((w) => ({
         weekId: w.weekId,
@@ -47,11 +33,11 @@ export async function GET() {
       return NextResponse.json({ ok: true, weeks: formattedWeeks });
     } catch (dbErr) {
       console.warn('MongoDB connection issue in GET /api/weeks:', dbErr);
-      return NextResponse.json({ ok: true, weeks: SEED_WEEKS });
+      return NextResponse.json({ ok: true, weeks: [] });
     }
   } catch (err: unknown) {
     console.error('GET /api/weeks error:', err);
-    return NextResponse.json({ ok: true, weeks: SEED_WEEKS });
+    return NextResponse.json({ ok: true, weeks: [] });
   }
 }
 
@@ -121,7 +107,7 @@ export async function DELETE(req: Request) {
 
     try {
       await connectToDatabase();
-      await WeekEntry.deleteOne({ userId, weekId });
+      await WeekEntry.deleteMany({ userId, weekId });
     } catch (dbErr) {
       console.warn('MongoDB delete warning in DELETE /api/weeks:', dbErr);
     }

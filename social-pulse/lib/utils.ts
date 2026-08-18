@@ -12,32 +12,68 @@ export function fmtNum(v: number): string {
   return v.toLocaleString();
 }
 
-export function formatWeekLabel(weekId: string): string {
-  if (!weekId) return '';
+export function parseWeekRange(weekId: string): { start: string; end: string } {
+  if (!weekId) return { start: '', end: '' };
+  if (weekId.includes('_to_')) {
+    const [s, e] = weekId.split('_to_');
+    return { start: s, end: e };
+  }
   const d = new Date(weekId + 'T00:00:00');
+  if (isNaN(d.getTime())) return { start: weekId, end: '' };
   const end = new Date(d);
   end.setDate(end.getDate() + 6);
+  return { start: weekId, end: end.toISOString().slice(0, 10) };
+}
+
+export function formatWeekLabel(weekId: string): string {
+  if (!weekId) return '';
+  const { start, end } = parseWeekRange(weekId);
+  if (!start) return '';
+  const d1 = new Date(start + 'T00:00:00');
+  if (isNaN(d1.getTime())) return weekId;
   const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
-  return `${d.toLocaleDateString('en-US', opts)} – ${end.toLocaleDateString('en-US', opts)}, ${end.getFullYear()}`;
+
+  if (end && end !== start) {
+    const d2 = new Date(end + 'T00:00:00');
+    if (!isNaN(d2.getTime())) {
+      if (d1.getFullYear() === d2.getFullYear()) {
+        return `${d1.toLocaleDateString('en-US', opts)} – ${d2.toLocaleDateString('en-US', opts)}, ${d2.getFullYear()}`;
+      }
+      return `${d1.toLocaleDateString('en-US', opts)}, ${d1.getFullYear()} – ${d2.toLocaleDateString('en-US', opts)}, ${d2.getFullYear()}`;
+    }
+  }
+  return `${d1.toLocaleDateString('en-US', opts)}, ${d1.getFullYear()}`;
 }
 
 export function shortWeekLabel(weekId: string): string {
   if (!weekId) return '';
-  const d = new Date(weekId + 'T00:00:00');
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const { start, end } = parseWeekRange(weekId);
+  const d1 = new Date(start + 'T00:00:00');
+  if (isNaN(d1.getTime())) return weekId;
+  if (end && end !== start) {
+    const d2 = new Date(end + 'T00:00:00');
+    if (!isNaN(d2.getTime())) {
+      return `${d1.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}–${d2.getDate()}`;
+    }
+  }
+  return d1.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 export function nextMonday(lastWeekId: string | null): string {
-  const d = lastWeekId ? new Date(lastWeekId + 'T00:00:00') : new Date();
-  if (lastWeekId) {
+  const startDate = lastWeekId ? parseWeekRange(lastWeekId).start : null;
+  const d = startDate ? new Date(startDate + 'T00:00:00') : new Date();
+  if (startDate && !isNaN(d.getTime())) {
     d.setDate(d.getDate() + 7);
   } else {
-    // Move to next Monday
     const day = d.getDay();
     const diff = day === 0 ? 1 : 8 - day;
     d.setDate(d.getDate() + diff);
   }
-  return d.toISOString().slice(0, 10);
+  const sStr = d.toISOString().slice(0, 10);
+  const end = new Date(d);
+  end.setDate(end.getDate() + 6);
+  const eStr = end.toISOString().slice(0, 10);
+  return `${sStr}_to_${eStr}`;
 }
 
 export function getTrend(val: number, prevVal: number | null): TrendResult {
@@ -52,4 +88,3 @@ export function trendColors(dir: TrendDir): { s: string; c: string; arrow: strin
   if (dir === 'down') return { s: COLORS.downSoft, c: COLORS.down, arrow: '▼' };
   return { s: COLORS.flatSoft, c: COLORS.flat, arrow: '▬' };
 }
-

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { PLATFORMS } from '../lib/constants';
-import { formatWeekLabel, nextMonday, num } from '../lib/utils';
+import { formatWeekLabel, parseWeekRange, nextMonday, num } from '../lib/utils';
 import { emptyLinkedIn, emptyInstagram, emptyFacebook } from '../lib/constants';
 import type { WeekEntry, PlatformKey, FormDraft } from '../lib/types';
 
@@ -40,12 +40,20 @@ export default function DataModal({
   const weekId = isNew ? proposedDate : formWeekId;
   const existing = weeks.find((w) => w.weekId === weekId);
 
+  const initialRange = parseWeekRange(weekId || '');
+  const [startDate, setStartDate] = useState<string>(initialRange.start || '');
+  const [endDate, setEndDate] = useState<string>(initialRange.end || '');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  // Reset delete confirmation whenever formWeekId changes
+  // Sync date range whenever weekId or formWeekId changes
   useEffect(() => {
     setConfirmDelete(false);
-  }, [formWeekId]);
+    if (weekId) {
+      const range = parseWeekRange(weekId);
+      setStartDate(range.start);
+      setEndDate(range.end);
+    }
+  }, [weekId, formWeekId]);
 
   const li = draft.linkedin ?? (existing ? existing.linkedin : emptyLinkedIn());
   const ig = draft.instagram ?? (existing ? existing.instagram : emptyInstagram());
@@ -67,7 +75,15 @@ export default function DataModal({
 
   function handleSave() {
     const captured = captureDraft();
-    onSave(weekId!, captured);
+    let effectiveWeekId = weekId!;
+    if (isNew) {
+      if (startDate && endDate && startDate !== endDate) {
+        effectiveWeekId = `${startDate}_to_${endDate}`;
+      } else if (startDate) {
+        effectiveWeekId = startDate;
+      }
+    }
+    onSave(effectiveWeekId, captured);
   }
 
   function handleDelete() {
@@ -88,10 +104,30 @@ export default function DataModal({
     onSelectFormWeek(val);
   }
 
-  function handleSetDate(val: string) {
+  function handleStartDateChange(val: string) {
+    setStartDate(val);
+    let newEnd = endDate;
+    if (val) {
+      const d = new Date(val + 'T00:00:00');
+      if (!isNaN(d.getTime())) {
+        const endD = new Date(d);
+        endD.setDate(endD.getDate() + 6);
+        newEnd = endD.toISOString().slice(0, 10);
+        setEndDate(newEnd);
+      }
+    }
     const captured = captureDraft();
     onDraftChange(captured);
-    onSetFormWeekDate(val);
+    const combinedId = val && newEnd && val !== newEnd ? `${val}_to_${newEnd}` : val;
+    onSetFormWeekDate(combinedId);
+  }
+
+  function handleEndDateChange(val: string) {
+    setEndDate(val);
+    const captured = captureDraft();
+    onDraftChange(captured);
+    const combinedId = startDate && val && startDate !== val ? `${startDate}_to_${val}` : (startDate || val);
+    onSetFormWeekDate(combinedId);
   }
 
   function SectionFields({ platformKey, values }: { platformKey: PlatformKey; values: Record<string, number> }) {
@@ -171,6 +207,10 @@ export default function DataModal({
     )),
   ];
 
+  const currentPreview = isNew
+    ? (startDate ? formatWeekLabel(startDate && endDate ? `${startDate}_to_${endDate}` : startDate) : '')
+    : formatWeekLabel(weekId!);
+
   return (
     <div
       className="modal-backdrop"
@@ -198,16 +238,35 @@ export default function DataModal({
 
         {isNew ? (
           <div className="week-select-wrap">
-            <label className="field-label">
-              Week starting (Mon)
-              <input
-                className="field-input"
-                type="date"
-                id="form-week-id"
-                value={weekId}
-                onChange={(e) => handleSetDate(e.target.value)}
-              />
-            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <label className="field-label">
+                Start Date
+                <input
+                  className="field-input"
+                  type="date"
+                  id="form-start-date"
+                  value={startDate}
+                  onChange={(e) => handleStartDateChange(e.target.value)}
+                  required
+                />
+              </label>
+              <label className="field-label">
+                End Date
+                <input
+                  className="field-input"
+                  type="date"
+                  id="form-end-date"
+                  value={endDate}
+                  onChange={(e) => handleEndDateChange(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+            {currentPreview && (
+              <div style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 6, fontWeight: 500 }}>
+                Range: <span style={{ color: 'var(--text)', fontWeight: 600 }}>{currentPreview}</span>
+              </div>
+            )}
           </div>
         ) : (
           <div className="week-select-wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -229,7 +288,7 @@ export default function DataModal({
         {confirmDelete && !isNew && (
           <div className="delete-confirm-box">
             <div className="delete-confirm-text">
-              Are you sure you want to remove week starting <b>{formatWeekLabel(weekId!)}</b>? This will permanently delete its metrics.
+              Are you sure you want to remove week <b>{formatWeekLabel(weekId!)}</b>? This will permanently delete its metrics.
             </div>
             <div className="delete-confirm-actions">
               <button type="button" className="delete-confirm-btn" onClick={handleDelete} id="btn-confirm-delete-week">
@@ -262,5 +321,3 @@ export default function DataModal({
     </div>
   );
 }
-
-
