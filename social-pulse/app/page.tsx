@@ -19,7 +19,7 @@ const INITIAL_STATE: Omit<AppState, 'weeks'> = {
   activeIndex: 0,
   tab: 'overview',
   compareTab: 'linkedin',
-  chartMetric: { linkedin: 'impressions', instagram: 'reach', facebook: 'viewers' },
+  chartMetric: { linkedin: 'impressions', instagram: 'impressions', facebook: 'views' },
   formOpen: false,
   formWeekId: null,
   formSection: 'linkedin',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { num, shortWeekLabel, fmtNum } from '../lib/utils';
 import { PLATFORMS, COLORS } from '../lib/constants';
 import KpiCard from './KpiCard';
@@ -23,8 +23,20 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
   const prev = activeIndex > 0 ? (weeks[activeIndex - 1][platformKey] as unknown as Record<string, number>) : null;
   const upTo = weeks.slice(0, activeIndex + 1);
 
-  // Sub-tab selection for platforms with groups (e.g. LinkedIn: Content, Visitors, Followers, Search Appearances)
+  // Sub-tab selection (e.g. LinkedIn: Content, Visitors, Followers, Search Appearances | Instagram: Views, Reach, Content Interactions, Link Clicks, Visits, Follows)
   const [activeGroup, setActiveGroup] = useState<string>(cfg.groups ? cfg.groups[0].title : 'all');
+
+  // Reset active group when switching platform
+  useEffect(() => {
+    if (cfg.groups && cfg.groups.length > 0) {
+      setActiveGroup(cfg.groups[0].title);
+      if (cfg.groups[0].fields.length > 0) {
+        onMetricChange(cfg.groups[0].fields[0].key);
+      }
+    } else {
+      setActiveGroup('all');
+    }
+  }, [platformKey]);
 
   const selectedGroupDef = cfg.groups?.find((g) => g.title.toLowerCase() === activeGroup.toLowerCase());
   const activeMetrics = selectedGroupDef ? selectedGroupDef.fields : cfg.metrics;
@@ -50,18 +62,23 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
   const barData = barMetrics.map((m) => num(curr[m.key]));
   const barColors = barMetrics.map(() => cfg.accent);
 
-  // Pie chart config
-  let pieLabels: string[], pieColors: string[], pieKeys: string[];
+  // Pie chart dynamic config based on platform and active sub-group
+  let pieLabels: string[] = [];
+  let pieColors: string[] = [];
+  let pieKeys: string[] = [];
+
+  const groupName = activeGroup.toLowerCase();
+
   if (platformKey === 'linkedin') {
-    if (activeGroup.toLowerCase() === 'visitors') {
+    if (groupName === 'visitors') {
       pieLabels = ['Page Views', 'Unique Visitors', 'Custom Buttons'];
       pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
       pieKeys = ['pageViews', 'uniqueVisitors', 'customButtonClick'];
-    } else if (activeGroup.toLowerCase() === 'followers') {
+    } else if (groupName === 'followers') {
       pieLabels = ['Total Followers', 'New Followers (300d)'];
       pieColors = [cfg.accent, COLORS.up];
       pieKeys = ['totalFollowers', 'newFollowers300Days'];
-    } else if (activeGroup.toLowerCase() === 'search appearances') {
+    } else if (groupName === 'search appearances') {
       pieLabels = ['Page Searches', 'Impressions'];
       pieColors = [cfg.accent, COLORS.textFaint];
       pieKeys = ['pageSearches', 'impressions'];
@@ -71,11 +88,17 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
       pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
       pieKeys = ['reactions', 'comments', 'reposts'];
     }
+  } else if (platformKey === 'instagram') {
+    pieLabels = ['Content Interactions', 'Visits', 'Link Clicks'];
+    pieColors = [COLORS.ig, COLORS.flat, COLORS.fb];
+    pieKeys = ['contentInteractions', 'profileVisits', 'linkClicks'];
   } else {
+    // Facebook or other
     pieLabels = ['Content Interactions', 'Link Clicks', 'Profile Visits'];
     pieColors = [cfg.accent, COLORS.flat, COLORS.textFaint];
     pieKeys = ['contentInteractions', 'linkClicks', 'profileVisits'];
   }
+
   const pieData = pieKeys.map((k) => num(curr[k]));
 
   // Ratio / Comparison card
@@ -113,7 +136,7 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
 
   return (
     <>
-      {/* ── Sub-tabs for platforms with categories (LinkedIn: Content, Visitors, Followers, Search Appearances) ── */}
+      {/* ── Sub-tabs for platforms with categories (LinkedIn & Instagram sub-tabs) ── */}
       {cfg.groups && (
         <div className="tab-pills" style={{ marginTop: 2, marginBottom: 18 }}>
           {cfg.groups.map((g) => {
@@ -122,7 +145,7 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
               <button
                 key={g.title}
                 type="button"
-                id={`subtab-${g.title.toLowerCase().replace(/\s+/g, '-')}`}
+                id={`subtab-${platformKey}-${g.title.toLowerCase().replace(/\s+/g, '-')}`}
                 className={`pill-btn${active ? ' active' : ''}`}
                 style={active ? { color: cfg.accent, borderColor: cfg.accent, fontWeight: 700 } : {}}
                 onClick={() => {
@@ -139,7 +162,7 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
           })}
           <button
             type="button"
-            id="subtab-all"
+            id={`subtab-${platformKey}-all`}
             className={`pill-btn${activeGroup === 'all' ? ' active' : ''}`}
             style={activeGroup === 'all' ? { color: cfg.accent, borderColor: cfg.accent, fontWeight: 700 } : {}}
             onClick={() => setActiveGroup('all')}

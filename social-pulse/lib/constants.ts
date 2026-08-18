@@ -81,34 +81,34 @@ export const PLATFORMS: Record<string, PlatformConfig> = {
     label: 'Instagram',
     accent: COLORS.ig,
     soft: COLORS.igSoft,
-    primaryKey: 'reach',
-    primaryLabel: 'Reach',
-    secondaryKey: 'impressions',
-    secondaryLabel: 'Impressions',
+    primaryKey: 'impressions',
+    primaryLabel: 'Views',
+    secondaryKey: 'reach',
+    secondaryLabel: 'Reach',
     metrics: [
+      { key: 'impressions', label: 'Views' },
       { key: 'reach', label: 'Reach' },
-      { key: 'impressions', label: 'Impressions' },
-      { key: 'profileVisits', label: 'Profile Visits' },
-      { key: 'follows', label: 'New Follows' },
       { key: 'contentInteractions', label: 'Content Interactions' },
       { key: 'linkClicks', label: 'Link Clicks' },
+      { key: 'profileVisits', label: 'Visits' },
+      { key: 'follows', label: 'Follows' },
     ],
   },
   facebook: {
     label: 'Facebook',
     accent: COLORS.fb,
     soft: COLORS.fbSoft,
-    primaryKey: 'viewers',
-    primaryLabel: 'Viewers',
-    secondaryKey: 'reach',
-    secondaryLabel: 'Reach',
+    primaryKey: 'views',
+    primaryLabel: 'Views',
+    secondaryKey: 'viewers',
+    secondaryLabel: 'Viewers',
     metrics: [
+      { key: 'views', label: 'Views' },
       { key: 'viewers', label: 'Viewers' },
-      { key: 'reach', label: 'Reach' },
-      { key: 'profileVisits', label: 'Profile Visits' },
-      { key: 'follows', label: 'New Follows' },
       { key: 'contentInteractions', label: 'Content Interactions' },
       { key: 'linkClicks', label: 'Link Clicks' },
+      { key: 'profileVisits', label: 'Visits' },
+      { key: 'follows', label: 'Follows' },
     ],
   },
 };
@@ -128,10 +128,24 @@ export function emptyLinkedIn(): LinkedInData {
   };
 }
 export function emptyInstagram(): InstagramData {
-  return { reach: 0, impressions: 0, profileVisits: 0, follows: 0, contentInteractions: 0, linkClicks: 0 };
+  return {
+    impressions: 0,
+    reach: 0,
+    contentInteractions: 0,
+    linkClicks: 0,
+    profileVisits: 0,
+    follows: 0,
+  };
 }
 export function emptyFacebook(): FacebookData {
-  return { viewers: 0, reach: 0, profileVisits: 0, follows: 0, contentInteractions: 0, linkClicks: 0 };
+  return {
+    views: 0,
+    viewers: 0,
+    contentInteractions: 0,
+    linkClicks: 0,
+    profileVisits: 0,
+    follows: 0,
+  };
 }
 
 export const SEED_WEEKS = [
@@ -149,7 +163,21 @@ export const SEED_WEEKS = [
       newFollowers300Days: 85,
       pageSearches: 195,
     },
-    instagram: { reach: 4120, impressions: 6850, profileVisits: 290, follows: 22, contentInteractions: 245, linkClicks: 48 },
-    facebook: { viewers: 3200, reach: 4150, profileVisits: 225, follows: 15, contentInteractions: 182, linkClicks: 40 },
+    instagram: {
+      impressions: 6850,
+      reach: 4120,
+      contentInteractions: 245,
+      linkClicks: 48,
+      profileVisits: 290,
+      follows: 22,
+    },
+    facebook: {
+      views: 4500,
+      viewers: 3200,
+      contentInteractions: 182,
+      linkClicks: 40,
+      profileVisits: 225,
+      follows: 15,
+    },
   },
 ];

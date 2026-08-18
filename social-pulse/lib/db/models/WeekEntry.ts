@@ -34,22 +34,35 @@ const InstagramSchema = new Schema<InstagramData>(
   {
     reach: { type: Number, default: 0 },
     impressions: { type: Number, default: 0 },
-    profileVisits: { type: Number, default: 0 },
-    follows: { type: Number, default: 0 },
+    reelsViews: { type: Number, default: 0 },
+    postViews: { type: Number, default: 0 },
+    nonFollowerReach: { type: Number, default: 0 },
+    followerReach: { type: Number, default: 0 },
     contentInteractions: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    comments: { type: Number, default: 0 },
+    shares: { type: Number, default: 0 },
+    saves: { type: Number, default: 0 },
     linkClicks: { type: Number, default: 0 },
+    bioLinkClicks: { type: Number, default: 0 },
+    profileVisits: { type: Number, default: 0 },
+    buttonTaps: { type: Number, default: 0 },
+    follows: { type: Number, default: 0 },
+    totalFollowers: { type: Number, default: 0 },
+    unfollows: { type: Number, default: 0 },
   },
   { _id: false }
 );
 
 const FacebookSchema = new Schema<FacebookData>(
   {
+    views: { type: Number, default: 0 },
     viewers: { type: Number, default: 0 },
-    reach: { type: Number, default: 0 },
-    profileVisits: { type: Number, default: 0 },
-    follows: { type: Number, default: 0 },
     contentInteractions: { type: Number, default: 0 },
     linkClicks: { type: Number, default: 0 },
+    profileVisits: { type: Number, default: 0 },
+    follows: { type: Number, default: 0 },
+    reach: { type: Number, default: 0 },
   },
   { _id: false }
 );
