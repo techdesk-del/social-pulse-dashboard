@@ -15,16 +15,24 @@ export default function LoginPage() {
   const [showPass, setShowPass] = useState(false);
 
   useEffect(() => {
-    router.replace('/');
-  }, [router]);
+    if (!loading && session) {
+      router.replace('/');
+    }
+  }, [session, loading, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
-    if (!email.trim() || !password) { setError('Please fill in all fields.'); return; }
+    if (!email.trim() || !password) {
+      setError('Please fill in all fields.');
+      return;
+    }
     setSubmitting(true);
-    const res = await login(email, password);
-    if (!res.ok) { setError(res.error ?? 'Login failed.'); setSubmitting(false); }
+    const res = await login(email.trim().toLowerCase(), password);
+    if (!res.ok) {
+      setError(res.error ?? 'Login failed.');
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -48,7 +56,7 @@ export default function LoginPage() {
         </div>
 
         <div className="auth-heading">Welcome back</div>
-        <div className="auth-subheading">Sign in to your dashboard</div>
+        <div className="auth-subheading">Sign in to access your weekly performance dashboard</div>
 
         <form onSubmit={handleSubmit} className="auth-form" noValidate>
           <div className="auth-field-group">
@@ -62,7 +70,7 @@ export default function LoginPage() {
                 id="login-email"
                 type="email"
                 autoComplete="email"
-                placeholder="you@example.com"
+                placeholder="social@urbangaon.com"
                 className="auth-input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -117,14 +125,10 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="auth-divider"><span>New to Social Pulse?</span></div>
-
-        <Link href="/register" className="auth-link-btn" id="link-register">
-          Create an account
-        </Link>
+        <div className="auth-divider"><span>Enterprise Social Analytics</span></div>
 
         <div className="auth-footnote">
-          Your data stays private — stored only in this browser.
+          Secured cloud workspace for UrbanGaon team.
         </div>
       </div>
     </div>

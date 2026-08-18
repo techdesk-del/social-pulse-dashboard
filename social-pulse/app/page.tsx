@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../contexts/AuthContext';
 import { emptyLinkedIn, emptyInstagram, emptyFacebook, SEED_WEEKS } from '../lib/constants';
 import { exportPDF } from '../lib/exportPdf';
 import type { WeekEntry, TabId, PlatformKey, AppState, LinkedInData, InstagramData, FacebookData } from '../lib/types';
@@ -54,11 +56,21 @@ function loadFromLocalStorage(): WeekEntry[] | null {
 }
 
 export default function DashboardPage() {
+  const { session, loading: authLoading, logout } = useAuth();
+  const router = useRouter();
+
   const [weeks, setWeeks] = useState<WeekEntry[]>([]);
   const [state, setState] = useState<Omit<AppState, 'weeks'>>(INITIAL_STATE);
   const [isReady, setIsReady] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Guard: if not authenticated, redirect to /login
+  useEffect(() => {
+    if (!authLoading && !session) {
+      router.replace('/login');
+    }
+  }, [session, authLoading, router]);
 
   // Sync function to pull latest live database entries
   const syncWithDatabase = useCallback(async () => {
@@ -276,7 +288,7 @@ export default function DashboardPage() {
     reader.readAsText(file);
   };
 
-  if (!isReady) {
+  if (authLoading || !session || !isReady) {
     return (
       <div className="auth-page">
         <div className="auth-orb auth-orb-1" />
@@ -300,6 +312,8 @@ export default function DashboardPage() {
     <div id="app-root">
       <Header
         activeWeek={activeWeek}
+        session={session}
+        onLogout={logout}
         onImport={handleImport}
         onExportPdf={handleExportPdf}
         onAdd={() => openForm()}

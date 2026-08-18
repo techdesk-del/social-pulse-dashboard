@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { PLATFORMS, emptyLinkedIn, emptyInstagram, emptyFacebook } from '../lib/constants';
 import { formatWeekLabel, parseWeekRange, nextMonday, num } from '../lib/utils';
 import type { WeekEntry, PlatformKey, LinkedInData, InstagramData, FacebookData } from '../lib/types';
@@ -151,38 +151,42 @@ export default function DataModal({
   const isNew = formWeekId === null;
   const proposedDate = newWeekDate ?? nextMonday(weeks.length ? weeks[weeks.length - 1].weekId : null);
   const weekId = isNew ? proposedDate : formWeekId;
-  const existing = weeks.find((w) => w.weekId === weekId);
 
   const initialRange = parseWeekRange(weekId || '');
   const [startDate, setStartDate] = useState<string>(initialRange.start || '');
   const [endDate, setEndDate] = useState<string>(initialRange.end || '');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  // Controlled form state allowing string/number for seamless typing and erasing
+  // Initialize form state with selected week data
+  const targetWeek = weeks.find((w) => w.weekId === weekId);
   const [linkedin, setLinkedin] = useState<FormPlatformState>(() => ({
-    ...(existing?.linkedin ?? emptyLinkedIn()),
+    ...(targetWeek?.linkedin ?? emptyLinkedIn()),
   }));
   const [instagram, setInstagram] = useState<FormPlatformState>(() => ({
-    ...(existing?.instagram ?? emptyInstagram()),
+    ...(targetWeek?.instagram ?? emptyInstagram()),
   }));
   const [facebook, setFacebook] = useState<FormPlatformState>(() => ({
-    ...(existing?.facebook ?? emptyFacebook()),
+    ...(targetWeek?.facebook ?? emptyFacebook()),
   }));
 
-  // Re-sync form state whenever weekId changes (e.g. switching between weeks in dropdown)
+  // Track the weekId loaded so we ONLY re-populate when user explicitly changes dropdown week
+  const loadedWeekIdRef = useRef<string | null>(formWeekId);
+
   useEffect(() => {
     setConfirmDelete(false);
-    if (weekId) {
-      const range = parseWeekRange(weekId);
+    if (formWeekId !== loadedWeekIdRef.current) {
+      loadedWeekIdRef.current = formWeekId;
+      const effectiveId = formWeekId ?? proposedDate;
+      const range = parseWeekRange(effectiveId || '');
       setStartDate(range.start);
       setEndDate(range.end);
 
-      const target = weeks.find((w) => w.weekId === weekId);
-      setLinkedin({ ...(target?.linkedin ?? emptyLinkedIn()) });
-      setInstagram({ ...(target?.instagram ?? emptyInstagram()) });
-      setFacebook({ ...(target?.facebook ?? emptyFacebook()) });
+      const tw = weeks.find((w) => w.weekId === effectiveId);
+      setLinkedin({ ...(tw?.linkedin ?? emptyLinkedIn()) });
+      setInstagram({ ...(tw?.instagram ?? emptyInstagram()) });
+      setFacebook({ ...(tw?.facebook ?? emptyFacebook()) });
     }
-  }, [weekId, formWeekId, weeks]);
+  }, [formWeekId, proposedDate, weeks]);
 
   const handleFieldChange = useCallback((platform: PlatformKey, fieldKey: string, rawValue: string) => {
     const val = rawValue === '' ? '' : rawValue;

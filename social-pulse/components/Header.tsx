@@ -2,9 +2,12 @@
 
 import { formatWeekLabel } from '../lib/utils';
 import type { WeekEntry } from '../lib/types';
+import type { Session } from '../lib/auth';
 
 interface Props {
   activeWeek?: WeekEntry;
+  session?: Session | null;
+  onLogout?: () => void;
   onImport: () => void;
   onExportPdf: () => void;
   onAdd: () => void;
@@ -15,6 +18,8 @@ interface Props {
 
 export default function Header({
   activeWeek,
+  session,
+  onLogout,
   onImport,
   onExportPdf,
   onAdd,
@@ -33,23 +38,25 @@ export default function Header({
       </div>
 
       <div className="header-actions">
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            fontSize: 12,
-            color: 'var(--up)',
-            background: 'var(--up-soft)',
-            padding: '5px 12px',
-            borderRadius: 999,
-            fontWeight: 600,
-          }}
-          title="All changes are automatically saved to local storage & database"
-        >
-          <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--up)' }} />
-          Auto-saved
-        </div>
+        {session && (
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              fontSize: 12.5,
+              color: 'var(--text-dim)',
+              background: 'var(--surface-raised)',
+              border: '1px solid var(--border)',
+              padding: '4px 12px',
+              borderRadius: 999,
+              fontWeight: 500,
+            }}
+          >
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#10b981' }} />
+            <span style={{ color: 'var(--text)', fontWeight: 600 }}>{session.email}</span>
+          </div>
+        )}
 
         <div className="header-divider" />
 
@@ -88,6 +95,24 @@ export default function Header({
         <button className="btn btn-primary" onClick={onAdd} id="btn-add-week">
           + Add / Edit Week
         </button>
+
+        {onLogout && (
+          <button
+            type="button"
+            className="btn"
+            onClick={onLogout}
+            title="Sign out of your account"
+            id="btn-logout"
+            style={{ color: '#f87171' }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );
