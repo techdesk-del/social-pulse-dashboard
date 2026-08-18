@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { PLATFORMS, emptyLinkedIn, emptyInstagram, emptyFacebook } from '../lib/constants';
 import { formatWeekLabel, parseWeekRange, nextMonday, num } from '../lib/utils';
 import type { WeekEntry, PlatformKey, LinkedInData, InstagramData, FacebookData } from '../lib/types';
@@ -16,6 +16,124 @@ interface Props {
   onToggleSection: (id: string) => void;
   onSave: (weekId: string, data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData }) => void;
   onDelete?: (weekId: string) => void;
+}
+
+type FormPlatformState = Record<string, number | string>;
+
+// Top-level components (outside DataModal) to ensure React never unmounts/re-mounts inputs during keystrokes
+function SectionFields({
+  platformKey,
+  values,
+  onChangeField,
+}: {
+  platformKey: PlatformKey;
+  values: FormPlatformState;
+  onChangeField: (platform: PlatformKey, fieldKey: string, val: string) => void;
+}) {
+  const cfg = PLATFORMS[platformKey];
+  if (cfg.groups) {
+    return (
+      <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {cfg.groups.map((g) => (
+          <div
+            key={g.title}
+            style={{
+              background: 'var(--surface-raised)',
+              padding: '10px 12px',
+              borderRadius: 8,
+              border: '1px solid var(--border-soft)',
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11.5,
+                fontWeight: 700,
+                color: 'var(--text-dim)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                marginBottom: 8,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: cfg.accent }} />
+              {g.title}
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+              {g.fields.map((f) => (
+                <label className="field-label" key={f.key}>
+                  {f.label}
+                  <input
+                    className="field-input"
+                    type="number"
+                    min="0"
+                    placeholder="0"
+                    value={values[f.key] !== undefined ? values[f.key] : ''}
+                    onFocus={(e) => e.target.select()}
+                    onChange={(e) => onChangeField(platformKey, f.key, e.target.value)}
+                  />
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <>
+      {cfg.metrics.map((f) => (
+        <label className="field-label" key={f.key}>
+          {f.label}
+          <input
+            className="field-input"
+            type="number"
+            min="0"
+            placeholder="0"
+            value={values[f.key] !== undefined ? values[f.key] : ''}
+            onFocus={(e) => e.target.select()}
+            onChange={(e) => onChangeField(platformKey, f.key, e.target.value)}
+          />
+        </label>
+      ))}
+    </>
+  );
+}
+
+function Section({
+  id,
+  label,
+  accent,
+  values,
+  isOpen,
+  onToggle,
+  onChangeField,
+}: {
+  id: PlatformKey;
+  label: string;
+  accent: string;
+  values: FormPlatformState;
+  isOpen: boolean;
+  onToggle: (id: string) => void;
+  onChangeField: (platform: PlatformKey, fieldKey: string, val: string) => void;
+}) {
+  return (
+    <div className="section-block">
+      <button type="button" className="section-toggle" onClick={() => onToggle(id)}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span className="dot" style={{ background: accent }} />
+          {label}
+        </span>
+        <span style={{ transition: 'transform .15s', transform: `rotate(${isOpen ? 180 : 0}deg)` }}>▾</span>
+      </button>
+      {isOpen && (
+        <div className="section-body">
+          <SectionFields platformKey={id} values={values} onChangeField={onChangeField} />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function DataModal({
@@ -40,18 +158,15 @@ export default function DataModal({
   const [endDate, setEndDate] = useState<string>(initialRange.end || '');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  // Controlled form state for all platforms
-  const [linkedin, setLinkedin] = useState<LinkedInData>(() => ({
-    ...emptyLinkedIn(),
-    ...(existing?.linkedin ?? {}),
+  // Controlled form state allowing string/number for seamless typing and erasing
+  const [linkedin, setLinkedin] = useState<FormPlatformState>(() => ({
+    ...(existing?.linkedin ?? emptyLinkedIn()),
   }));
-  const [instagram, setInstagram] = useState<InstagramData>(() => ({
-    ...emptyInstagram(),
-    ...(existing?.instagram ?? {}),
+  const [instagram, setInstagram] = useState<FormPlatformState>(() => ({
+    ...(existing?.instagram ?? emptyInstagram()),
   }));
-  const [facebook, setFacebook] = useState<FacebookData>(() => ({
-    ...emptyFacebook(),
-    ...(existing?.facebook ?? {}),
+  const [facebook, setFacebook] = useState<FormPlatformState>(() => ({
+    ...(existing?.facebook ?? emptyFacebook()),
   }));
 
   // Re-sync form state whenever weekId changes (e.g. switching between weeks in dropdown)
@@ -63,14 +178,14 @@ export default function DataModal({
       setEndDate(range.end);
 
       const target = weeks.find((w) => w.weekId === weekId);
-      setLinkedin({ ...emptyLinkedIn(), ...(target?.linkedin ?? {}) });
-      setInstagram({ ...emptyInstagram(), ...(target?.instagram ?? {}) });
-      setFacebook({ ...emptyFacebook(), ...(target?.facebook ?? {}) });
+      setLinkedin({ ...(target?.linkedin ?? emptyLinkedIn()) });
+      setInstagram({ ...(target?.instagram ?? emptyInstagram()) });
+      setFacebook({ ...(target?.facebook ?? emptyFacebook()) });
     }
   }, [weekId, formWeekId, weeks]);
 
-  function handleFieldChange(platform: PlatformKey, fieldKey: string, value: string) {
-    const val = num(value);
+  const handleFieldChange = useCallback((platform: PlatformKey, fieldKey: string, rawValue: string) => {
+    const val = rawValue === '' ? '' : rawValue;
     if (platform === 'linkedin') {
       setLinkedin((prev) => ({ ...prev, [fieldKey]: val }));
     } else if (platform === 'instagram') {
@@ -78,6 +193,14 @@ export default function DataModal({
     } else if (platform === 'facebook') {
       setFacebook((prev) => ({ ...prev, [fieldKey]: val }));
     }
+  }, []);
+
+  function sanitizePlatformData<T>(obj: FormPlatformState): T {
+    const clean: Record<string, number> = {};
+    for (const k in obj) {
+      clean[k] = num(obj[k]);
+    }
+    return clean as unknown as T;
   }
 
   function handleSave(e?: React.MouseEvent | React.FormEvent | React.KeyboardEvent) {
@@ -97,7 +220,12 @@ export default function DataModal({
       alert('Please select a valid date range for the week.');
       return;
     }
-    onSave(effectiveWeekId, { linkedin, instagram, facebook });
+
+    onSave(effectiveWeekId, {
+      linkedin: sanitizePlatformData<LinkedInData>(linkedin),
+      instagram: sanitizePlatformData<InstagramData>(instagram),
+      facebook: sanitizePlatformData<FacebookData>(facebook),
+    });
   }
 
   function handleDelete(e?: React.MouseEvent) {
@@ -130,112 +258,6 @@ export default function DataModal({
     setEndDate(val);
     const combinedId = startDate && val && startDate !== val ? `${startDate}_to_${val}` : (startDate || val);
     onSetFormWeekDate(combinedId);
-  }
-
-  function SectionFields({
-    platformKey,
-    values,
-  }: {
-    platformKey: PlatformKey;
-    values: Record<string, number>;
-  }) {
-    const cfg = PLATFORMS[platformKey];
-    if (cfg.groups) {
-      return (
-        <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {cfg.groups.map((g) => (
-            <div
-              key={g.title}
-              style={{
-                background: 'var(--surface-raised)',
-                padding: '10px 12px',
-                borderRadius: 8,
-                border: '1px solid var(--border-soft)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 11.5,
-                  fontWeight: 700,
-                  color: 'var(--text-dim)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  marginBottom: 8,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
-              >
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: cfg.accent }} />
-                {g.title}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                {g.fields.map((f) => (
-                  <label className="field-label" key={f.key}>
-                    {f.label}
-                    <input
-                      className="field-input"
-                      type="number"
-                      min="0"
-                      placeholder="0"
-                      value={values[f.key] ?? 0}
-                      onChange={(e) => handleFieldChange(platformKey, f.key, e.target.value)}
-                    />
-                  </label>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    }
-    return (
-      <>
-        {cfg.metrics.map((f) => (
-          <label className="field-label" key={f.key}>
-            {f.label}
-            <input
-              className="field-input"
-              type="number"
-              min="0"
-              placeholder="0"
-              value={values[f.key] ?? 0}
-              onChange={(e) => handleFieldChange(platformKey, f.key, e.target.value)}
-            />
-          </label>
-        ))}
-      </>
-    );
-  }
-
-  function Section({
-    id,
-    label,
-    accent,
-    values,
-  }: {
-    id: PlatformKey;
-    label: string;
-    accent: string;
-    values: Record<string, number>;
-  }) {
-    const open = formSection === id;
-    return (
-      <div className="section-block">
-        <button type="button" className="section-toggle" onClick={() => onToggleSection(id)}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span className="dot" style={{ background: accent }} />
-            {label}
-          </span>
-          <span style={{ transition: 'transform .15s', transform: `rotate(${open ? 180 : 0}deg)` }}>▾</span>
-        </button>
-        {open && (
-          <div className="section-body">
-            <SectionFields platformKey={id} values={values} />
-          </div>
-        )}
-      </div>
-    );
   }
 
   const weekOptions = [
@@ -355,9 +377,33 @@ export default function DataModal({
           ✓ Saving never overwrites other weeks — all {weeks.length} saved week{weeks.length !== 1 ? 's' : ''} stay intact for comparison.
         </div>
 
-        <Section id="linkedin" label="LinkedIn" accent={PLATFORMS.linkedin.accent} values={linkedin as unknown as Record<string, number>} />
-        <Section id="instagram" label="Instagram" accent={PLATFORMS.instagram.accent} values={instagram as unknown as Record<string, number>} />
-        <Section id="facebook" label="Facebook" accent={PLATFORMS.facebook.accent} values={facebook as unknown as Record<string, number>} />
+        <Section
+          id="linkedin"
+          label="LinkedIn"
+          accent={PLATFORMS.linkedin.accent}
+          values={linkedin}
+          isOpen={formSection === 'linkedin'}
+          onToggle={onToggleSection}
+          onChangeField={handleFieldChange}
+        />
+        <Section
+          id="instagram"
+          label="Instagram"
+          accent={PLATFORMS.instagram.accent}
+          values={instagram}
+          isOpen={formSection === 'instagram'}
+          onToggle={onToggleSection}
+          onChangeField={handleFieldChange}
+        />
+        <Section
+          id="facebook"
+          label="Facebook"
+          accent={PLATFORMS.facebook.accent}
+          values={facebook}
+          isOpen={formSection === 'facebook'}
+          onToggle={onToggleSection}
+          onChangeField={handleFieldChange}
+        />
 
         <div className="modal-actions">
           <button type="button" className="save-btn" onClick={handleSave} id="btn-save-week">
