@@ -1,24 +1,21 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { PLATFORMS } from '../lib/constants';
+import { useEffect, useState } from 'react';
+import { PLATFORMS, emptyLinkedIn, emptyInstagram, emptyFacebook } from '../lib/constants';
 import { formatWeekLabel, parseWeekRange, nextMonday, num } from '../lib/utils';
-import { emptyLinkedIn, emptyInstagram, emptyFacebook } from '../lib/constants';
-import type { WeekEntry, PlatformKey, FormDraft } from '../lib/types';
+import type { WeekEntry, PlatformKey, LinkedInData, InstagramData, FacebookData } from '../lib/types';
 
 interface Props {
   weeks: WeekEntry[];
   formWeekId: string | null;
   formSection: string | null;
   newWeekDate: string | null;
-  draft: FormDraft;
   onClose: () => void;
   onSelectFormWeek: (val: string) => void;
   onSetFormWeekDate: (val: string) => void;
   onToggleSection: (id: string) => void;
-  onSave: (weekId: string, draft: FormDraft) => void;
+  onSave: (weekId: string, data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData }) => void;
   onDelete?: (weekId: string) => void;
-  onDraftChange: (draft: FormDraft) => void;
 }
 
 export default function DataModal({
@@ -26,14 +23,12 @@ export default function DataModal({
   formWeekId,
   formSection,
   newWeekDate,
-  draft,
   onClose,
   onSelectFormWeek,
   onSetFormWeekDate,
   onToggleSection,
   onSave,
   onDelete,
-  onDraftChange,
 }: Props) {
   const isNew = formWeekId === null;
   const proposedDate = newWeekDate ?? nextMonday(weeks.length ? weeks[weeks.length - 1].weekId : null);
@@ -45,32 +40,44 @@ export default function DataModal({
   const [endDate, setEndDate] = useState<string>(initialRange.end || '');
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  // Sync date range whenever weekId or formWeekId changes
+  // Controlled form state for all platforms
+  const [linkedin, setLinkedin] = useState<LinkedInData>(() => ({
+    ...emptyLinkedIn(),
+    ...(existing?.linkedin ?? {}),
+  }));
+  const [instagram, setInstagram] = useState<InstagramData>(() => ({
+    ...emptyInstagram(),
+    ...(existing?.instagram ?? {}),
+  }));
+  const [facebook, setFacebook] = useState<FacebookData>(() => ({
+    ...emptyFacebook(),
+    ...(existing?.facebook ?? {}),
+  }));
+
+  // Re-sync form state whenever weekId changes (e.g. switching between weeks in dropdown)
   useEffect(() => {
     setConfirmDelete(false);
     if (weekId) {
       const range = parseWeekRange(weekId);
       setStartDate(range.start);
       setEndDate(range.end);
-    }
-  }, [weekId, formWeekId]);
 
-  const li = draft.linkedin ?? (existing ? existing.linkedin : emptyLinkedIn());
-  const ig = draft.instagram ?? (existing ? existing.instagram : emptyInstagram());
-  const fb = draft.facebook ?? (existing ? existing.facebook : emptyFacebook());
-
-  // Collect open section values into draft before re-render
-  const sectionBodyRef = useRef<HTMLDivElement | null>(null);
-  function captureDraft(): FormDraft {
-    const newDraft = { ...draft };
-    if (sectionBodyRef.current) {
-      const section = sectionBodyRef.current.getAttribute('data-section') as PlatformKey;
-      const inputs = sectionBodyRef.current.querySelectorAll<HTMLInputElement>('input[data-field]');
-      const obj: Record<string, number> = {};
-      inputs.forEach((inp) => { obj[inp.getAttribute('data-field')!] = num(inp.value); });
-      newDraft[section] = obj as never;
+      const target = weeks.find((w) => w.weekId === weekId);
+      setLinkedin({ ...emptyLinkedIn(), ...(target?.linkedin ?? {}) });
+      setInstagram({ ...emptyInstagram(), ...(target?.instagram ?? {}) });
+      setFacebook({ ...emptyFacebook(), ...(target?.facebook ?? {}) });
     }
-    return newDraft;
+  }, [weekId, formWeekId, weeks]);
+
+  function handleFieldChange(platform: PlatformKey, fieldKey: string, value: string) {
+    const val = num(value);
+    if (platform === 'linkedin') {
+      setLinkedin((prev) => ({ ...prev, [fieldKey]: val }));
+    } else if (platform === 'instagram') {
+      setInstagram((prev) => ({ ...prev, [fieldKey]: val }));
+    } else if (platform === 'facebook') {
+      setFacebook((prev) => ({ ...prev, [fieldKey]: val }));
+    }
   }
 
   function handleSave(e?: React.MouseEvent | React.FormEvent | React.KeyboardEvent) {
@@ -78,7 +85,6 @@ export default function DataModal({
       e.preventDefault();
       e.stopPropagation();
     }
-    const captured = captureDraft();
     let effectiveWeekId = weekId!;
     if (isNew) {
       if (startDate && endDate && startDate !== endDate) {
@@ -88,10 +94,10 @@ export default function DataModal({
       }
     }
     if (!effectiveWeekId) {
-      alert('Please select a valid start date for the week.');
+      alert('Please select a valid date range for the week.');
       return;
     }
-    onSave(effectiveWeekId, captured);
+    onSave(effectiveWeekId, { linkedin, instagram, facebook });
   }
 
   function handleDelete(e?: React.MouseEvent) {
@@ -102,18 +108,6 @@ export default function DataModal({
     if (weekId && onDelete) {
       onDelete(weekId);
     }
-  }
-
-  function handleToggle(id: string) {
-    const captured = captureDraft();
-    onDraftChange(captured);
-    onToggleSection(id);
-  }
-
-  function handleSelectWeek(val: string) {
-    const captured = captureDraft();
-    onDraftChange(captured);
-    onSelectFormWeek(val);
   }
 
   function handleStartDateChange(val: string) {
@@ -128,28 +122,50 @@ export default function DataModal({
         setEndDate(newEnd);
       }
     }
-    const captured = captureDraft();
-    onDraftChange(captured);
     const combinedId = val && newEnd && val !== newEnd ? `${val}_to_${newEnd}` : val;
     onSetFormWeekDate(combinedId);
   }
 
   function handleEndDateChange(val: string) {
     setEndDate(val);
-    const captured = captureDraft();
-    onDraftChange(captured);
     const combinedId = startDate && val && startDate !== val ? `${startDate}_to_${val}` : (startDate || val);
     onSetFormWeekDate(combinedId);
   }
 
-  function SectionFields({ platformKey, values }: { platformKey: PlatformKey; values: Record<string, number> }) {
+  function SectionFields({
+    platformKey,
+    values,
+  }: {
+    platformKey: PlatformKey;
+    values: Record<string, number>;
+  }) {
     const cfg = PLATFORMS[platformKey];
     if (cfg.groups) {
       return (
         <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 12 }}>
           {cfg.groups.map((g) => (
-            <div key={g.title} style={{ background: 'var(--surface-raised)', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border-soft)' }}>
-              <div style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div
+              key={g.title}
+              style={{
+                background: 'var(--surface-raised)',
+                padding: '10px 12px',
+                borderRadius: 8,
+                border: '1px solid var(--border-soft)',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 11.5,
+                  fontWeight: 700,
+                  color: 'var(--text-dim)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  marginBottom: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: cfg.accent }} />
                 {g.title}
               </div>
@@ -162,8 +178,8 @@ export default function DataModal({
                       type="number"
                       min="0"
                       placeholder="0"
-                      data-field={f.key}
-                      defaultValue={values[f.key] ?? 0}
+                      value={values[f.key] ?? 0}
+                      onChange={(e) => handleFieldChange(platformKey, f.key, e.target.value)}
                     />
                   </label>
                 ))}
@@ -183,8 +199,8 @@ export default function DataModal({
               type="number"
               min="0"
               placeholder="0"
-              data-field={f.key}
-              defaultValue={values[f.key] ?? 0}
+              value={values[f.key] ?? 0}
+              onChange={(e) => handleFieldChange(platformKey, f.key, e.target.value)}
             />
           </label>
         ))}
@@ -192,11 +208,21 @@ export default function DataModal({
     );
   }
 
-  function Section({ id, label, accent, values }: { id: PlatformKey; label: string; accent: string; values: Record<string, number> }) {
+  function Section({
+    id,
+    label,
+    accent,
+    values,
+  }: {
+    id: PlatformKey;
+    label: string;
+    accent: string;
+    values: Record<string, number>;
+  }) {
     const open = formSection === id;
     return (
       <div className="section-block">
-        <button type="button" className="section-toggle" onClick={() => handleToggle(id)}>
+        <button type="button" className="section-toggle" onClick={() => onToggleSection(id)}>
           <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span className="dot" style={{ background: accent }} />
             {label}
@@ -204,7 +230,7 @@ export default function DataModal({
           <span style={{ transition: 'transform .15s', transform: `rotate(${open ? 180 : 0}deg)` }}>▾</span>
         </button>
         {open && (
-          <div className="section-body" data-section={id} ref={sectionBodyRef}>
+          <div className="section-body">
             <SectionFields platformKey={id} values={values} />
           </div>
         )}
@@ -213,21 +239,24 @@ export default function DataModal({
   }
 
   const weekOptions = [
-    <option key="__new__" value="__new__">{isNew ? '+ Add New Week (selected)' : '+ Add New Week'}</option>,
+    <option key="__new__" value="__new__">
+      {isNew ? '+ Add New Week (selected)' : '+ Add New Week'}
+    </option>,
     ...weeks.map((w) => (
-      <option key={w.weekId} value={w.weekId}>Edit: {formatWeekLabel(w.weekId)}</option>
+      <option key={w.weekId} value={w.weekId}>
+        Edit: {formatWeekLabel(w.weekId)}
+      </option>
     )),
   ];
 
   const currentPreview = isNew
-    ? (startDate ? formatWeekLabel(startDate && endDate ? `${startDate}_to_${endDate}` : startDate) : '')
+    ? startDate
+      ? formatWeekLabel(startDate && endDate ? `${startDate}_to_${endDate}` : startDate)
+      : ''
     : formatWeekLabel(weekId!);
 
   return (
-    <div
-      className="modal-backdrop"
-      onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
+    <div className="modal-backdrop" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div
         className="modal"
         onMouseDown={(e) => e.stopPropagation()}
@@ -249,7 +278,7 @@ export default function DataModal({
             <select
               className="field-input"
               value={formWeekId ?? '__new__'}
-              onChange={(e) => handleSelectWeek(e.target.value)}
+              onChange={(e) => onSelectFormWeek(e.target.value)}
               id="form-week-select"
             >
               {weekOptions}
@@ -326,9 +355,9 @@ export default function DataModal({
           ✓ Saving never overwrites other weeks — all {weeks.length} saved week{weeks.length !== 1 ? 's' : ''} stay intact for comparison.
         </div>
 
-        <Section id="linkedin" label="LinkedIn" accent={PLATFORMS.linkedin.accent} values={li as Record<string, number>} />
-        <Section id="instagram" label="Instagram" accent={PLATFORMS.instagram.accent} values={ig as Record<string, number>} />
-        <Section id="facebook" label="Facebook" accent={PLATFORMS.facebook.accent} values={fb as Record<string, number>} />
+        <Section id="linkedin" label="LinkedIn" accent={PLATFORMS.linkedin.accent} values={linkedin as unknown as Record<string, number>} />
+        <Section id="instagram" label="Instagram" accent={PLATFORMS.instagram.accent} values={instagram as unknown as Record<string, number>} />
+        <Section id="facebook" label="Facebook" accent={PLATFORMS.facebook.accent} values={facebook as unknown as Record<string, number>} />
 
         <div className="modal-actions">
           <button type="button" className="save-btn" onClick={handleSave} id="btn-save-week">

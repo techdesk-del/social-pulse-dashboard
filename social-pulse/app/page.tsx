@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { emptyLinkedIn, emptyInstagram, emptyFacebook, SEED_WEEKS } from '../lib/constants';
 import { exportPDF } from '../lib/exportPdf';
-import type { WeekEntry, TabId, PlatformKey, AppState, FormDraft } from '../lib/types';
+import type { WeekEntry, TabId, PlatformKey, AppState, LinkedInData, InstagramData, FacebookData } from '../lib/types';
 
 import Header from '../components/Header';
 import PulseBar from '../components/PulseBar';
@@ -43,7 +43,7 @@ function loadFromLocalStorage(): WeekEntry[] | null {
       if (item !== null) {
         const parsed = JSON.parse(item);
         if (Array.isArray(parsed)) {
-          return parsed; // Can be [] if user deleted all weeks
+          return parsed;
         }
       }
     }
@@ -56,42 +56,71 @@ function loadFromLocalStorage(): WeekEntry[] | null {
 export default function DashboardPage() {
   const [weeks, setWeeks] = useState<WeekEntry[]>([]);
   const [state, setState] = useState<Omit<AppState, 'weeks'>>(INITIAL_STATE);
-  const [draft, setDraft] = useState<FormDraft>({ linkedin: null, instagram: null, facebook: null });
   const [isReady, setIsReady] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Initialize data on mount
+  // Sync function to pull latest live database entries
+  const syncWithDatabase = useCallback(async () => {
+    try {
+      const res = await fetch('/api/weeks');
+      const data = await res.json();
+      if (data.ok && Array.isArray(data.weeks)) {
+        if (data.weeks.length > 0) {
+          setWeeks(data.weeks);
+          saveToLocalStorage(data.weeks);
+        }
+      }
+    } catch (err) {
+      console.warn('Database sync note:', err);
+    }
+  }, []);
+
+  // Initialize data on mount: show local cache immediately, then sync with live MongoDB
   useEffect(() => {
     const local = loadFromLocalStorage();
     if (local !== null) {
       setWeeks(local);
       setIsReady(true);
-    } else {
-      // First time ever visited: initialize with SEED_WEEKS
-      setWeeks(SEED_WEEKS);
-      saveToLocalStorage(SEED_WEEKS);
-      setIsReady(true);
     }
 
-    // Sync with MongoDB in background
+    // Always fetch latest live weeks from MongoDB
     fetch('/api/weeks')
       .then((res) => res.json())
       .then((data) => {
         if (data.ok && Array.isArray(data.weeks)) {
-          if (local === null) {
-            // First time seed
-            if (data.weeks.length > 0) {
-              setWeeks(data.weeks);
-              saveToLocalStorage(data.weeks);
-            }
+          if (data.weeks.length > 0) {
+            setWeeks(data.weeks);
+            saveToLocalStorage(data.weeks);
+          } else if (local === null) {
+            // First time ever on a fresh setup with no DB data
+            setWeeks(SEED_WEEKS);
+            saveToLocalStorage(SEED_WEEKS);
           }
         }
       })
       .catch((err) => {
         console.warn('Database sync note:', err);
+        if (local === null) {
+          setWeeks(SEED_WEEKS);
+          saveToLocalStorage(SEED_WEEKS);
+        }
+      })
+      .finally(() => {
+        setIsReady(true);
       });
-  }, []);
+
+    // Automatically re-sync whenever user focuses or returns to the dashboard tab
+    const handleFocus = () => syncWithDatabase();
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') syncWithDatabase();
+    });
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [syncWithDatabase]);
 
   const activeIndex = Math.min(state.activeIndex, Math.max(0, weeks.length - 1));
   const activeWeek = weeks[activeIndex];
@@ -106,9 +135,7 @@ export default function DashboardPage() {
 
   // ── Modal control ──
   const openForm = (targetWeekId?: string | null) => {
-    // If targetWeekId is explicitly provided, use it. Otherwise, default to editing the currently active week
     const weekToEdit = targetWeekId !== undefined ? targetWeekId : (weeks[activeIndex]?.weekId ?? null);
-    setDraft({ linkedin: null, instagram: null, facebook: null });
     setState((s) => ({
       ...s,
       formOpen: true,
@@ -121,7 +148,6 @@ export default function DashboardPage() {
   const closeForm = () => setState((s) => ({ ...s, formOpen: false }));
 
   const selectFormWeek = (val: string) => {
-    setDraft({ linkedin: null, instagram: null, facebook: null });
     setState((s) => ({ ...s, formWeekId: val === '__new__' ? null : val }));
   };
 
@@ -131,16 +157,18 @@ export default function DashboardPage() {
 
   // ── Save Week: Persistent in localStorage & MongoDB ──
   const saveWeek = useCallback(
-    async (weekId: string, savedDraft: FormDraft) => {
-      const existing = weeks.find((w) => w.weekId === weekId);
+    async (
+      weekId: string,
+      data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData }
+    ) => {
       const entry: WeekEntry = {
         weekId,
-        linkedin: { ...emptyLinkedIn(), ...(existing?.linkedin ?? {}), ...(savedDraft.linkedin ?? {}) } as WeekEntry['linkedin'],
-        instagram: { ...emptyInstagram(), ...(existing?.instagram ?? {}), ...(savedDraft.instagram ?? {}) } as WeekEntry['instagram'],
-        facebook: { ...emptyFacebook(), ...(existing?.facebook ?? {}), ...(savedDraft.facebook ?? {}) } as WeekEntry['facebook'],
+        linkedin: { ...emptyLinkedIn(), ...data.linkedin },
+        instagram: { ...emptyInstagram(), ...data.instagram },
+        facebook: { ...emptyFacebook(), ...data.facebook },
       };
 
-      // 1. Update state and localStorage
+      // 1. Update state and localStorage immediately
       const idx = weeks.findIndex((w) => w.weekId === weekId);
       let updatedList: WeekEntry[];
       if (idx >= 0) {
@@ -356,14 +384,12 @@ export default function DashboardPage() {
           formWeekId={state.formWeekId}
           formSection={state.formSection}
           newWeekDate={state._newWeekDate}
-          draft={draft}
           onClose={closeForm}
           onSelectFormWeek={selectFormWeek}
           onSetFormWeekDate={setFormWeekDate}
           onToggleSection={toggleFormSection}
           onSave={saveWeek}
           onDelete={deleteWeek}
-          onDraftChange={setDraft}
         />
       )}
     </div>

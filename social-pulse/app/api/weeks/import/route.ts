@@ -1,20 +1,10 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../../lib/db/mongodb';
 import WeekEntry from '../../../../lib/db/models/WeekEntry';
-import { getAuthSession } from '../../../../lib/auth-server';
 import type { WeekEntry as WeekEntryType } from '../../../../lib/types';
-
-async function resolveUserId(): Promise<string> {
-  try {
-    const session = await getAuthSession();
-    if (session?.userId) return String(session.userId);
-  } catch {}
-  return 'default_user';
-}
 
 export async function POST(req: Request) {
   try {
-    const userId = await resolveUserId();
     const { weeks } = await req.json();
 
     if (!Array.isArray(weeks)) {
@@ -28,10 +18,10 @@ export async function POST(req: Request) {
         .filter((w: WeekEntryType) => Boolean(w && w.weekId))
         .map((w: WeekEntryType) => ({
           updateOne: {
-            filter: { userId, weekId: w.weekId },
+            filter: { weekId: w.weekId },
             update: {
               $set: {
-                userId,
+                weekId: w.weekId,
                 linkedin: w.linkedin,
                 instagram: w.instagram,
                 facebook: w.facebook,
@@ -45,8 +35,7 @@ export async function POST(req: Request) {
         await WeekEntry.bulkWrite(bulkOps);
       }
 
-      // Return updated list
-      const allWeeks = await WeekEntry.find({ userId }).sort({ weekId: 1 }).lean();
+      const allWeeks = await WeekEntry.find({}).sort({ weekId: 1 }).lean();
 
       const formatted = allWeeks.map((w) => ({
         weekId: w.weekId,

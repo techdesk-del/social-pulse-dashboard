@@ -1,27 +1,16 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../lib/db/mongodb';
 import WeekEntry from '../../../lib/db/models/WeekEntry';
-import { getAuthSession } from '../../../lib/auth-server';
-
-async function resolveUserId(): Promise<string> {
-  try {
-    const session = await getAuthSession();
-    if (session?.userId) return String(session.userId);
-  } catch {}
-  return 'default_user';
-}
 
 export async function GET() {
   try {
-    const userId = await resolveUserId();
-
     try {
       await connectToDatabase();
 
-      // Clean up old week entries before July 6th, 2025
-      await WeekEntry.deleteMany({ userId, weekId: { $lt: '2025-07-06' } });
+      // Clean up old week entries before July 6th, 2025 if any exist
+      await WeekEntry.deleteMany({ weekId: { $lt: '2025-07-06' } });
 
-      const weeks = await WeekEntry.find({ userId }).sort({ weekId: 1 }).lean();
+      const weeks = await WeekEntry.find({}).sort({ weekId: 1 }).lean();
 
       const formattedWeeks = weeks.map((w) => ({
         weekId: w.weekId,
@@ -43,7 +32,6 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const userId = await resolveUserId();
     const { weekId, linkedin, instagram, facebook } = await req.json();
 
     if (!weekId) {
@@ -54,10 +42,10 @@ export async function POST(req: Request) {
       await connectToDatabase();
 
       const updatedDoc = await WeekEntry.findOneAndUpdate(
-        { userId, weekId },
+        { weekId },
         {
           $set: {
-            userId,
+            weekId,
             linkedin,
             instagram,
             facebook,
@@ -90,7 +78,6 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const userId = await resolveUserId();
     const { searchParams } = new URL(req.url);
     let weekId = searchParams.get('weekId');
 
@@ -107,7 +94,7 @@ export async function DELETE(req: Request) {
 
     try {
       await connectToDatabase();
-      await WeekEntry.deleteMany({ userId, weekId });
+      await WeekEntry.deleteMany({ weekId });
     } catch (dbErr) {
       console.warn('MongoDB delete warning in DELETE /api/weeks:', dbErr);
     }
