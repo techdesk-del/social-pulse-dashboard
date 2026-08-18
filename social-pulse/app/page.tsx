@@ -114,7 +114,7 @@ export default function DashboardPage() {
       formOpen: true,
       formWeekId: weekToEdit,
       _newWeekDate: null,
-      formSection: 'linkedin',
+      formSection: s.tab === 'instagram' || s.tab === 'facebook' ? s.tab : 'linkedin',
     }));
   };
 

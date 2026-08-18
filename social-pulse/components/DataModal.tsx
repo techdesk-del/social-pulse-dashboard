@@ -73,7 +73,11 @@ export default function DataModal({
     return newDraft;
   }
 
-  function handleSave() {
+  function handleSave(e?: React.MouseEvent | React.FormEvent | React.KeyboardEvent) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const captured = captureDraft();
     let effectiveWeekId = weekId!;
     if (isNew) {
@@ -83,10 +87,18 @@ export default function DataModal({
         effectiveWeekId = startDate;
       }
     }
+    if (!effectiveWeekId) {
+      alert('Please select a valid start date for the week.');
+      return;
+    }
     onSave(effectiveWeekId, captured);
   }
 
-  function handleDelete() {
+  function handleDelete(e?: React.MouseEvent) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (weekId && onDelete) {
       onDelete(weekId);
     }
@@ -216,10 +228,19 @@ export default function DataModal({
       className="modal-backdrop"
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="modal" onMouseDown={(e) => e.stopPropagation()}>
+      <div
+        className="modal"
+        onMouseDown={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSave(e);
+          }
+        }}
+      >
         <div className="modal-head">
           <div className="modal-title">{isNew ? 'Add new week' : 'Edit week'}</div>
-          <button className="modal-close" onClick={onClose} aria-label="Close modal">×</button>
+          <button type="button" className="modal-close" onClick={onClose} aria-label="Close modal">×</button>
         </div>
 
         <div className="week-select-wrap">
@@ -310,10 +331,10 @@ export default function DataModal({
         <Section id="facebook" label="Facebook" accent={PLATFORMS.facebook.accent} values={fb as Record<string, number>} />
 
         <div className="modal-actions">
-          <button className="save-btn" onClick={handleSave} id="btn-save-week">
+          <button type="button" className="save-btn" onClick={handleSave} id="btn-save-week">
             💾 {isNew ? 'Save week' : 'Update week'}
           </button>
-          <button className="cancel-btn" onClick={onClose} id="btn-cancel-week">
+          <button type="button" className="cancel-btn" onClick={onClose} id="btn-cancel-week">
             Cancel
           </button>
         </div>
