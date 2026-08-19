@@ -63,7 +63,8 @@ export default function Header({
         <input
           type="file"
           ref={fileInputRef}
-          accept="application/json"
+          accept="application/json,.json"
+          multiple
           style={{ display: 'none' }}
           onChange={onFileChange}
           id="import-file-input"

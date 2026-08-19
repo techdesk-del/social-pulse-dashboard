@@ -7,40 +7,38 @@ export interface LinkedInData {
   // Visitors
   pageViews: number;
   uniqueVisitors: number;
-  customButtonClick: number;
   // Followers
   totalFollowers: number;
-  newFollowers300Days: number;
+  newFollowers: number;
   // Search Appearances
-  pageSearches: number;
+  searchAppearances: number;
 
-  // Optional backward compatibility
+  // Optional backward / alias compatibility
+  customButtonClick?: number;
+  newFollowers300Days?: number;
+  pageSearches?: number;
   reach?: number;
   profileViews?: number;
-  newFollowers?: number;
 }
 
 export interface InstagramData {
-  impressions: number; // Views
-  reach: number;       // Reach
-  contentInteractions: number; // Content Interactions
-  linkClicks: number;  // Link Clicks
-  profileVisits: number; // Visits
-  follows: number;     // Follows
+  views: number;
+  reach: number;
+  contentInteractions: number;
+  linkClicks: number;
+  visits: number;
+  follows: number;
 
-  // Optional legacy backward compatibility
+  // Optional alias compatibility
+  impressions?: number;
+  profileVisits?: number;
   reelsViews?: number;
   postViews?: number;
-  nonFollowerReach?: number;
-  followerReach?: number;
   likes?: number;
   comments?: number;
   shares?: number;
   saves?: number;
-  bioLinkClicks?: number;
-  buttonTaps?: number;
   totalFollowers?: number;
-  unfollows?: number;
 }
 
 export interface FacebookData {
@@ -48,10 +46,11 @@ export interface FacebookData {
   viewers: number;
   contentInteractions: number;
   linkClicks: number;
-  profileVisits: number;
+  visits: number;
   follows: number;
 
-  // Optional legacy backward compatibility
+  // Optional alias compatibility
+  profileVisits?: number;
   reach?: number;
 }
 

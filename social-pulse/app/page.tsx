@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/AuthContext';
 import { emptyLinkedIn, emptyInstagram, emptyFacebook, SEED_WEEKS } from '../lib/constants';
 import { exportPDF } from '../lib/exportPdf';
+import { normalizeImportedWeeks, mergeWeekEntries, parseWeekRange } from '../lib/utils';
 import type { WeekEntry, TabId, PlatformKey, AppState, LinkedInData, InstagramData, FacebookData } from '../lib/types';
 
 import Header from '../components/Header';
@@ -15,13 +16,13 @@ import PlatformTab from '../components/PlatformTab';
 import CompareTab from '../components/CompareTab';
 import DataModal from '../components/DataModal';
 
-const STORAGE_KEY = 'social_pulse_weeks_store_v2';
+const STORAGE_KEY = 'social_pulse_weeks_store_v4';
 
 const INITIAL_STATE: Omit<AppState, 'weeks'> = {
   activeIndex: 0,
   tab: 'overview',
   compareTab: 'linkedin',
-  chartMetric: { linkedin: 'impressions', instagram: 'impressions', facebook: 'views' },
+  chartMetric: { linkedin: 'impressions', instagram: 'views', facebook: 'views' },
   formOpen: false,
   formWeekId: null,
   formSection: 'linkedin',
@@ -32,6 +33,9 @@ function saveToLocalStorage(data: WeekEntry[]) {
   try {
     if (typeof window !== 'undefined') {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      localStorage.removeItem('social_pulse_weeks_store_v2');
+      localStorage.removeItem('social_pulse_weeks_store_v3');
+      localStorage.removeItem('social-pulse-weeks-v3');
     }
   } catch (err) {
     console.warn('Failed to save to localStorage', err);
@@ -41,10 +45,14 @@ function saveToLocalStorage(data: WeekEntry[]) {
 function loadFromLocalStorage(): WeekEntry[] | null {
   try {
     if (typeof window !== 'undefined') {
+      localStorage.removeItem('social_pulse_weeks_store_v2');
+      localStorage.removeItem('social_pulse_weeks_store_v3');
+      localStorage.removeItem('social-pulse-weeks-v3');
+
       const item = localStorage.getItem(STORAGE_KEY);
       if (item !== null) {
         const parsed = JSON.parse(item);
-        if (Array.isArray(parsed)) {
+        if (Array.isArray(parsed) && parsed.length > 0) {
           return parsed;
         }
       }
@@ -59,8 +67,11 @@ export default function DashboardPage() {
   const { session, loading: authLoading, logout } = useAuth();
   const router = useRouter();
 
-  const [weeks, setWeeks] = useState<WeekEntry[]>([]);
-  const [state, setState] = useState<Omit<AppState, 'weeks'>>(INITIAL_STATE);
+  const [weeks, setWeeks] = useState<WeekEntry[]>(SEED_WEEKS);
+  const [state, setState] = useState<Omit<AppState, 'weeks'>>({
+    ...INITIAL_STATE,
+    activeIndex: SEED_WEEKS.length - 1,
+  });
   const [isReady, setIsReady] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -77,11 +88,9 @@ export default function DashboardPage() {
     try {
       const res = await fetch('/api/weeks');
       const data = await res.json();
-      if (data.ok && Array.isArray(data.weeks)) {
-        if (data.weeks.length > 0) {
-          setWeeks(data.weeks);
-          saveToLocalStorage(data.weeks);
-        }
+      if (data.ok && Array.isArray(data.weeks) && data.weeks.length > 0) {
+        setWeeks(data.weeks);
+        saveToLocalStorage(data.weeks);
       }
     } catch (err) {
       console.warn('Database sync note:', err);
@@ -91,8 +100,12 @@ export default function DashboardPage() {
   // Initialize data on mount: show local cache immediately, then sync with live MongoDB
   useEffect(() => {
     const local = loadFromLocalStorage();
-    if (local !== null) {
+    if (local !== null && local.length > 0) {
       setWeeks(local);
+      setIsReady(true);
+    } else {
+      setWeeks(SEED_WEEKS);
+      saveToLocalStorage(SEED_WEEKS);
       setIsReady(true);
     }
 
@@ -100,23 +113,18 @@ export default function DashboardPage() {
     fetch('/api/weeks')
       .then((res) => res.json())
       .then((data) => {
-        if (data.ok && Array.isArray(data.weeks)) {
-          if (data.weeks.length > 0) {
-            setWeeks(data.weeks);
-            saveToLocalStorage(data.weeks);
-          } else if (local === null) {
-            // First time ever on a fresh setup with no DB data
-            setWeeks(SEED_WEEKS);
-            saveToLocalStorage(SEED_WEEKS);
-          }
+        if (data.ok && Array.isArray(data.weeks) && data.weeks.length > 0) {
+          setWeeks(data.weeks);
+          saveToLocalStorage(data.weeks);
+        } else {
+          setWeeks(SEED_WEEKS);
+          saveToLocalStorage(SEED_WEEKS);
         }
       })
       .catch((err) => {
         console.warn('Database sync note:', err);
-        if (local === null) {
-          setWeeks(SEED_WEEKS);
-          saveToLocalStorage(SEED_WEEKS);
-        }
+        setWeeks(SEED_WEEKS);
+        saveToLocalStorage(SEED_WEEKS);
       })
       .finally(() => {
         setIsReady(true);
@@ -187,14 +195,14 @@ export default function DashboardPage() {
         updatedList = [...weeks];
         updatedList[idx] = entry;
       } else {
-        updatedList = [...weeks, entry].sort((a, b) => a.weekId.localeCompare(b.weekId));
+        updatedList = mergeWeekEntries(weeks, [entry]);
       }
 
       setWeeks(updatedList);
       saveToLocalStorage(updatedList);
 
       const newActiveIdx = updatedList.findIndex((w) => w.weekId === weekId);
-      setState((s) => ({ ...s, activeIndex: newActiveIdx, formOpen: false }));
+      setState((s) => ({ ...s, activeIndex: newActiveIdx >= 0 ? newActiveIdx : updatedList.length - 1, formOpen: false }));
 
       // 2. Sync to MongoDB in background
       try {
@@ -213,7 +221,7 @@ export default function DashboardPage() {
   // ── Delete Week: Permanently removes from state, localStorage & MongoDB ──
   const deleteWeek = useCallback(
     async (weekId: string) => {
-      const updatedList = weeks.filter((w) => w.weekId !== weekId);
+      const updatedList = weeks.filter((w) => w.weekId !== weekId && parseWeekRange(w.weekId).start !== parseWeekRange(weekId).start);
       const nextActiveIdx = Math.max(0, updatedList.length - 1);
 
       // 1. Immediately update state & localStorage
@@ -253,39 +261,57 @@ export default function DashboardPage() {
   // ── JSON Import ──
   const handleImport = () => fileInputRef.current?.click();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      try {
-        const imported = JSON.parse(ev.target?.result as string) as WeekEntry[];
-        if (!Array.isArray(imported)) throw new Error('not an array');
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-        const map = new Map<string, WeekEntry>();
-        weeks.forEach((w) => map.set(w.weekId, w));
-        imported.forEach((w) => {
-          if (w && w.weekId) map.set(w.weekId, w);
-        });
+    try {
+      const fileList = Array.from(files);
+      const allIncomingWeeks: WeekEntry[] = [];
 
-        const merged = Array.from(map.values()).sort((a, b) => a.weekId.localeCompare(b.weekId));
-        setWeeks(merged);
+      for (const file of fileList) {
+        const text = await file.text();
+        const json = JSON.parse(text);
+        const parsed = normalizeImportedWeeks(json);
+        if (parsed.length > 0) {
+          allIncomingWeeks.push(...parsed);
+        }
+      }
+
+      if (allIncomingWeeks.length === 0) {
+        alert('No valid week entries could be extracted from the selected JSON file(s). Please verify the JSON structure.');
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        return;
+      }
+
+      setWeeks((prevWeeks) => {
+        const merged = mergeWeekEntries(prevWeeks, allIncomingWeeks);
         saveToLocalStorage(merged);
-        setState((s) => ({ ...s, activeIndex: merged.length - 1 }));
 
+        // Highlight the latest imported week
+        const latestIncoming = allIncomingWeeks[allIncomingWeeks.length - 1];
+        const targetIdx = merged.findIndex(
+          (w) => w.weekId === latestIncoming.weekId || parseWeekRange(w.weekId).start === parseWeekRange(latestIncoming.weekId).start
+        );
+        setState((s) => ({ ...s, activeIndex: targetIdx >= 0 ? targetIdx : merged.length - 1 }));
+
+        // Sync with cloud database in background
         fetch('/api/weeks/import', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ weeks: imported }),
-        }).catch(console.warn);
+          body: JSON.stringify({ weeks: merged }),
+        }).catch((err) => console.warn('Cloud sync error on import:', err));
 
-        alert(`Successfully imported ${imported.length} week(s)!`);
-      } catch {
-        alert("Couldn't read that file — make sure it's a valid JSON file.");
-      }
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    };
-    reader.readAsText(file);
+        return merged;
+      });
+
+      alert(`Successfully imported ${allIncomingWeeks.length} week(s) across ${fileList.length} file(s)!`);
+    } catch (err) {
+      console.error('Import failed:', err);
+      alert("Couldn't read file(s) — please make sure they contain valid JSON format.");
+    }
+
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   if (authLoading || !session || !isReady) {

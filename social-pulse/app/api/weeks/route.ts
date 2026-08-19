@@ -7,17 +7,14 @@ export async function GET() {
     try {
       await connectToDatabase();
 
-      // Clean up old week entries before July 6th, 2025 if any exist
-      await WeekEntry.deleteMany({ weekId: { $lt: '2025-07-06' } });
-
-      const weeks = await WeekEntry.find({}).sort({ weekId: 1 }).lean();
+      const weeks = await WeekEntry.find({}).lean();
 
       const formattedWeeks = weeks.map((w) => ({
         weekId: w.weekId,
         linkedin: w.linkedin,
         instagram: w.instagram,
         facebook: w.facebook,
-      }));
+      })).sort((a, b) => a.weekId.localeCompare(b.weekId));
 
       return NextResponse.json({ ok: true, weeks: formattedWeeks });
     } catch (dbErr) {
