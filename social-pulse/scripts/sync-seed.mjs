@@ -157,31 +157,31 @@ const SEED_DATA = [
   {
     weekId: "2026-07-27",
     linkedin: {
-      impressions: 0,
-      reactions: 0,
-      comments: 0,
-      reposts: 0,
-      pageViews: 0,
-      uniqueVisitors: 0,
-      totalFollowers: 0,
-      newFollowers: 0,
-      searchAppearances: 0
+      impressions: 780,
+      reactions: 82,
+      comments: 2,
+      reposts: 1,
+      pageViews: 68,
+      uniqueVisitors: 26,
+      totalFollowers: 56,
+      newFollowers: 5,
+      searchAppearances: 112
     },
     instagram: {
-      views: 0,
-      reach: 0,
-      contentInteractions: 0,
-      linkClicks: 0,
-      visits: 0,
-      follows: 0
+      views: 745,
+      reach: 240,
+      contentInteractions: 38,
+      linkClicks: 3,
+      visits: 62,
+      follows: 24
     },
     facebook: {
-      views: 0,
-      viewers: 0,
-      contentInteractions: 0,
-      linkClicks: 0,
-      visits: 0,
-      follows: 0
+      views: 145,
+      viewers: 84,
+      contentInteractions: 9,
+      linkClicks: 2,
+      visits: 19,
+      follows: 15
     },
     google: {
       averageRating: 4.9,
@@ -206,31 +206,31 @@ const SEED_DATA = [
   {
     weekId: "2026-08-03",
     linkedin: {
-      impressions: 0,
-      reactions: 0,
-      comments: 0,
-      reposts: 0,
-      pageViews: 0,
-      uniqueVisitors: 0,
-      totalFollowers: 0,
-      newFollowers: 0,
-      searchAppearances: 0
+      impressions: 895,
+      reactions: 95,
+      comments: 4,
+      reposts: 2,
+      pageViews: 84,
+      uniqueVisitors: 33,
+      totalFollowers: 63,
+      newFollowers: 7,
+      searchAppearances: 128
     },
     instagram: {
-      views: 0,
-      reach: 0,
-      contentInteractions: 0,
-      linkClicks: 0,
-      visits: 0,
-      follows: 0
+      views: 910,
+      reach: 310,
+      contentInteractions: 46,
+      linkClicks: 5,
+      visits: 78,
+      follows: 31
     },
     facebook: {
-      views: 0,
-      viewers: 0,
-      contentInteractions: 0,
-      linkClicks: 0,
-      visits: 0,
-      follows: 0
+      views: 168,
+      viewers: 96,
+      contentInteractions: 12,
+      linkClicks: 3,
+      visits: 24,
+      follows: 18
     },
     google: {
       averageRating: 4.9,
