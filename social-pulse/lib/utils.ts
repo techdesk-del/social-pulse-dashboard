@@ -1,5 +1,5 @@
-import type { TrendDir, TrendResult, WeekEntry, LinkedInData, InstagramData, FacebookData } from './types';
-import { COLORS, emptyLinkedIn, emptyInstagram, emptyFacebook } from './constants';
+import type { TrendDir, TrendResult, WeekEntry, LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from './types';
+import { COLORS, emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews } from './constants';
 
 export function num(v: unknown): number {
   if (v === null || v === undefined) return 0;
@@ -270,10 +270,12 @@ function parseSingleWeekObject(raw: Record<string, unknown>, fallbackKey?: strin
   const liSub = findSubObject(raw, ['linkedin', 'LinkedIn', 'LINKEDIN', 'li']);
   const igSub = findSubObject(raw, ['instagram', 'Instagram', 'INSTAGRAM', 'ig']);
   const fbSub = findSubObject(raw, ['facebook', 'Facebook', 'FACEBOOK', 'fb']);
+  const googSub = findSubObject(raw, ['google', 'Google', 'GOOGLE', 'googleReviews', 'reviews']);
 
   const linkedin: LinkedInData = { ...emptyLinkedIn() };
   const instagram: InstagramData = { ...emptyInstagram() };
   const facebook: FacebookData = { ...emptyFacebook() };
+  const google: GoogleReviewsData = { ...emptyGoogleReviews() };
 
   // Populate LinkedIn
   const liSource = liSub || raw;
@@ -302,11 +304,23 @@ function parseSingleWeekObject(raw: Record<string, unknown>, fallbackKey?: strin
     }
   }
 
+  // Populate Google
+  if (googSub) {
+    for (const [k, v] of Object.entries(googSub)) {
+      if (k !== 'recentReviews') {
+        (google as unknown as Record<string, unknown>)[k] = num(v);
+      } else if (Array.isArray(v)) {
+        google.recentReviews = v;
+      }
+    }
+  }
+
   return {
     weekId: finalWeekId,
     linkedin,
     instagram,
     facebook,
+    google,
   };
 }
 
@@ -336,7 +350,7 @@ export function normalizeImportedWeeks(jsonContent: unknown): WeekEntry[] {
     } else {
       // Check if it's a single week object
       const directSingle = parseSingleWeekObject(obj);
-      if (directSingle && (directSingle.weekId || Object.keys(obj).some((k) => ['linkedin', 'instagram', 'facebook', 'impressions', 'views'].includes(k.toLowerCase())))) {
+      if (directSingle && (directSingle.weekId || Object.keys(obj).some((k) => ['linkedin', 'instagram', 'facebook', 'google', 'impressions', 'views'].includes(k.toLowerCase())))) {
         entries.push(directSingle);
       } else {
         // Case: Object with week keys: { "2025-08-04_to_2025-08-10": { ... }, "2025-08-11": { ... } }
@@ -374,11 +388,16 @@ export function mergeWeekEntries(existingWeeks: WeekEntry[], incomingWeeks: Week
         linkedin: { ...existing.linkedin, ...inc.linkedin },
         instagram: { ...existing.instagram, ...inc.instagram },
         facebook: { ...existing.facebook, ...inc.facebook },
+        google: { ...(existing.google || emptyGoogleReviews()), ...(inc.google || {}) },
       });
     } else {
-      map.set(key, inc);
+      map.set(key, {
+        ...inc,
+        google: inc.google || emptyGoogleReviews(),
+      });
     }
   }
+
 
   return Array.from(map.values()).sort((a, b) => {
     const startA = parseWeekRange(a.weekId).start || a.weekId;

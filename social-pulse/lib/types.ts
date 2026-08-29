@@ -54,15 +54,54 @@ export interface FacebookData {
   reach?: number;
 }
 
+export interface GoogleReviewItem {
+  id?: string;
+  author: string;
+  rating: number;
+  text: string;
+  time: string;
+  relativeTime?: string;
+  profilePhoto?: string;
+  reply?: string;
+}
+
+export interface GoogleReviewsData {
+  // Reputation & Star Rating
+  averageRating: number;
+  totalReviews: number;
+  newReviews: number;
+  responseRate: number;
+
+  // Star Distribution
+  fiveStars: number;
+  fourStars: number;
+  threeStars: number;
+  twoStars: number;
+  oneStar: number;
+
+  // Google Discovery / Views
+  searchViews: number;
+  mapsViews: number;
+
+  // Customer Actions / Conversions
+  websiteClicks: number;
+  directionRequests: number;
+  callClicks: number;
+
+  // Optional Live Customer Reviews list
+  recentReviews?: GoogleReviewItem[];
+}
+
 export interface WeekEntry {
   weekId: string; // "YYYY-MM-DD" (Monday)
   linkedin: LinkedInData;
   instagram: InstagramData;
   facebook: FacebookData;
+  google: GoogleReviewsData;
 }
 
-export type PlatformKey = 'linkedin' | 'instagram' | 'facebook';
-export type TabId = 'overview' | 'linkedin' | 'instagram' | 'facebook' | 'compare';
+export type PlatformKey = 'linkedin' | 'instagram' | 'facebook' | 'google';
+export type TabId = 'overview' | 'linkedin' | 'instagram' | 'facebook' | 'google' | 'compare';
 export type TrendDir = 'up' | 'down' | 'flat';
 
 export interface TrendResult {
@@ -108,5 +147,6 @@ export interface FormDraft {
   linkedin: Partial<LinkedInData> | null;
   instagram: Partial<InstagramData> | null;
   facebook: Partial<FacebookData> | null;
+  google: Partial<GoogleReviewsData> | null;
 }
 

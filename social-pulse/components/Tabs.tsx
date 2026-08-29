@@ -14,6 +14,7 @@ const TAB_DEFS: TabDef[] = [
   { id: 'linkedin', label: 'LinkedIn', accent: COLORS.li },
   { id: 'instagram', label: 'Instagram', accent: COLORS.ig },
   { id: 'facebook', label: 'Facebook', accent: COLORS.fb },
+  { id: 'google', label: 'Google Reviews', accent: COLORS.goog },
   { id: 'compare', label: 'Compare Weeks', accent: COLORS.flat },
 ];
 

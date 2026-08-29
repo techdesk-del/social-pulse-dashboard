@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import type { LinkedInData, InstagramData, FacebookData } from '../../types';
+import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from '../../types';
 
 export interface IWeekEntry extends Document {
   userId?: string | mongoose.Types.ObjectId;
@@ -7,6 +7,7 @@ export interface IWeekEntry extends Document {
   linkedin: LinkedInData;
   instagram: InstagramData;
   facebook: FacebookData;
+  google: GoogleReviewsData;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -66,6 +67,27 @@ const FacebookSchema = new Schema<FacebookData>(
   { _id: false }
 );
 
+const GoogleReviewsSchema = new Schema<GoogleReviewsData>(
+  {
+    averageRating: { type: Number, default: 0 },
+    totalReviews: { type: Number, default: 0 },
+    newReviews: { type: Number, default: 0 },
+    responseRate: { type: Number, default: 100 },
+    fiveStars: { type: Number, default: 0 },
+    fourStars: { type: Number, default: 0 },
+    threeStars: { type: Number, default: 0 },
+    twoStars: { type: Number, default: 0 },
+    oneStar: { type: Number, default: 0 },
+    searchViews: { type: Number, default: 0 },
+    mapsViews: { type: Number, default: 0 },
+    websiteClicks: { type: Number, default: 0 },
+    directionRequests: { type: Number, default: 0 },
+    callClicks: { type: Number, default: 0 },
+    recentReviews: { type: [Schema.Types.Mixed], default: [] },
+  },
+  { _id: false }
+);
+
 const WeekEntrySchema = new Schema<IWeekEntry>(
   {
     userId: { type: String, required: false, default: 'default_user', index: true },
@@ -73,6 +95,7 @@ const WeekEntrySchema = new Schema<IWeekEntry>(
     linkedin: { type: LinkedInSchema, default: () => ({}) },
     instagram: { type: InstagramSchema, default: () => ({}) },
     facebook: { type: FacebookSchema, default: () => ({}) },
+    google: { type: GoogleReviewsSchema, default: () => ({}) },
   },
   { timestamps: true }
 );
@@ -80,7 +103,7 @@ const WeekEntrySchema = new Schema<IWeekEntry>(
 // Compound unique index so each user can only have 1 entry per weekId
 WeekEntrySchema.index({ weekId: 1 }, { unique: true });
 
-// Force model re-registration in HMR development mode to ensure schema updates like excludedDates are active
+// Force model re-registration in HMR development mode
 if (mongoose.models.WeekEntry) {
   delete mongoose.models.WeekEntry;
 }
@@ -89,3 +112,4 @@ const WeekEntry: Model<IWeekEntry> =
   mongoose.models.WeekEntry || mongoose.model<IWeekEntry>('WeekEntry', WeekEntrySchema);
 
 export default WeekEntry;
+

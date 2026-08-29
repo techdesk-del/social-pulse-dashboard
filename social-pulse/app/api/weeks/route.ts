@@ -14,6 +14,7 @@ export async function GET() {
         linkedin: w.linkedin,
         instagram: w.instagram,
         facebook: w.facebook,
+        google: w.google,
       })).sort((a, b) => a.weekId.localeCompare(b.weekId));
 
       return NextResponse.json({ ok: true, weeks: formattedWeeks });
@@ -29,7 +30,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { weekId, linkedin, instagram, facebook } = await req.json();
+    const { weekId, linkedin, instagram, facebook, google } = await req.json();
 
     if (!weekId) {
       return NextResponse.json({ ok: false, error: 'weekId is required' }, { status: 400 });
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
             linkedin,
             instagram,
             facebook,
+            google,
           },
         },
         { upsert: true, new: true, runValidators: false }
@@ -58,15 +60,17 @@ export async function POST(req: Request) {
           linkedin: updatedDoc.linkedin,
           instagram: updatedDoc.instagram,
           facebook: updatedDoc.facebook,
+          google: updatedDoc.google,
         },
       });
     } catch (dbErr) {
       console.warn('MongoDB save warning in POST /api/weeks:', dbErr);
       return NextResponse.json({
         ok: true,
-        week: { weekId, linkedin, instagram, facebook },
+        week: { weekId, linkedin, instagram, facebook, google },
       });
     }
+
   } catch (err: unknown) {
     console.error('POST /api/weeks error:', err);
     return NextResponse.json({ ok: false, error: 'Database save failed' }, { status: 500 });

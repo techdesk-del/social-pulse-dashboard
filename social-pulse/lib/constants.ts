@@ -1,4 +1,4 @@
-import type { LinkedInData, InstagramData, FacebookData, PlatformConfig, WeekEntry } from './types';
+import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData, PlatformConfig, WeekEntry } from './types';
 
 export const COLORS = {
   bg: '#DDEBF8',
@@ -15,6 +15,11 @@ export const COLORS = {
   igSoft: 'rgba(194,47,108,0.12)',
   fb: '#5A45C9',
   fbSoft: 'rgba(90,69,201,0.12)',
+  goog: '#EA4335',
+  googSoft: 'rgba(234,67,53,0.12)',
+  googYellow: '#FBBC05',
+  googGreen: '#34A853',
+  googBlue: '#4285F4',
   up: '#127F58',
   upSoft: 'rgba(18,127,88,0.12)',
   down: '#C23838',
@@ -109,6 +114,67 @@ export const PLATFORMS: Record<string, PlatformConfig> = {
       { key: 'follows', label: 'Follows' },
     ],
   },
+  google: {
+    label: 'Google Reviews',
+    accent: COLORS.goog,
+    soft: COLORS.googSoft,
+    primaryKey: 'totalReviews',
+    primaryLabel: 'Total Reviews',
+    secondaryKey: 'newReviews',
+    secondaryLabel: 'New Reviews',
+    metrics: [
+      { key: 'averageRating', label: 'Average Rating (★)' },
+      { key: 'totalReviews', label: 'Total Reviews' },
+      { key: 'newReviews', label: 'New Reviews This Week' },
+      { key: 'responseRate', label: 'Response Rate (%)' },
+      { key: 'fiveStars', label: '5-Star Reviews' },
+      { key: 'fourStars', label: '4-Star Reviews' },
+      { key: 'threeStars', label: '3-Star Reviews' },
+      { key: 'twoStars', label: '2-Star Reviews' },
+      { key: 'oneStar', label: '1-Star Reviews' },
+      { key: 'searchViews', label: 'Google Search Views' },
+      { key: 'mapsViews', label: 'Google Maps Views' },
+      { key: 'websiteClicks', label: 'Website Visits' },
+      { key: 'directionRequests', label: 'Direction Requests' },
+      { key: 'callClicks', label: 'Phone Call Clicks' },
+    ],
+    groups: [
+      {
+        title: 'Rating & Customer Trust',
+        fields: [
+          { key: 'averageRating', label: 'Average Rating (★)' },
+          { key: 'totalReviews', label: 'Total Reviews' },
+          { key: 'newReviews', label: 'New Reviews' },
+          { key: 'responseRate', label: 'Response Rate (%)' },
+        ],
+      },
+      {
+        title: 'Star Breakdown',
+        fields: [
+          { key: 'fiveStars', label: '5-Star Reviews' },
+          { key: 'fourStars', label: '4-Star Reviews' },
+          { key: 'threeStars', label: '3-Star Reviews' },
+          { key: 'twoStars', label: '2-Star Reviews' },
+          { key: 'oneStar', label: '1-Star Reviews' },
+        ],
+      },
+      {
+        title: 'Discovery & Exposure',
+        fields: [
+          { key: 'searchViews', label: 'Search Views' },
+          { key: 'mapsViews', label: 'Maps Views' },
+        ],
+      },
+      {
+        title: 'Customer Actions',
+        fields: [
+          { key: 'websiteClicks', label: 'Website Clicks' },
+          { key: 'directionRequests', label: 'Direction Requests' },
+          { key: 'callClicks', label: 'Phone Calls' },
+        ],
+      },
+    ],
+  },
 };
 
 export function emptyLinkedIn(): LinkedInData {
@@ -124,6 +190,7 @@ export function emptyLinkedIn(): LinkedInData {
     searchAppearances: 0,
   };
 }
+
 export function emptyInstagram(): InstagramData {
   return {
     views: 0,
@@ -134,6 +201,7 @@ export function emptyInstagram(): InstagramData {
     follows: 0,
   };
 }
+
 export function emptyFacebook(): FacebookData {
   return {
     views: 0,
@@ -142,6 +210,26 @@ export function emptyFacebook(): FacebookData {
     linkClicks: 0,
     visits: 0,
     follows: 0,
+  };
+}
+
+export function emptyGoogleReviews(): GoogleReviewsData {
+  return {
+    averageRating: 4.9,
+    totalReviews: 0,
+    newReviews: 0,
+    responseRate: 100,
+    fiveStars: 0,
+    fourStars: 0,
+    threeStars: 0,
+    twoStars: 0,
+    oneStar: 0,
+    searchViews: 0,
+    mapsViews: 0,
+    websiteClicks: 0,
+    directionRequests: 0,
+    callClicks: 0,
+    recentReviews: [],
   };
 }
 
@@ -175,6 +263,26 @@ export const SEED_WEEKS: WeekEntry[] = [
       visits: 17,
       follows: 8,
     },
+    google: {
+      averageRating: 4.8,
+      totalReviews: 124,
+      newReviews: 4,
+      responseRate: 100,
+      fiveStars: 108,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 840,
+      mapsViews: 2150,
+      websiteClicks: 112,
+      directionRequests: 64,
+      callClicks: 28,
+      recentReviews: [
+        { author: 'Rahul Sharma', rating: 5, text: 'Exceptional service and authentic rural experience with UrbanGaon!', time: '2026-07-08', relativeTime: 'a month ago', reply: 'Thank you Rahul for your valuable feedback!' },
+        { author: 'Pooja Verma', rating: 5, text: 'Great team and wonderful support.', time: '2026-07-07', relativeTime: 'a month ago' },
+      ],
+    },
   },
   {
     weekId: '2026-07-13',
@@ -204,6 +312,26 @@ export const SEED_WEEKS: WeekEntry[] = [
       linkClicks: 0,
       visits: 12,
       follows: 11,
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 131,
+      newReviews: 7,
+      responseRate: 100,
+      fiveStars: 115,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 920,
+      mapsViews: 2480,
+      websiteClicks: 128,
+      directionRequests: 79,
+      callClicks: 32,
+      recentReviews: [
+        { author: 'Ankit Patel', rating: 5, text: 'Very genuine platform and top tier customer experience.', time: '2026-07-15', relativeTime: '3 weeks ago', reply: 'We are delighted to have served you, Ankit!' },
+        { author: 'Neha Gupta', rating: 5, text: 'Highly recommended for authentic rural initiatives.', time: '2026-07-14', relativeTime: '3 weeks ago' },
+      ],
     },
   },
   {
@@ -235,6 +363,26 @@ export const SEED_WEEKS: WeekEntry[] = [
       visits: 13,
       follows: 40,
     },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 139,
+      newReviews: 8,
+      responseRate: 100,
+      fiveStars: 123,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1150,
+      mapsViews: 3020,
+      websiteClicks: 145,
+      directionRequests: 92,
+      callClicks: 39,
+      recentReviews: [
+        { author: 'Suresh Meena', rating: 5, text: 'UrbanGaon is creating a real ground impact. 5/5 stars!', time: '2026-07-22', relativeTime: '2 weeks ago', reply: 'Thank you Suresh Ji for trusting UrbanGaon!' },
+        { author: 'Kavita Singh', rating: 5, text: 'Very cooperative team and fast response.', time: '2026-07-21', relativeTime: '2 weeks ago' },
+      ],
+    },
   },
   {
     weekId: '2026-07-27',
@@ -265,6 +413,25 @@ export const SEED_WEEKS: WeekEntry[] = [
       visits: 0,
       follows: 0,
     },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 143,
+      newReviews: 4,
+      responseRate: 100,
+      fiveStars: 127,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1080,
+      mapsViews: 2890,
+      websiteClicks: 138,
+      directionRequests: 84,
+      callClicks: 35,
+      recentReviews: [
+        { author: 'Manish Joshi', rating: 5, text: 'Best service provider in the region. Always responsive.', time: '2026-07-29', relativeTime: '1 week ago' },
+      ],
+    },
   },
   {
     weekId: '2026-08-03',
@@ -294,6 +461,26 @@ export const SEED_WEEKS: WeekEntry[] = [
       linkClicks: 0,
       visits: 0,
       follows: 0,
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 148,
+      newReviews: 5,
+      responseRate: 100,
+      fiveStars: 132,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: [
+        { author: 'Vikram Chouhan', rating: 5, text: 'Amazing initiative and excellent customer satisfaction. Keep it up UrbanGaon!', time: '2026-08-05', relativeTime: '3 days ago', reply: 'Thank you Vikram! We are committed to excellence.' },
+        { author: 'Deepak Roy', rating: 5, text: 'Top quality work and transparency throughout.', time: '2026-08-04', relativeTime: '4 days ago' },
+      ],
     },
   },
 ];

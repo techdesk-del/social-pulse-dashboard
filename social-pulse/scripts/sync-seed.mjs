@@ -31,6 +31,26 @@ const SEED_DATA = [
       linkClicks: 0,
       visits: 17,
       follows: 8
+    },
+    google: {
+      averageRating: 4.8,
+      totalReviews: 124,
+      newReviews: 4,
+      responseRate: 100,
+      fiveStars: 108,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 840,
+      mapsViews: 2150,
+      websiteClicks: 112,
+      directionRequests: 64,
+      callClicks: 28,
+      recentReviews: [
+        { author: 'Rahul Sharma', rating: 5, text: 'Exceptional service and authentic rural experience with UrbanGaon!', time: '2026-07-08', relativeTime: 'a month ago', reply: 'Thank you Rahul for your valuable feedback!' },
+        { author: 'Pooja Verma', rating: 5, text: 'Great team and wonderful support.', time: '2026-07-07', relativeTime: 'a month ago' }
+      ]
     }
   },
   {
@@ -61,6 +81,26 @@ const SEED_DATA = [
       linkClicks: 0,
       visits: 12,
       follows: 11
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 131,
+      newReviews: 7,
+      responseRate: 100,
+      fiveStars: 115,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 920,
+      mapsViews: 2480,
+      websiteClicks: 128,
+      directionRequests: 79,
+      callClicks: 32,
+      recentReviews: [
+        { author: 'Ankit Patel', rating: 5, text: 'Very genuine platform and top tier customer experience.', time: '2026-07-15', relativeTime: '3 weeks ago', reply: 'We are delighted to have served you, Ankit!' },
+        { author: 'Neha Gupta', rating: 5, text: 'Highly recommended for authentic rural initiatives.', time: '2026-07-14', relativeTime: '3 weeks ago' }
+      ]
     }
   },
   {
@@ -91,6 +131,26 @@ const SEED_DATA = [
       linkClicks: 0,
       visits: 13,
       follows: 40
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 139,
+      newReviews: 8,
+      responseRate: 100,
+      fiveStars: 123,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1150,
+      mapsViews: 3020,
+      websiteClicks: 145,
+      directionRequests: 92,
+      callClicks: 39,
+      recentReviews: [
+        { author: 'Suresh Meena', rating: 5, text: 'UrbanGaon is creating a real ground impact. 5/5 stars!', time: '2026-07-22', relativeTime: '2 weeks ago', reply: 'Thank you Suresh Ji for trusting UrbanGaon!' },
+        { author: 'Kavita Singh', rating: 5, text: 'Very cooperative team and fast response.', time: '2026-07-21', relativeTime: '2 weeks ago' }
+      ]
     }
   },
   {
@@ -121,6 +181,25 @@ const SEED_DATA = [
       linkClicks: 0,
       visits: 0,
       follows: 0
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 143,
+      newReviews: 4,
+      responseRate: 100,
+      fiveStars: 127,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1080,
+      mapsViews: 2890,
+      websiteClicks: 138,
+      directionRequests: 84,
+      callClicks: 35,
+      recentReviews: [
+        { author: 'Manish Joshi', rating: 5, text: 'Best service provider in the region. Always responsive.', time: '2026-07-29', relativeTime: '1 week ago' }
+      ]
     }
   },
   {
@@ -151,6 +230,26 @@ const SEED_DATA = [
       linkClicks: 0,
       visits: 0,
       follows: 0
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 148,
+      newReviews: 5,
+      responseRate: 100,
+      fiveStars: 132,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: [
+        { author: 'Vikram Chouhan', rating: 5, text: 'Amazing initiative and excellent customer satisfaction. Keep it up UrbanGaon!', time: '2026-08-05', relativeTime: '3 days ago', reply: 'Thank you Vikram! We are committed to excellence.' },
+        { author: 'Deepak Roy', rating: 5, text: 'Top quality work and transparency throughout.', time: '2026-08-04', relativeTime: '4 days ago' }
+      ]
     }
   }
 ];
@@ -164,7 +263,7 @@ async function sync() {
   // Replace all documents with exact seed data
   await collection.deleteMany({});
   await collection.insertMany(SEED_DATA);
-  console.log('Successfully synced MongoDB with the 5 exact JSON weeks!');
+  console.log('Successfully synced MongoDB with the 5 exact JSON weeks including Google Reviews & Ratings!');
   const all = await collection.find({}).toArray();
   console.log('Current DB weeks:', all.map(w => w.weekId));
   await mongoose.disconnect();

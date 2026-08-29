@@ -3,16 +3,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/AuthContext';
-import { emptyLinkedIn, emptyInstagram, emptyFacebook, SEED_WEEKS } from '../lib/constants';
+import { emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews, SEED_WEEKS } from '../lib/constants';
 import { exportPDF } from '../lib/exportPdf';
 import { normalizeImportedWeeks, mergeWeekEntries, parseWeekRange } from '../lib/utils';
-import type { WeekEntry, TabId, PlatformKey, AppState, LinkedInData, InstagramData, FacebookData } from '../lib/types';
+import type { WeekEntry, TabId, PlatformKey, AppState, LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from '../lib/types';
 
 import Header from '../components/Header';
 import PulseBar from '../components/PulseBar';
 import Tabs, { TAB_DEFS } from '../components/Tabs';
 import OverviewTab from '../components/OverviewTab';
 import PlatformTab from '../components/PlatformTab';
+import GoogleReviewsTab from '../components/GoogleReviewsTab';
 import CompareTab from '../components/CompareTab';
 import DataModal from '../components/DataModal';
 
@@ -22,12 +23,13 @@ const INITIAL_STATE: Omit<AppState, 'weeks'> = {
   activeIndex: 0,
   tab: 'overview',
   compareTab: 'linkedin',
-  chartMetric: { linkedin: 'impressions', instagram: 'views', facebook: 'views' },
+  chartMetric: { linkedin: 'impressions', instagram: 'views', facebook: 'views', google: 'totalReviews' },
   formOpen: false,
   formWeekId: null,
   formSection: 'linkedin',
   _newWeekDate: null,
 };
+
 
 function saveToLocalStorage(data: WeekEntry[]) {
   try {
@@ -179,13 +181,14 @@ export default function DashboardPage() {
   const saveWeek = useCallback(
     async (
       weekId: string,
-      data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData }
+      data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData; google: GoogleReviewsData }
     ) => {
       const entry: WeekEntry = {
         weekId,
         linkedin: { ...emptyLinkedIn(), ...data.linkedin },
         instagram: { ...emptyInstagram(), ...data.instagram },
         facebook: { ...emptyFacebook(), ...data.facebook },
+        google: { ...emptyGoogleReviews(), ...data.google },
       };
 
       // 1. Update state and localStorage immediately
@@ -217,6 +220,50 @@ export default function DashboardPage() {
     },
     [weeks]
   );
+
+  // ── Real-Time Google Live Sync ──
+  const handleLiveGoogleSync = useCallback(async () => {
+    try {
+      const res = await fetch('/api/google-reviews/live?sync=true');
+      const json = await res.json();
+      if (json.ok && json.data) {
+        const live = json.data;
+        // Update active week or latest week with live reviews
+        setWeeks((prev) => {
+          if (prev.length === 0) return prev;
+          const lastIdx = prev.length - 1;
+          const updated = [...prev];
+          const currentGoogle = updated[lastIdx].google || emptyGoogleReviews();
+          updated[lastIdx] = {
+            ...updated[lastIdx],
+            google: {
+              ...currentGoogle,
+              averageRating: live.rating ?? currentGoogle.averageRating,
+              totalReviews: live.totalReviews ?? currentGoogle.totalReviews,
+              newReviews: live.newReviewsThisWeek ?? currentGoogle.newReviews,
+              responseRate: live.responseRate ?? currentGoogle.responseRate,
+              fiveStars: live.fiveStars ?? currentGoogle.fiveStars,
+              fourStars: live.fourStars ?? currentGoogle.fourStars,
+              threeStars: live.threeStars ?? currentGoogle.threeStars,
+              twoStars: live.twoStars ?? currentGoogle.twoStars,
+              oneStar: live.oneStar ?? currentGoogle.oneStar,
+              searchViews: live.searchViews ?? currentGoogle.searchViews,
+              mapsViews: live.mapsViews ?? currentGoogle.mapsViews,
+              websiteClicks: live.websiteClicks ?? currentGoogle.websiteClicks,
+              directionRequests: live.directionRequests ?? currentGoogle.directionRequests,
+              callClicks: live.callClicks ?? currentGoogle.callClicks,
+              recentReviews: live.recentReviews ?? currentGoogle.recentReviews,
+            },
+          };
+          saveToLocalStorage(updated);
+          return updated;
+        });
+      }
+    } catch (err) {
+      console.warn('Live Google sync note:', err);
+    }
+  }, []);
+
 
   // ── Delete Week: Permanently removes from state, localStorage & MongoDB ──
   const deleteWeek = useCallback(
@@ -403,6 +450,15 @@ export default function DashboardPage() {
                 onMetricChange={(metric) => setChartMetric(state.tab as PlatformKey, metric)}
               />
             )}
+            {state.tab === 'google' && (
+              <GoogleReviewsTab
+                weeks={weeks}
+                activeIndex={activeIndex}
+                chartMetric={state.chartMetric.google || 'totalReviews'}
+                onMetricChange={(metric) => setChartMetric('google', metric)}
+                onLiveSync={handleLiveGoogleSync}
+              />
+            )}
             {state.tab === 'compare' && (
               <CompareTab
                 weeks={weeks}
@@ -413,6 +469,7 @@ export default function DashboardPage() {
           </div>
         </>
       )}
+
 
       <div className="footnote">
         All changes are <b>automatically saved</b> in your browser and synced with the cloud database.

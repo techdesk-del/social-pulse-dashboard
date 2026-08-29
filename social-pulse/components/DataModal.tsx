@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { PLATFORMS, emptyLinkedIn, emptyInstagram, emptyFacebook } from '../lib/constants';
+import { PLATFORMS, emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews } from '../lib/constants';
 import { formatWeekLabel, parseWeekRange, nextMonday, num } from '../lib/utils';
-import type { WeekEntry, PlatformKey, LinkedInData, InstagramData, FacebookData } from '../lib/types';
+import type { WeekEntry, PlatformKey, LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from '../lib/types';
 
 interface Props {
   weeks: WeekEntry[];
@@ -14,11 +14,11 @@ interface Props {
   onSelectFormWeek: (val: string) => void;
   onSetFormWeekDate: (val: string) => void;
   onToggleSection: (id: string) => void;
-  onSave: (weekId: string, data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData }) => void;
+  onSave: (weekId: string, data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData; google: GoogleReviewsData }) => void;
   onDelete?: (weekId: string) => void;
 }
 
-type FormPlatformState = Record<string, number | string>;
+type FormPlatformState = Record<string, unknown>;
 
 // Top-level components (outside DataModal) to ensure React never unmounts/re-mounts inputs during keystrokes
 function SectionFields({
@@ -68,8 +68,9 @@ function SectionFields({
                     className="field-input"
                     type="number"
                     min="0"
+                    step={f.key === 'averageRating' ? '0.1' : '1'}
                     placeholder="0"
-                    value={values[f.key] !== undefined ? values[f.key] : ''}
+                    value={values[f.key] !== undefined && values[f.key] !== null ? String(values[f.key]) : ''}
                     onFocus={(e) => e.target.select()}
                     onChange={(e) => onChangeField(platformKey, f.key, e.target.value)}
                   />
@@ -90,8 +91,9 @@ function SectionFields({
             className="field-input"
             type="number"
             min="0"
+            step={f.key === 'averageRating' ? '0.1' : '1'}
             placeholder="0"
-            value={values[f.key] !== undefined ? values[f.key] : ''}
+            value={values[f.key] !== undefined && values[f.key] !== null ? String(values[f.key]) : ''}
             onFocus={(e) => e.target.select()}
             onChange={(e) => onChangeField(platformKey, f.key, e.target.value)}
           />
@@ -99,6 +101,7 @@ function SectionFields({
       ))}
     </>
   );
+
 }
 
 function Section({
@@ -168,6 +171,9 @@ export default function DataModal({
   const [facebook, setFacebook] = useState<FormPlatformState>(() => ({
     ...(targetWeek?.facebook ?? emptyFacebook()),
   }));
+  const [google, setGoogle] = useState<FormPlatformState>(() => ({
+    ...(targetWeek?.google ?? emptyGoogleReviews()),
+  }));
 
   // Track the weekId loaded so we ONLY re-populate when user explicitly changes dropdown week
   const loadedWeekIdRef = useRef<string | null>(formWeekId);
@@ -185,6 +191,7 @@ export default function DataModal({
       setLinkedin({ ...(tw?.linkedin ?? emptyLinkedIn()) });
       setInstagram({ ...(tw?.instagram ?? emptyInstagram()) });
       setFacebook({ ...(tw?.facebook ?? emptyFacebook()) });
+      setGoogle({ ...(tw?.google ?? emptyGoogleReviews()) });
     }
   }, [formWeekId, proposedDate, weeks]);
 
@@ -196,13 +203,17 @@ export default function DataModal({
       setInstagram((prev) => ({ ...prev, [fieldKey]: val }));
     } else if (platform === 'facebook') {
       setFacebook((prev) => ({ ...prev, [fieldKey]: val }));
+    } else if (platform === 'google') {
+      setGoogle((prev) => ({ ...prev, [fieldKey]: val }));
     }
   }, []);
 
   function sanitizePlatformData<T>(obj: FormPlatformState): T {
     const clean: Record<string, number> = {};
     for (const k in obj) {
-      clean[k] = num(obj[k]);
+      if (k !== 'recentReviews') {
+        clean[k] = num(obj[k]);
+      }
     }
     return clean as unknown as T;
   }
@@ -229,8 +240,10 @@ export default function DataModal({
       linkedin: sanitizePlatformData<LinkedInData>(linkedin),
       instagram: sanitizePlatformData<InstagramData>(instagram),
       facebook: sanitizePlatformData<FacebookData>(facebook),
+      google: sanitizePlatformData<GoogleReviewsData>(google),
     });
   }
+
 
   function handleDelete(e?: React.MouseEvent) {
     if (e) {
@@ -408,6 +421,15 @@ export default function DataModal({
           onToggle={onToggleSection}
           onChangeField={handleFieldChange}
         />
+        <Section
+          id="google"
+          label="Google Reviews & Business Profile"
+          accent={PLATFORMS.google.accent}
+          values={google}
+          isOpen={formSection === 'google'}
+          onToggle={onToggleSection}
+          onChangeField={handleFieldChange}
+        />
 
         <div className="modal-actions">
           <button type="button" className="save-btn" onClick={handleSave} id="btn-save-week">
@@ -417,6 +439,7 @@ export default function DataModal({
             Cancel
           </button>
         </div>
+
       </div>
     </div>
   );
