@@ -252,6 +252,106 @@ const SEED_DATA = [
         { author: 'Deepak Roy', rating: 5, text: 'Top quality work and transparency throughout.', time: '2026-08-04', relativeTime: '4 days ago' }
       ]
     }
+  },
+  {
+    weekId: "2026-08-10",
+    linkedin: {
+      impressions: 1050,
+      reactions: 112,
+      comments: 5,
+      reposts: 2,
+      pageViews: 98,
+      uniqueVisitors: 41,
+      totalFollowers: 72,
+      newFollowers: 9,
+      searchAppearances: 145
+    },
+    instagram: {
+      views: 1120,
+      reach: 380,
+      contentInteractions: 58,
+      linkClicks: 8,
+      visits: 94,
+      follows: 38
+    },
+    facebook: {
+      views: 195,
+      viewers: 115,
+      contentInteractions: 16,
+      linkClicks: 5,
+      visits: 31,
+      follows: 22
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 154,
+      newReviews: 6,
+      responseRate: 100,
+      fiveStars: 138,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1380,
+      mapsViews: 3450,
+      websiteClicks: 172,
+      directionRequests: 108,
+      callClicks: 48,
+      recentReviews: [
+        { author: 'Aman Pareek', rating: 5, text: 'Great concept bringing rural culture closer. Very transparent.', time: '2026-08-12', relativeTime: '2 weeks ago', reply: 'Thank you Aman for your encouraging support!' },
+        { author: 'Sunita Meena', rating: 5, text: 'Clean execution and helpful team.', time: '2026-08-11', relativeTime: '2 weeks ago' }
+      ]
+    }
+  },
+  {
+    weekId: "2026-08-17",
+    linkedin: {
+      impressions: 1240,
+      reactions: 134,
+      comments: 7,
+      reposts: 3,
+      pageViews: 115,
+      uniqueVisitors: 52,
+      totalFollowers: 84,
+      newFollowers: 12,
+      searchAppearances: 168
+    },
+    instagram: {
+      views: 1380,
+      reach: 465,
+      contentInteractions: 72,
+      linkClicks: 12,
+      visits: 118,
+      follows: 46
+    },
+    facebook: {
+      views: 230,
+      viewers: 138,
+      contentInteractions: 21,
+      linkClicks: 7,
+      visits: 42,
+      follows: 29
+    },
+    google: {
+      averageRating: 4.9,
+      totalReviews: 161,
+      newReviews: 7,
+      responseRate: 100,
+      fiveStars: 145,
+      fourStars: 12,
+      threeStars: 3,
+      twoStars: 1,
+      oneStar: 0,
+      searchViews: 1520,
+      mapsViews: 3780,
+      websiteClicks: 194,
+      directionRequests: 124,
+      callClicks: 56,
+      recentReviews: [
+        { author: 'Rameshwar Choudhary', rating: 5, text: 'Very impressive experience with UrbanGaon rural programs.', time: '2026-08-19', relativeTime: '1 week ago', reply: 'Thank you Rameshwar Ji!' },
+        { author: 'Divya Agarwal', rating: 5, text: 'Super supportive team and prompt responses.', time: '2026-08-18', relativeTime: '1 week ago' }
+      ]
+    }
   }
 ];
 
