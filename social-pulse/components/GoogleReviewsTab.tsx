@@ -55,16 +55,16 @@ export default function GoogleReviewsTab({
   const lineData = upTo.map((w) => num((w.google as unknown as Record<string, number>)?.[currentMetricKey]));
   const metricLabel = cfg.metrics.find((m) => m.key === currentMetricKey)?.label ?? currentMetricKey;
 
-  const avgRating = curr.averageRating ? Number(curr.averageRating).toFixed(1) : '4.9';
-  const totalReviews = num(curr.totalReviews) || 148;
-  const newReviews = num(curr.newReviews) || 5;
+  const avgRating = curr.averageRating ? Number(curr.averageRating).toFixed(1) : '4.7';
+  const totalReviews = num(curr.totalReviews) || 10;
+  const newReviews = num(curr.newReviews) || 1;
   const responseRate = num(curr.responseRate) || 100;
 
   // Star breakdown
-  const s5 = num(curr.fiveStars) || Math.round(totalReviews * 0.89);
-  const s4 = num(curr.fourStars) || Math.round(totalReviews * 0.08);
-  const s3 = num(curr.threeStars) || Math.round(totalReviews * 0.02);
-  const s2 = num(curr.twoStars) || Math.round(totalReviews * 0.007);
+  const s5 = num(curr.fiveStars) || 8;
+  const s4 = num(curr.fourStars) || 2;
+  const s3 = num(curr.threeStars) || 0;
+  const s2 = num(curr.twoStars) || 0;
   const s1 = num(curr.oneStar) || 0;
   const totalStarsCount = Math.max(1, s5 + s4 + s3 + s2 + s1);
 
@@ -82,27 +82,39 @@ export default function GoogleReviewsTab({
       ? weeks[activeIndex].google.recentReviews!
       : [
           {
-            author: 'Vikram Chouhan',
+            author: 'Tilkesh Soni',
             rating: 5,
-            text: 'Amazing initiative and excellent customer satisfaction. Keep it up UrbanGaon!',
-            time: '2026-08-05',
-            relativeTime: '3 days ago',
-            reply: 'Thank you Vikram! We are committed to excellence.',
+            text: 'Best experience ever!',
+            time: '2026-07-06',
+            relativeTime: '2 months ago',
           },
           {
-            author: 'Deepak Roy',
+            author: 'Alok Rai',
             rating: 5,
-            text: 'Top quality work, high transparency, and prompt team response throughout.',
-            time: '2026-08-04',
-            relativeTime: '4 days ago',
+            text: 'One of the best company where i visited,, ultimate services ☺️',
+            time: '2025-02-08',
+            relativeTime: 'a year ago',
           },
           {
-            author: 'Ananya Sharma',
+            author: 'Chetan Yadav',
             rating: 5,
-            text: 'Superb initiative connecting modern facilities with authentic rural roots.',
-            time: '2026-08-02',
-            relativeTime: '6 days ago',
-            reply: 'Thank you Ananya for your kind words and trust in UrbanGaon!',
+            text: 'Genuinely best for consultation and construction',
+            time: '2023-02-26',
+            relativeTime: '3 years ago',
+          },
+          {
+            author: 'Chandra Sharma',
+            rating: 5,
+            text: 'Beautiful Palace',
+            time: '2024-10-22',
+            relativeTime: 'a year ago',
+          },
+          {
+            author: 'CHIKU BAIRWAL',
+            rating: 4,
+            text: 'Best in the town',
+            time: '2023-10-31',
+            relativeTime: '2 years ago',
           },
         ];
 

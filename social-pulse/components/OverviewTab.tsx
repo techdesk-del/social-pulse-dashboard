@@ -57,8 +57,8 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
   const reachColors = [COLORS.li, COLORS.ig, COLORS.fb, COLORS.goog];
   const reachVals = [num(curr.linkedin.impressions), num(curr.instagram.reach), num(curr.facebook.viewers), googleDiscovery || 100];
 
-  const avgRating = curr.google?.averageRating ? Number(curr.google.averageRating).toFixed(1) : '4.9';
-  const totalReviews = num(curr.google?.totalReviews) || 148;
+  const avgRating = curr.google?.averageRating ? Number(curr.google.averageRating).toFixed(1) : '4.7';
+  const totalReviews = num(curr.google?.totalReviews) || 10;
 
   return (
     <>

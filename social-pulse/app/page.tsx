@@ -17,7 +17,7 @@ import GoogleReviewsTab from '../components/GoogleReviewsTab';
 import CompareTab from '../components/CompareTab';
 import DataModal from '../components/DataModal';
 
-const STORAGE_KEY = 'social_pulse_weeks_store_v4';
+const STORAGE_KEY = 'social_pulse_weeks_store_v6';
 
 const INITIAL_STATE: Omit<AppState, 'weeks'> = {
   activeIndex: 0,
@@ -37,6 +37,7 @@ function saveToLocalStorage(data: WeekEntry[]) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       localStorage.removeItem('social_pulse_weeks_store_v2');
       localStorage.removeItem('social_pulse_weeks_store_v3');
+      localStorage.removeItem('social_pulse_weeks_store_v4');
       localStorage.removeItem('social-pulse-weeks-v3');
     }
   } catch (err) {
@@ -49,6 +50,7 @@ function loadFromLocalStorage(): WeekEntry[] | null {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('social_pulse_weeks_store_v2');
       localStorage.removeItem('social_pulse_weeks_store_v3');
+      localStorage.removeItem('social_pulse_weeks_store_v4');
       localStorage.removeItem('social-pulse-weeks-v3');
 
       const item = localStorage.getItem(STORAGE_KEY);
@@ -85,6 +87,48 @@ export default function DashboardPage() {
     }
   }, [session, authLoading, router]);
 
+  // ── Real-Time Google Live Sync ──
+  const handleLiveGoogleSync = useCallback(async () => {
+    try {
+      const res = await fetch('/api/google-reviews/live?sync=true');
+      const json = await res.json();
+      if (json.ok && json.data) {
+        const live = json.data;
+        setWeeks((prev) => {
+          if (prev.length === 0) return prev;
+          const updated = prev.map((w, idx) => {
+            const currentGoogle = w.google || emptyGoogleReviews();
+            return {
+              ...w,
+              google: {
+                ...currentGoogle,
+                averageRating: live.rating ?? currentGoogle.averageRating,
+                totalReviews: live.totalReviews ?? currentGoogle.totalReviews,
+                newReviews: live.newReviewsThisWeek ?? currentGoogle.newReviews,
+                responseRate: live.responseRate ?? currentGoogle.responseRate,
+                fiveStars: live.fiveStars ?? currentGoogle.fiveStars,
+                fourStars: live.fourStars ?? currentGoogle.fourStars,
+                threeStars: live.threeStars ?? currentGoogle.threeStars,
+                twoStars: live.twoStars ?? currentGoogle.twoStars,
+                oneStar: live.oneStar ?? currentGoogle.oneStar,
+                searchViews: live.searchViews ?? currentGoogle.searchViews,
+                mapsViews: live.mapsViews ?? currentGoogle.mapsViews,
+                websiteClicks: live.websiteClicks ?? currentGoogle.websiteClicks,
+                directionRequests: live.directionRequests ?? currentGoogle.directionRequests,
+                callClicks: live.callClicks ?? currentGoogle.callClicks,
+                recentReviews: live.recentReviews && live.recentReviews.length > 0 ? live.recentReviews : currentGoogle.recentReviews,
+              },
+            };
+          });
+          saveToLocalStorage(updated);
+          return updated;
+        });
+      }
+    } catch (err) {
+      console.warn('Live Google sync note:', err);
+    }
+  }, []);
+
   // Sync function to pull latest live database entries
   const syncWithDatabase = useCallback(async () => {
     try {
@@ -94,12 +138,13 @@ export default function DashboardPage() {
         setWeeks(data.weeks);
         saveToLocalStorage(data.weeks);
       }
+      await handleLiveGoogleSync();
     } catch (err) {
       console.warn('Database sync note:', err);
     }
-  }, []);
+  }, [handleLiveGoogleSync]);
 
-  // Initialize data on mount: show local cache immediately, then sync with live MongoDB
+  // Initialize data on mount: show local cache immediately, then sync with live MongoDB & Google
   useEffect(() => {
     const local = loadFromLocalStorage();
     if (local !== null && local.length > 0) {
@@ -111,26 +156,10 @@ export default function DashboardPage() {
       setIsReady(true);
     }
 
-    // Always fetch latest live weeks from MongoDB
-    fetch('/api/weeks')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok && Array.isArray(data.weeks) && data.weeks.length > 0) {
-          setWeeks(data.weeks);
-          saveToLocalStorage(data.weeks);
-        } else {
-          setWeeks(SEED_WEEKS);
-          saveToLocalStorage(SEED_WEEKS);
-        }
-      })
-      .catch((err) => {
-        console.warn('Database sync note:', err);
-        setWeeks(SEED_WEEKS);
-        saveToLocalStorage(SEED_WEEKS);
-      })
-      .finally(() => {
-        setIsReady(true);
-      });
+    // Always fetch latest live weeks from MongoDB and live Google Places API
+    syncWithDatabase().finally(() => {
+      setIsReady(true);
+    });
 
     // Automatically re-sync whenever user focuses or returns to the dashboard tab
     const handleFocus = () => syncWithDatabase();
@@ -221,48 +250,7 @@ export default function DashboardPage() {
     [weeks]
   );
 
-  // ── Real-Time Google Live Sync ──
-  const handleLiveGoogleSync = useCallback(async () => {
-    try {
-      const res = await fetch('/api/google-reviews/live?sync=true');
-      const json = await res.json();
-      if (json.ok && json.data) {
-        const live = json.data;
-        // Update active week or latest week with live reviews
-        setWeeks((prev) => {
-          if (prev.length === 0) return prev;
-          const lastIdx = prev.length - 1;
-          const updated = [...prev];
-          const currentGoogle = updated[lastIdx].google || emptyGoogleReviews();
-          updated[lastIdx] = {
-            ...updated[lastIdx],
-            google: {
-              ...currentGoogle,
-              averageRating: live.rating ?? currentGoogle.averageRating,
-              totalReviews: live.totalReviews ?? currentGoogle.totalReviews,
-              newReviews: live.newReviewsThisWeek ?? currentGoogle.newReviews,
-              responseRate: live.responseRate ?? currentGoogle.responseRate,
-              fiveStars: live.fiveStars ?? currentGoogle.fiveStars,
-              fourStars: live.fourStars ?? currentGoogle.fourStars,
-              threeStars: live.threeStars ?? currentGoogle.threeStars,
-              twoStars: live.twoStars ?? currentGoogle.twoStars,
-              oneStar: live.oneStar ?? currentGoogle.oneStar,
-              searchViews: live.searchViews ?? currentGoogle.searchViews,
-              mapsViews: live.mapsViews ?? currentGoogle.mapsViews,
-              websiteClicks: live.websiteClicks ?? currentGoogle.websiteClicks,
-              directionRequests: live.directionRequests ?? currentGoogle.directionRequests,
-              callClicks: live.callClicks ?? currentGoogle.callClicks,
-              recentReviews: live.recentReviews ?? currentGoogle.recentReviews,
-            },
-          };
-          saveToLocalStorage(updated);
-          return updated;
-        });
-      }
-    } catch (err) {
-      console.warn('Live Google sync note:', err);
-    }
-  }, []);
+
 
 
   // ── Delete Week: Permanently removes from state, localStorage & MongoDB ──

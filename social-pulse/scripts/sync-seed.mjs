@@ -84,7 +84,7 @@ const SEED_DATA = [
       follows: 11
     },
     google: {
-      averageRating: 4.9,
+      averageRating: 4.7,
       totalReviews: 131,
       newReviews: 7,
       responseRate: 100,
@@ -134,7 +134,7 @@ const SEED_DATA = [
       follows: 40
     },
     google: {
-      averageRating: 4.9,
+      averageRating: 4.7,
       totalReviews: 139,
       newReviews: 8,
       responseRate: 100,
@@ -184,7 +184,7 @@ const SEED_DATA = [
       follows: 15
     },
     google: {
-      averageRating: 4.9,
+      averageRating: 4.7,
       totalReviews: 143,
       newReviews: 4,
       responseRate: 100,
@@ -233,7 +233,7 @@ const SEED_DATA = [
       follows: 18
     },
     google: {
-      averageRating: 4.9,
+      averageRating: 4.7,
       totalReviews: 148,
       newReviews: 5,
       responseRate: 100,
@@ -283,7 +283,7 @@ const SEED_DATA = [
       follows: 22
     },
     google: {
-      averageRating: 4.9,
+      averageRating: 4.7,
       totalReviews: 154,
       newReviews: 6,
       responseRate: 100,
@@ -333,7 +333,7 @@ const SEED_DATA = [
       follows: 29
     },
     google: {
-      averageRating: 4.9,
+      averageRating: 4.7,
       totalReviews: 161,
       newReviews: 7,
       responseRate: 100,

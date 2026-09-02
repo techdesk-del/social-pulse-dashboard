@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../lib/db/mongodb';
 import WeekEntry from '../../../lib/db/models/WeekEntry';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     try {

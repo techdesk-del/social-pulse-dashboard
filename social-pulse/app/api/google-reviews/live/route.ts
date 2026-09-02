@@ -3,6 +3,8 @@ import { connectToDatabase } from '../../../../lib/db/mongodb';
 import WeekEntry from '../../../../lib/db/models/WeekEntry';
 import type { GoogleReviewItem } from '../../../../lib/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -13,47 +15,61 @@ export async function GET(req: Request) {
 
     let liveData = {
       name: 'UrbanGaon',
-      rating: 4.9,
-      totalReviews: 148,
-      newReviewsThisWeek: 5,
+      rating: 4.7,
+      totalReviews: 10,
+      newReviewsThisWeek: 1,
       responseRate: 100,
-      fiveStars: 132,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 8,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
       searchViews: 1240,
       mapsViews: 3120,
       websiteClicks: 156,
       directionRequests: 98,
       callClicks: 42,
-      googleMapsUrl: 'https://maps.google.com/?q=UrbanGaon',
+      googleMapsUrl: 'https://maps.google.com/?cid=14105892543152230285',
       recentReviews: [
         {
-          id: 'gr-1',
-          author: 'Vikram Chouhan',
+          id: 'gr-live-1',
+          author: 'Tilkesh Soni',
           rating: 5,
-          text: 'Amazing initiative and excellent customer satisfaction. Keep it up UrbanGaon!',
-          time: new Date(Date.now() - 2 * 86400000).toISOString(),
-          relativeTime: '2 days ago',
-          reply: 'Thank you Vikram! We are committed to excellence.',
+          text: 'Best experience ever!',
+          time: new Date(1782881270 * 1000).toISOString(),
+          relativeTime: '2 months ago',
         },
         {
-          id: 'gr-2',
-          author: 'Deepak Roy',
+          id: 'gr-live-2',
+          author: 'Alok Rai',
           rating: 5,
-          text: 'Top quality work, high transparency, and prompt team response throughout.',
-          time: new Date(Date.now() - 4 * 86400000).toISOString(),
-          relativeTime: '4 days ago',
+          text: 'One of the best company where i visited,, ultimate services ☺️',
+          time: new Date(1738943973 * 1000).toISOString(),
+          relativeTime: 'a year ago',
         },
         {
-          id: 'gr-3',
-          author: 'Ananya Sharma',
+          id: 'gr-live-3',
+          author: 'Chetan Yadav',
           rating: 5,
-          text: 'Superb initiative connecting modern facilities with authentic rural roots.',
-          time: new Date(Date.now() - 6 * 86400000).toISOString(),
-          relativeTime: '6 days ago',
-          reply: 'Thank you Ananya for your kind words and trust!',
+          text: 'Genuinely best for consultation and construction',
+          time: new Date(1677436526 * 1000).toISOString(),
+          relativeTime: '3 years ago',
+        },
+        {
+          id: 'gr-live-4',
+          author: 'Chandra Sharma',
+          rating: 5,
+          text: 'Beautiful Palace',
+          time: new Date(1729585921 * 1000).toISOString(),
+          relativeTime: 'a year ago',
+        },
+        {
+          id: 'gr-live-5',
+          author: 'CHIKU BAIRWAL',
+          rating: 4,
+          text: 'Best in the town',
+          time: new Date(1698720292 * 1000).toISOString(),
+          relativeTime: '2 years ago',
         },
       ] as GoogleReviewItem[],
       isLiveApi: false,
@@ -64,7 +80,7 @@ export async function GET(req: Request) {
     if (apiKey && placeId) {
       try {
         const googleUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,user_ratings_total,reviews,url&key=${apiKey}`;
-        const gRes = await fetch(googleUrl, { next: { revalidate: 300 } });
+        const gRes = await fetch(googleUrl, { cache: 'no-store' });
         const gJson = await gRes.json();
 
         if (gJson.status === 'OK' && gJson.result) {
