@@ -17,7 +17,7 @@ import GoogleReviewsTab from '../components/GoogleReviewsTab';
 import CompareTab from '../components/CompareTab';
 import DataModal from '../components/DataModal';
 
-const STORAGE_KEY = 'social_pulse_weeks_store_v6';
+const STORAGE_KEY = 'social_pulse_weeks_store_v7';
 
 const INITIAL_STATE: Omit<AppState, 'weeks'> = {
   activeIndex: 0,
@@ -38,6 +38,7 @@ function saveToLocalStorage(data: WeekEntry[]) {
       localStorage.removeItem('social_pulse_weeks_store_v2');
       localStorage.removeItem('social_pulse_weeks_store_v3');
       localStorage.removeItem('social_pulse_weeks_store_v4');
+      localStorage.removeItem('social_pulse_weeks_store_v6');
       localStorage.removeItem('social-pulse-weeks-v3');
     }
   } catch (err) {
@@ -51,6 +52,7 @@ function loadFromLocalStorage(): WeekEntry[] | null {
       localStorage.removeItem('social_pulse_weeks_store_v2');
       localStorage.removeItem('social_pulse_weeks_store_v3');
       localStorage.removeItem('social_pulse_weeks_store_v4');
+      localStorage.removeItem('social_pulse_weeks_store_v6');
       localStorage.removeItem('social-pulse-weeks-v3');
 
       const item = localStorage.getItem(STORAGE_KEY);

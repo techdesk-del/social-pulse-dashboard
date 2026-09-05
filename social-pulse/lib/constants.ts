@@ -1,4 +1,4 @@
-import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData, PlatformConfig, WeekEntry } from './types';
+import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData, GoogleReviewItem, PlatformConfig, WeekEntry } from './types';
 
 export const COLORS = {
   bg: '#DDEBF8',
@@ -213,13 +213,96 @@ export function emptyFacebook(): FacebookData {
   };
 }
 
+export const DEFAULT_GOOGLE_REVIEWS: GoogleReviewItem[] = [
+  {
+    id: 'gr-live-0',
+    author: 'Tech Desk',
+    authorUrl: 'https://www.google.com/maps/contrib/114979148003606992683/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a-/ALV-UjVj7B1Yx4tS3fU1h8GvX1a1C4-o=s128-c0x00000000-cc-rp-mo',
+    rating: 5,
+    text: '',
+    time: '2026-08-30T09:00:00.000Z',
+    relativeTime: 'in the last week',
+  },
+  {
+    id: 'gr-live-1',
+    author: 'Sandeep Parmar',
+    authorUrl: 'https://www.google.com/maps/contrib/108342416962295627685/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a-/ALV-UjV6z1Y8=s128-c0x00000000-cc-rp-mo',
+    rating: 5,
+    text: '',
+    time: '2026-08-05T12:00:00.000Z',
+    relativeTime: 'a month ago',
+  },
+  {
+    id: 'gr-live-2',
+    author: 'Tilkesh Soni',
+    authorUrl: 'https://www.google.com/maps/contrib/102196620152844809641/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo',
+    rating: 5,
+    text: 'Best experience ever!',
+    time: '2026-07-01T04:47:50.000Z',
+    relativeTime: '2 months ago',
+  },
+  {
+    id: 'gr-live-3',
+    author: 'Interior Walas',
+    authorUrl: 'https://www.google.com/maps/contrib/104347712398457291124/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a/ACg8ocL=s128-c0x00000000-cc-rp-mo',
+    rating: 5,
+    text: '',
+    time: '2026-01-05T10:00:00.000Z',
+    relativeTime: '8 months ago',
+  },
+  {
+    id: 'gr-live-4',
+    author: 'Alok Rai',
+    authorUrl: 'https://www.google.com/maps/contrib/115930082956981422086/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo',
+    rating: 5,
+    text: 'One of the best company where i visited,, ultimate services ☺️',
+    time: '2025-02-07T15:59:33.000Z',
+    relativeTime: 'a year ago',
+  },
+  {
+    id: 'gr-live-5',
+    author: 'Chandra Sharma',
+    authorUrl: 'https://www.google.com/maps/contrib/107059741006920577335/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3',
+    rating: 5,
+    text: 'Beautiful Palace',
+    time: '2024-10-22T08:32:01.000Z',
+    relativeTime: 'a year ago',
+  },
+  {
+    id: 'gr-live-6',
+    author: 'CHIKU BAIRWAL',
+    authorUrl: 'https://www.google.com/maps/contrib/113739786219506035705/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4',
+    rating: 4,
+    text: 'Best in the town',
+    time: '2023-10-31T02:44:52.000Z',
+    relativeTime: '2 years ago',
+  },
+  {
+    id: 'gr-live-7',
+    author: 'Chetan Yadav',
+    authorUrl: 'https://www.google.com/maps/contrib/118089343163939241756/reviews',
+    profilePhoto: 'https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2',
+    rating: 5,
+    text: 'Genuinely best for consultation and construction',
+    time: '2023-02-26T18:35:26.000Z',
+    relativeTime: '3 years ago',
+  },
+];
+
 export function emptyGoogleReviews(): GoogleReviewsData {
   return {
     averageRating: 4.7,
-    totalReviews: 10,
+    totalReviews: 11,
     newReviews: 1,
     responseRate: 100,
-    fiveStars: 8,
+    fiveStars: 9,
     fourStars: 2,
     threeStars: 0,
     twoStars: 0,
@@ -229,13 +312,7 @@ export function emptyGoogleReviews(): GoogleReviewsData {
     websiteClicks: 156,
     directionRequests: 98,
     callClicks: 42,
-    recentReviews: [
-      { id: 'gr-1', author: 'Tilkesh Soni', rating: 5, text: 'Best experience ever!', time: '2026-07-06', relativeTime: '2 months ago' },
-      { id: 'gr-2', author: 'Alok Rai', rating: 5, text: 'One of the best company where i visited,, ultimate services ☺️', time: '2025-02-08', relativeTime: 'a year ago' },
-      { id: 'gr-3', author: 'Chetan Yadav', rating: 5, text: 'Genuinely best for consultation and construction', time: '2023-02-26', relativeTime: '3 years ago' },
-      { id: 'gr-4', author: 'Chandra Sharma', rating: 5, text: 'Beautiful Palace', time: '2024-10-22', relativeTime: 'a year ago' },
-      { id: 'gr-5', author: 'CHIKU BAIRWAL', rating: 4, text: 'Best in the town', time: '2023-10-31', relativeTime: '2 years ago' },
-    ],
+    recentReviews: DEFAULT_GOOGLE_REVIEWS,
   };
 }
 

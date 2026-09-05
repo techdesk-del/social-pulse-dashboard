@@ -2,6 +2,89 @@ import mongoose from 'mongoose';
 
 const MONGODB_URI = "mongodb://akashxofficialin_db_user:NKOavvwjTlPgLc3s@ac-oyb8u0k-shard-00-00.q2jxis4.mongodb.net:27017,ac-oyb8u0k-shard-00-01.q2jxis4.mongodb.net:27017,ac-oyb8u0k-shard-00-02.q2jxis4.mongodb.net:27017/social_pulse?ssl=true&replicaSet=atlas-qsgpcj-shard-0&authSource=admin&retryWrites=true&w=majority";
 
+const liveGoogleReviews = [
+  {
+    "id": "gr-live-0",
+    "author": "Tech Desk",
+    "authorUrl": "https://www.google.com/maps/contrib/114979148003606992683/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVj7B1Yx4tS3fU1h8GvX1a1C4-o=s128-c0x00000000-cc-rp-mo",
+    "rating": 5,
+    "text": "",
+    "time": "2026-08-30T09:00:00.000Z",
+    "relativeTime": "in the last week"
+  },
+  {
+    "id": "gr-live-1",
+    "author": "Sandeep Parmar",
+    "authorUrl": "https://www.google.com/maps/contrib/108342416962295627685/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjV6z1Y8=s128-c0x00000000-cc-rp-mo",
+    "rating": 5,
+    "text": "",
+    "time": "2026-08-05T12:00:00.000Z",
+    "relativeTime": "a month ago"
+  },
+  {
+    "id": "gr-live-2",
+    "author": "Tilkesh Soni",
+    "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo",
+    "rating": 5,
+    "text": "Best experience ever!",
+    "time": "2026-07-01T04:47:50.000Z",
+    "relativeTime": "2 months ago"
+  },
+  {
+    "id": "gr-live-3",
+    "author": "Interior Walas",
+    "authorUrl": "https://www.google.com/maps/contrib/104347712398457291124/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocL=s128-c0x00000000-cc-rp-mo",
+    "rating": 5,
+    "text": "",
+    "time": "2026-01-05T10:00:00.000Z",
+    "relativeTime": "8 months ago"
+  },
+  {
+    "id": "gr-live-4",
+    "author": "Alok Rai",
+    "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo",
+    "rating": 5,
+    "text": "One of the best company where i visited,, ultimate services ☺️",
+    "time": "2025-02-07T15:59:33.000Z",
+    "relativeTime": "a year ago"
+  },
+  {
+    "id": "gr-live-5",
+    "author": "Chandra Sharma",
+    "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3",
+    "rating": 5,
+    "text": "Beautiful Palace",
+    "time": "2024-10-22T08:32:01.000Z",
+    "relativeTime": "a year ago"
+  },
+  {
+    "id": "gr-live-6",
+    "author": "CHIKU BAIRWAL",
+    "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4",
+    "rating": 4,
+    "text": "Best in the town",
+    "time": "2023-10-31T02:44:52.000Z",
+    "relativeTime": "2 years ago"
+  },
+  {
+    "id": "gr-live-7",
+    "author": "Chetan Yadav",
+    "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+    "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2",
+    "rating": 5,
+    "text": "Genuinely best for consultation and construction",
+    "time": "2023-02-26T18:35:26.000Z",
+    "relativeTime": "3 years ago"
+  }
+];
+
 const SEED_DATA = [
   {
     weekId: "2026-07-06",
@@ -33,24 +116,21 @@ const SEED_DATA = [
       follows: 8
     },
     google: {
-      averageRating: 4.8,
-      totalReviews: 124,
-      newReviews: 4,
+      averageRating: 4.7,
+      totalReviews: 11,
+      newReviews: 1,
       responseRate: 100,
-      fiveStars: 108,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 9,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
-      searchViews: 840,
-      mapsViews: 2150,
-      websiteClicks: 112,
-      directionRequests: 64,
-      callClicks: 28,
-      recentReviews: [
-        { author: 'Rahul Sharma', rating: 5, text: 'Exceptional service and authentic rural experience with UrbanGaon!', time: '2026-07-08', relativeTime: 'a month ago', reply: 'Thank you Rahul for your valuable feedback!' },
-        { author: 'Pooja Verma', rating: 5, text: 'Great team and wonderful support.', time: '2026-07-07', relativeTime: 'a month ago' }
-      ]
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: liveGoogleReviews
     }
   },
   //
@@ -85,23 +165,20 @@ const SEED_DATA = [
     },
     google: {
       averageRating: 4.7,
-      totalReviews: 131,
-      newReviews: 7,
+      totalReviews: 11,
+      newReviews: 1,
       responseRate: 100,
-      fiveStars: 115,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 9,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
-      searchViews: 920,
-      mapsViews: 2480,
-      websiteClicks: 128,
-      directionRequests: 79,
-      callClicks: 32,
-      recentReviews: [
-        { author: 'Ankit Patel', rating: 5, text: 'Very genuine platform and top tier customer experience.', time: '2026-07-15', relativeTime: '3 weeks ago', reply: 'We are delighted to have served you, Ankit!' },
-        { author: 'Neha Gupta', rating: 5, text: 'Highly recommended for authentic rural initiatives.', time: '2026-07-14', relativeTime: '3 weeks ago' }
-      ]
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: liveGoogleReviews
     }
   },
   {
@@ -135,23 +212,20 @@ const SEED_DATA = [
     },
     google: {
       averageRating: 4.7,
-      totalReviews: 139,
-      newReviews: 8,
+      totalReviews: 11,
+      newReviews: 1,
       responseRate: 100,
-      fiveStars: 123,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 9,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
-      searchViews: 1150,
-      mapsViews: 3020,
-      websiteClicks: 145,
-      directionRequests: 92,
-      callClicks: 39,
-      recentReviews: [
-        { author: 'Suresh Meena', rating: 5, text: 'UrbanGaon is creating a real ground impact. 5/5 stars!', time: '2026-07-22', relativeTime: '2 weeks ago', reply: 'Thank you Suresh Ji for trusting UrbanGaon!' },
-        { author: 'Kavita Singh', rating: 5, text: 'Very cooperative team and fast response.', time: '2026-07-21', relativeTime: '2 weeks ago' }
-      ]
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: liveGoogleReviews
     }
   },
   {
@@ -185,22 +259,20 @@ const SEED_DATA = [
     },
     google: {
       averageRating: 4.7,
-      totalReviews: 143,
-      newReviews: 4,
+      totalReviews: 11,
+      newReviews: 1,
       responseRate: 100,
-      fiveStars: 127,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 9,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
-      searchViews: 1080,
-      mapsViews: 2890,
-      websiteClicks: 138,
-      directionRequests: 84,
-      callClicks: 35,
-      recentReviews: [
-        { author: 'Manish Joshi', rating: 5, text: 'Best service provider in the region. Always responsive.', time: '2026-07-29', relativeTime: '1 week ago' }
-      ]
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: liveGoogleReviews
     }
   },
   {
@@ -234,23 +306,20 @@ const SEED_DATA = [
     },
     google: {
       averageRating: 4.7,
-      totalReviews: 148,
-      newReviews: 5,
+      totalReviews: 11,
+      newReviews: 1,
       responseRate: 100,
-      fiveStars: 132,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 9,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
       searchViews: 1240,
       mapsViews: 3120,
       websiteClicks: 156,
       directionRequests: 98,
       callClicks: 42,
-      recentReviews: [
-        { author: 'Vikram Chouhan', rating: 5, text: 'Amazing initiative and excellent customer satisfaction. Keep it up UrbanGaon!', time: '2026-08-05', relativeTime: '3 days ago', reply: 'Thank you Vikram! We are committed to excellence.' },
-        { author: 'Deepak Roy', rating: 5, text: 'Top quality work and transparency throughout.', time: '2026-08-04', relativeTime: '4 days ago' }
-      ]
+      recentReviews: liveGoogleReviews
     }
   },
   {
@@ -284,23 +353,20 @@ const SEED_DATA = [
     },
     google: {
       averageRating: 4.7,
-      totalReviews: 154,
-      newReviews: 6,
+      totalReviews: 11,
+      newReviews: 1,
       responseRate: 100,
-      fiveStars: 138,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 9,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
-      searchViews: 1380,
-      mapsViews: 3450,
-      websiteClicks: 172,
-      directionRequests: 108,
-      callClicks: 48,
-      recentReviews: [
-        { author: 'Aman Pareek', rating: 5, text: 'Great concept bringing rural culture closer. Very transparent.', time: '2026-08-12', relativeTime: '2 weeks ago', reply: 'Thank you Aman for your encouraging support!' },
-        { author: 'Sunita Meena', rating: 5, text: 'Clean execution and helpful team.', time: '2026-08-11', relativeTime: '2 weeks ago' }
-      ]
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: liveGoogleReviews
     }
   },
   {
@@ -334,23 +400,20 @@ const SEED_DATA = [
     },
     google: {
       averageRating: 4.7,
-      totalReviews: 161,
-      newReviews: 7,
+      totalReviews: 11,
+      newReviews: 1,
       responseRate: 100,
-      fiveStars: 145,
-      fourStars: 12,
-      threeStars: 3,
-      twoStars: 1,
+      fiveStars: 9,
+      fourStars: 2,
+      threeStars: 0,
+      twoStars: 0,
       oneStar: 0,
-      searchViews: 1520,
-      mapsViews: 3780,
-      websiteClicks: 194,
-      directionRequests: 124,
-      callClicks: 56,
-      recentReviews: [
-        { author: 'Rameshwar Choudhary', rating: 5, text: 'Very impressive experience with UrbanGaon rural programs.', time: '2026-08-19', relativeTime: '1 week ago', reply: 'Thank you Rameshwar Ji!' },
-        { author: 'Divya Agarwal', rating: 5, text: 'Super supportive team and prompt responses.', time: '2026-08-18', relativeTime: '1 week ago' }
-      ]
+      searchViews: 1240,
+      mapsViews: 3120,
+      websiteClicks: 156,
+      directionRequests: 98,
+      callClicks: 42,
+      recentReviews: liveGoogleReviews
     }
   }
 ];

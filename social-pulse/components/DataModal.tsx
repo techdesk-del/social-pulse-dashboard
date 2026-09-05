@@ -209,9 +209,11 @@ export default function DataModal({
   }, []);
 
   function sanitizePlatformData<T>(obj: FormPlatformState): T {
-    const clean: Record<string, number> = {};
+    const clean: Record<string, unknown> = {};
     for (const k in obj) {
-      if (k !== 'recentReviews') {
+      if (k === 'recentReviews') {
+        clean[k] = obj[k];
+      } else {
         clean[k] = num(obj[k]);
       }
     }

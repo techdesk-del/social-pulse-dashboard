@@ -2,12 +2,30 @@
 
 import { useState } from 'react';
 import { num, shortWeekLabel, fmtNum } from '../lib/utils';
-import { PLATFORMS, COLORS } from '../lib/constants';
+import { PLATFORMS, COLORS, DEFAULT_GOOGLE_REVIEWS } from '../lib/constants';
 import KpiCard from './KpiCard';
 import LineChart from './charts/LineChart';
 import BarChart from './charts/BarChart';
 import PieChart from './charts/PieChart';
 import type { WeekEntry, GoogleReviewItem } from '../lib/types';
+
+function getInitials(name: string) {
+  if (!name) return 'UG';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
+const AVATAR_GRADIENTS = [
+  'linear-gradient(135deg, #4285F4 0%, #1967D2 100%)',
+  'linear-gradient(135deg, #34A853 0%, #188038 100%)',
+  'linear-gradient(135deg, #FBBC05 0%, #EA8600 100%)',
+  'linear-gradient(135deg, #EA4335 0%, #B31412 100%)',
+  'linear-gradient(135deg, #A142F4 0%, #7627BB 100%)',
+  'linear-gradient(135deg, #24C1E0 0%, #00838F 100%)',
+];
 
 interface Props {
   weeks: WeekEntry[];
@@ -38,7 +56,7 @@ export default function GoogleReviewsTab({
       setIsSyncing(true);
       await onLiveSync();
       setSyncSuccess(true);
-      setTimeout(() => setSyncSuccess(false), 3000);
+      setTimeout(() => setSyncSuccess(false), 3500);
     } catch (err) {
       console.warn('Sync failed:', err);
     } finally {
@@ -56,12 +74,12 @@ export default function GoogleReviewsTab({
   const metricLabel = cfg.metrics.find((m) => m.key === currentMetricKey)?.label ?? currentMetricKey;
 
   const avgRating = curr.averageRating ? Number(curr.averageRating).toFixed(1) : '4.7';
-  const totalReviews = num(curr.totalReviews) || 10;
+  const totalReviews = num(curr.totalReviews) || 11;
   const newReviews = num(curr.newReviews) || 1;
   const responseRate = num(curr.responseRate) || 100;
 
   // Star breakdown
-  const s5 = num(curr.fiveStars) || 8;
+  const s5 = num(curr.fiveStars) || 9;
   const s4 = num(curr.fourStars) || 2;
   const s3 = num(curr.threeStars) || 0;
   const s2 = num(curr.twoStars) || 0;
@@ -76,47 +94,11 @@ export default function GoogleReviewsTab({
   const callClicks = num(curr.callClicks);
   const totalActions = websiteClicks + directionRequests + callClicks;
 
-  // Reviews list
+  // Reviews list: priority is active week's google.recentReviews, or DEFAULT_GOOGLE_REVIEWS
   const recentReviews: GoogleReviewItem[] =
     (weeks[activeIndex]?.google?.recentReviews && weeks[activeIndex].google.recentReviews!.length > 0)
       ? weeks[activeIndex].google.recentReviews!
-      : [
-          {
-            author: 'Tilkesh Soni',
-            rating: 5,
-            text: 'Best experience ever!',
-            time: '2026-07-06',
-            relativeTime: '2 months ago',
-          },
-          {
-            author: 'Alok Rai',
-            rating: 5,
-            text: 'One of the best company where i visited,, ultimate services ☺️',
-            time: '2025-02-08',
-            relativeTime: 'a year ago',
-          },
-          {
-            author: 'Chetan Yadav',
-            rating: 5,
-            text: 'Genuinely best for consultation and construction',
-            time: '2023-02-26',
-            relativeTime: '3 years ago',
-          },
-          {
-            author: 'Chandra Sharma',
-            rating: 5,
-            text: 'Beautiful Palace',
-            time: '2024-10-22',
-            relativeTime: 'a year ago',
-          },
-          {
-            author: 'CHIKU BAIRWAL',
-            rating: 4,
-            text: 'Best in the town',
-            time: '2023-10-31',
-            relativeTime: '2 years ago',
-          },
-        ];
+      : DEFAULT_GOOGLE_REVIEWS;
 
   function cardsFor(fields: { key: string; label: string }[]) {
     return fields.map((m) => {
@@ -371,64 +353,261 @@ export default function GoogleReviewsTab({
       </div>
 
       {/* ── Recent Customer Reviews Showcase ── */}
-      <div className="card" style={{ padding: '20px 22px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-          <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)' }}>
-            Recent Customer Reviews & Feedback
-          </div>
-          <span style={{ fontSize: 12, color: 'var(--text-faint)' }}>Google Verified Reviews</span>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
-          {recentReviews.map((rev, i) => (
+      <div className="card" style={{ padding: '22px 24px', borderRadius: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 18, borderBottom: '1px solid var(--border-soft)', paddingBottom: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.3px' }}>
+              Recent Customer Reviews & Feedback
+            </div>
             <div
-              key={rev.id || i}
               style={{
-                background: 'var(--surface-raised)',
-                border: '1px solid var(--border-soft)',
-                borderRadius: 10,
-                padding: '14px 16px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: 'rgba(52,168,83,0.1)',
+                border: '1px solid rgba(52,168,83,0.3)',
+                padding: '3px 10px',
+                borderRadius: 20,
+                fontSize: 11.5,
+                fontWeight: 600,
+                color: '#188038',
               }}
             >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                  <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)' }}>
-                    {rev.author}
-                  </span>
-                  <span style={{ color: '#FBBC05', fontSize: 13 }}>
-                    {'★'.repeat(rev.rating)}
-                  </span>
-                </div>
-                <p style={{ fontSize: 12.5, color: 'var(--text-dim)', lineHeight: 1.5, margin: '4px 0 10px' }}>
-                  &ldquo;{rev.text}&rdquo;
-                </p>
-              </div>
-
-              <div>
-                {rev.reply && (
-                  <div
-                    style={{
-                      background: 'rgba(66,133,244,0.08)',
-                      borderLeft: '2.5px solid #4285F4',
-                      padding: '6px 10px',
-                      borderRadius: 4,
-                      fontSize: 11.5,
-                      color: 'var(--text-dim)',
-                      marginBottom: 8,
-                    }}
-                  >
-                    <strong style={{ color: '#4285F4' }}>UrbanGaon (Response):</strong> {rev.reply}
-                  </div>
-                )}
-                <div style={{ fontSize: 11, color: 'var(--text-faint)' }}>
-                  {rev.relativeTime || rev.time}
-                </div>
-              </div>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34A853', display: 'inline-block', boxShadow: '0 0 6px #34A853' }} />
+              Live Google Sync
             </div>
-          ))}
+            <span style={{ fontSize: 12, color: 'var(--text-dim)', fontWeight: 500 }}>
+              {recentReviews.length} Verified Reviews ({totalReviews} on Google Maps)
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {onLiveSync && (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleSync}
+                disabled={isSyncing}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 7,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: COLORS.goog,
+                  background: 'rgba(234,67,53,0.06)',
+                  border: '1px solid rgba(234,67,53,0.3)',
+                  padding: '6px 14px',
+                  borderRadius: 8,
+                  cursor: isSyncing ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <span className={isSyncing ? 'spin' : ''} style={{ fontSize: 13, display: 'inline-block' }}>⚡</span>
+                {isSyncing ? 'Syncing Google API…' : syncSuccess ? '✓ Live Synced (8 Reviews)!' : 'Sync Reviews Live'}
+              </button>
+            )}
+            <a
+              href="https://maps.google.com/?cid=14105892543152230285"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+              style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)' }}
+            >
+              View on Google Maps ↗
+            </a>
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 16 }}>
+          {recentReviews.map((rev, i) => {
+            const initials = getInitials(rev.author);
+            const gradient = AVATAR_GRADIENTS[i % AVATAR_GRADIENTS.length];
+            const hasText = rev.text && rev.text.trim().length > 0;
+
+            return (
+              <div
+                key={rev.id || i}
+                style={{
+                  background: 'var(--surface-raised)',
+                  border: '1px solid var(--border-soft)',
+                  borderRadius: 12,
+                  padding: '16px 18px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                  transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                }}
+              >
+                <div>
+                  {/* Reviewer Header */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      {rev.profilePhoto ? (
+                        <img
+                          src={rev.profilePhoto}
+                          alt={rev.author}
+                          style={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                            border: '1.5px solid #EA4335',
+                            flexShrink: 0,
+                          }}
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      ) : null}
+                      {!rev.profilePhoto && (
+                        <div
+                          style={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: '50%',
+                            background: gradient,
+                            color: '#FFFFFF',
+                            fontSize: 13,
+                            fontWeight: 700,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
+                          }}
+                        >
+                          {initials}
+                        </div>
+                      )}
+
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                          <span style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)' }}>
+                            {rev.author || 'Verified Reviewer'}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: 10,
+                              color: '#188038',
+                              background: 'rgba(52,168,83,0.12)',
+                              padding: '1px 6px',
+                              borderRadius: 10,
+                              fontWeight: 700,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 2,
+                            }}
+                          >
+                            ✓ Verified
+                          </span>
+                        </div>
+                        <div style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 2 }}>
+                          {rev.relativeTime || rev.time}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Star Rating Score */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+                      <span style={{ color: '#FBBC05', fontSize: 13, letterSpacing: '0.5px' }}>
+                        {'★'.repeat(rev.rating || 5)}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 800,
+                          color: 'var(--text)',
+                          background: 'var(--surface)',
+                          padding: '2px 6px',
+                          borderRadius: 6,
+                          border: '1px solid var(--border-soft)',
+                        }}
+                      >
+                        {Number(rev.rating || 5).toFixed(1)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Review Content */}
+                  {hasText ? (
+                    <p
+                      style={{
+                        fontSize: 12.5,
+                        color: 'var(--text)',
+                        lineHeight: 1.55,
+                        margin: '6px 0 12px',
+                        background: 'rgba(255,255,255,0.6)',
+                        padding: '10px 12px',
+                        borderRadius: 8,
+                        border: '1px solid var(--border-soft)',
+                      }}
+                    >
+                      &ldquo;{rev.text}&rdquo;
+                    </p>
+                  ) : (
+                    <div
+                      style={{
+                        margin: '6px 0 12px',
+                        padding: '8px 12px',
+                        background: 'rgba(251,188,5,0.07)',
+                        borderRadius: 8,
+                        border: '1px dashed rgba(251,188,5,0.4)',
+                        fontSize: 11.5,
+                        color: 'var(--text-dim)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
+                      }}
+                    >
+                      <span style={{ color: '#FBBC05', fontSize: 14 }}>★</span>
+                      <span>Rated 5/5 Stars on Google Maps (Rating without text review)</span>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  {rev.reply && (
+                    <div
+                      style={{
+                        background: 'rgba(66,133,244,0.08)',
+                        borderLeft: '2.5px solid #4285F4',
+                        padding: '6px 10px',
+                        borderRadius: 4,
+                        fontSize: 11.5,
+                        color: 'var(--text-dim)',
+                        marginBottom: 8,
+                      }}
+                    >
+                      <strong style={{ color: '#4285F4' }}>UrbanGaon (Response):</strong> {rev.reply}
+                    </div>
+                  )}
+
+                  {rev.authorUrl && (
+                    <a
+                      href={rev.authorUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontSize: 11,
+                        color: '#1A73E8',
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        fontWeight: 600,
+                        marginTop: 2,
+                      }}
+                    >
+                      <span>View Reviewer on Google Maps</span>
+                      <span>↗</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

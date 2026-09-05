@@ -62,6 +62,7 @@ export interface GoogleReviewItem {
   time: string;
   relativeTime?: string;
   profilePhoto?: string;
+  authorUrl?: string;
   reply?: string;
 }
 
