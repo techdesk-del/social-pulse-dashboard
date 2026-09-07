@@ -29,6 +29,7 @@ export async function exportPDF(weeks: WeekEntry[], activeIndex: number): Promis
   const IG: [number, number, number] = [194, 47, 108];
   const FB: [number, number, number] = [90, 69, 201];
   const GOOG: [number, number, number] = [234, 67, 53];
+  const YT: [number, number, number] = [255, 0, 0];
 
   let y = margin;
 
@@ -65,12 +66,21 @@ export async function exportPDF(weeks: WeekEntry[], activeIndex: number): Promis
   const googleDiscovery = num(activeWeek.google?.searchViews) + num(activeWeek.google?.mapsViews);
   const prevGoogleDiscovery = prevWeek ? num(prevWeek.google?.searchViews) + num(prevWeek.google?.mapsViews) : null;
 
-  const totalReach = num(activeWeek.linkedin.impressions) + num(activeWeek.instagram.reach) + num(activeWeek.facebook.viewers) + googleDiscovery;
-  const prevReach = prevWeek ? num(prevWeek.linkedin.impressions) + num(prevWeek.instagram.reach) + num(prevWeek.facebook.viewers) + (prevGoogleDiscovery ?? 0) : null;
-  const totalEng = num(activeWeek.linkedin.reactions) + num(activeWeek.linkedin.comments) + num(activeWeek.linkedin.reposts) + num(activeWeek.instagram.contentInteractions) + num(activeWeek.facebook.contentInteractions) + num(activeWeek.google?.newReviews);
-  const prevEng = prevWeek ? num(prevWeek.linkedin.reactions) + num(prevWeek.linkedin.comments) + num(prevWeek.linkedin.reposts) + num(prevWeek.instagram.contentInteractions) + num(prevWeek.facebook.contentInteractions) + num(prevWeek.google?.newReviews) : null;
-  const totalFollows = num(activeWeek.linkedin.newFollowers) + num(activeWeek.instagram.follows) + num(activeWeek.facebook.follows) + num(activeWeek.google?.newReviews);
-  const prevFollows = prevWeek ? num(prevWeek.linkedin.newFollowers) + num(prevWeek.instagram.follows) + num(prevWeek.facebook.follows) + num(prevWeek.google?.newReviews) : null;
+  const ytExposure = num(activeWeek.youtube?.views) + num(activeWeek.youtube?.impressions);
+  const prevYtExposure = prevWeek ? num(prevWeek.youtube?.views) + num(prevWeek.youtube?.impressions) : null;
+
+  const totalReach = num(activeWeek.linkedin.impressions) + num(activeWeek.instagram.reach) + num(activeWeek.facebook.viewers) + googleDiscovery + ytExposure;
+  const prevReach = prevWeek ? num(prevWeek.linkedin.impressions) + num(prevWeek.instagram.reach) + num(prevWeek.facebook.viewers) + (prevGoogleDiscovery ?? 0) + (prevYtExposure ?? 0) : null;
+
+  const ytEng = num(activeWeek.youtube?.likes) + num(activeWeek.youtube?.comments) + num(activeWeek.youtube?.shares);
+  const prevYtEng = prevWeek ? num(prevWeek.youtube?.likes) + num(prevWeek.youtube?.comments) + num(prevWeek.youtube?.shares) : null;
+
+  const totalEng = num(activeWeek.linkedin.reactions) + num(activeWeek.linkedin.comments) + num(activeWeek.linkedin.reposts) + num(activeWeek.instagram.contentInteractions) + num(activeWeek.facebook.contentInteractions) + num(activeWeek.google?.newReviews) + ytEng;
+  const prevEng = prevWeek ? num(prevWeek.linkedin.reactions) + num(prevWeek.linkedin.comments) + num(prevWeek.linkedin.reposts) + num(prevWeek.instagram.contentInteractions) + num(prevWeek.facebook.contentInteractions) + num(prevWeek.google?.newReviews) + (prevYtEng ?? 0) : null;
+
+  const totalFollows = num(activeWeek.linkedin.newFollowers) + num(activeWeek.instagram.follows) + num(activeWeek.facebook.follows) + num(activeWeek.google?.newReviews) + num(activeWeek.youtube?.newSubscribers);
+  const prevFollows = prevWeek ? num(prevWeek.linkedin.newFollowers) + num(prevWeek.instagram.follows) + num(prevWeek.facebook.follows) + num(prevWeek.google?.newReviews) + num(prevWeek.youtube?.newSubscribers) : null;
+
   const totalClicks = num(activeWeek.instagram.linkClicks) + num(activeWeek.facebook.linkClicks) + num(activeWeek.google?.websiteClicks) + num(activeWeek.google?.callClicks);
   const prevClicks = prevWeek ? num(prevWeek.instagram.linkClicks) + num(prevWeek.facebook.linkClicks) + num(prevWeek.google?.websiteClicks) + num(prevWeek.google?.callClicks) : null;
 
@@ -86,9 +96,9 @@ export async function exportPDF(weeks: WeekEntry[], activeIndex: number): Promis
     margin: { left: margin, right: margin },
     head: [['Metric', 'This Week', 'Last Week', 'Change']],
     body: [
-      ['Total Exposure (Social + Google Discovery)', fmtNum(totalReach), prevWeek ? fmtNum(prevReach!) : '—', trendCell(totalReach, prevReach)],
+      ['Total Exposure (Social + Google + YouTube)', fmtNum(totalReach), prevWeek ? fmtNum(prevReach!) : '—', trendCell(totalReach, prevReach)],
       ['Total Engagement & Reviews', fmtNum(totalEng), prevWeek ? fmtNum(prevEng!) : '—', trendCell(totalEng, prevEng)],
-      ['New Audience Growth (Follows + Google Reviews)', fmtNum(totalFollows), prevWeek ? fmtNum(prevFollows!) : '—', trendCell(totalFollows, prevFollows)],
+      ['New Audience Growth (Follows + Reviews + YT Subs)', fmtNum(totalFollows), prevWeek ? fmtNum(prevFollows!) : '—', trendCell(totalFollows, prevFollows)],
       ['Total Direct Actions & Clicks', fmtNum(totalClicks), prevWeek ? fmtNum(prevClicks!) : '—', trendCell(totalClicks, prevClicks)],
     ],
     headStyles: { fillColor: PRIMARY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9 },
@@ -101,11 +111,12 @@ export async function exportPDF(weeks: WeekEntry[], activeIndex: number): Promis
   y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8;
 
   // ── Per-platform sections ──
-  const platforms: Array<{ key: 'linkedin' | 'instagram' | 'facebook' | 'google'; color: [number, number, number] }> = [
+  const platforms: Array<{ key: 'linkedin' | 'instagram' | 'facebook' | 'google' | 'youtube'; color: [number, number, number] }> = [
     { key: 'linkedin', color: LI },
     { key: 'instagram', color: IG },
     { key: 'facebook', color: FB },
     { key: 'google', color: GOOG },
+    { key: 'youtube', color: YT },
   ];
 
 

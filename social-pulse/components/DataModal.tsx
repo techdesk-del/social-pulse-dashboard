@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { PLATFORMS, emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews } from '../lib/constants';
+import { PLATFORMS, emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews, emptyYouTube } from '../lib/constants';
 import { formatWeekLabel, parseWeekRange, nextMonday, num } from '../lib/utils';
-import type { WeekEntry, PlatformKey, LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from '../lib/types';
+import type { WeekEntry, PlatformKey, LinkedInData, InstagramData, FacebookData, GoogleReviewsData, YouTubeData } from '../lib/types';
 
 interface Props {
   weeks: WeekEntry[];
@@ -14,7 +14,7 @@ interface Props {
   onSelectFormWeek: (val: string) => void;
   onSetFormWeekDate: (val: string) => void;
   onToggleSection: (id: string) => void;
-  onSave: (weekId: string, data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData; google: GoogleReviewsData }) => void;
+  onSave: (weekId: string, data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData; google: GoogleReviewsData; youtube: YouTubeData }) => void;
   onDelete?: (weekId: string) => void;
 }
 
@@ -174,6 +174,9 @@ export default function DataModal({
   const [google, setGoogle] = useState<FormPlatformState>(() => ({
     ...(targetWeek?.google ?? emptyGoogleReviews()),
   }));
+  const [youtube, setYoutube] = useState<FormPlatformState>(() => ({
+    ...(targetWeek?.youtube ?? emptyYouTube()),
+  }));
 
   // Track the weekId loaded so we ONLY re-populate when user explicitly changes dropdown week
   const loadedWeekIdRef = useRef<string | null>(formWeekId);
@@ -192,6 +195,7 @@ export default function DataModal({
       setInstagram({ ...(tw?.instagram ?? emptyInstagram()) });
       setFacebook({ ...(tw?.facebook ?? emptyFacebook()) });
       setGoogle({ ...(tw?.google ?? emptyGoogleReviews()) });
+      setYoutube({ ...(tw?.youtube ?? emptyYouTube()) });
     }
   }, [formWeekId, proposedDate, weeks]);
 
@@ -205,13 +209,15 @@ export default function DataModal({
       setFacebook((prev) => ({ ...prev, [fieldKey]: val }));
     } else if (platform === 'google') {
       setGoogle((prev) => ({ ...prev, [fieldKey]: val }));
+    } else if (platform === 'youtube') {
+      setYoutube((prev) => ({ ...prev, [fieldKey]: val }));
     }
   }, []);
 
   function sanitizePlatformData<T>(obj: FormPlatformState): T {
     const clean: Record<string, unknown> = {};
     for (const k in obj) {
-      if (k === 'recentReviews') {
+      if (k === 'recentReviews' || k === 'recentVideos') {
         clean[k] = obj[k];
       } else {
         clean[k] = num(obj[k]);
@@ -243,6 +249,7 @@ export default function DataModal({
       instagram: sanitizePlatformData<InstagramData>(instagram),
       facebook: sanitizePlatformData<FacebookData>(facebook),
       google: sanitizePlatformData<GoogleReviewsData>(google),
+      youtube: sanitizePlatformData<YouTubeData>(youtube),
     });
   }
 
@@ -429,6 +436,15 @@ export default function DataModal({
           accent={PLATFORMS.google.accent}
           values={google}
           isOpen={formSection === 'google'}
+          onToggle={onToggleSection}
+          onChangeField={handleFieldChange}
+        />
+        <Section
+          id="youtube"
+          label="YouTube Channel & Video Metrics"
+          accent={PLATFORMS.youtube.accent}
+          values={youtube}
+          isOpen={formSection === 'youtube'}
           onToggle={onToggleSection}
           onChangeField={handleFieldChange}
         />

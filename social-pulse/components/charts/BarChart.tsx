@@ -51,8 +51,11 @@ export default function BarChart({ labels, data, colors }: Props) {
                 if (label.toLowerCase().includes('google') || label.toLowerCase().includes('review')) {
                   return ` ${val} new customer review${val === 1 ? '' : 's'}`;
                 }
-                if (label.toLowerCase().includes('click') || label.toLowerCase().includes('action')) {
-                  return ` ${val} direct action${val === 1 ? '' : 's'}`;
+                if (label.toLowerCase().includes('youtube') || label.toLowerCase().includes('yt')) {
+                  return ` ${val} new subscriber${val === 1 ? '' : 's'}`;
+                }
+                if (label.toLowerCase().includes('click') || label.toLowerCase().includes('action') || label.toLowerCase().includes('view')) {
+                  return ` ${val} direct action / view${val === 1 ? '' : 's'}`;
                 }
                 return ` ${val} new follower${val === 1 ? '' : 's'}`;
               },

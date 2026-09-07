@@ -45,7 +45,7 @@ export default function CompareTab({ weeks, compareTab, onSetCompareTab }: Props
   return (
     <>
       <div className="tab-pills">
-        {(['linkedin', 'instagram', 'facebook', 'google'] as PlatformKey[]).map((pk) => {
+        {(['linkedin', 'instagram', 'facebook', 'google', 'youtube'] as PlatformKey[]).map((pk) => {
           const p = PLATFORMS[pk];
           const active = compareTab === pk;
           return (

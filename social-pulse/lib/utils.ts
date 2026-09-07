@@ -1,5 +1,5 @@
-import type { TrendDir, TrendResult, WeekEntry, LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from './types';
-import { COLORS, emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews } from './constants';
+import type { TrendDir, TrendResult, WeekEntry, LinkedInData, InstagramData, FacebookData, GoogleReviewsData, YouTubeData } from './types';
+import { COLORS, emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews, emptyYouTube } from './constants';
 
 export function num(v: unknown): number {
   if (v === null || v === undefined) return 0;
@@ -271,11 +271,13 @@ function parseSingleWeekObject(raw: Record<string, unknown>, fallbackKey?: strin
   const igSub = findSubObject(raw, ['instagram', 'Instagram', 'INSTAGRAM', 'ig']);
   const fbSub = findSubObject(raw, ['facebook', 'Facebook', 'FACEBOOK', 'fb']);
   const googSub = findSubObject(raw, ['google', 'Google', 'GOOGLE', 'googleReviews', 'reviews']);
+  const ytSub = findSubObject(raw, ['youtube', 'YouTube', 'YOUTUBE', 'yt']);
 
   const linkedin: LinkedInData = { ...emptyLinkedIn() };
   const instagram: InstagramData = { ...emptyInstagram() };
   const facebook: FacebookData = { ...emptyFacebook() };
   const google: GoogleReviewsData = { ...emptyGoogleReviews() };
+  const youtube: YouTubeData = { ...emptyYouTube() };
 
   // Populate LinkedIn
   const liSource = liSub || raw;
@@ -315,12 +317,24 @@ function parseSingleWeekObject(raw: Record<string, unknown>, fallbackKey?: strin
     }
   }
 
+  // Populate YouTube
+  if (ytSub) {
+    for (const [k, v] of Object.entries(ytSub)) {
+      if (k !== 'recentVideos') {
+        (youtube as unknown as Record<string, unknown>)[k] = num(v);
+      } else if (Array.isArray(v)) {
+        youtube.recentVideos = v;
+      }
+    }
+  }
+
   return {
     weekId: finalWeekId,
     linkedin,
     instagram,
     facebook,
     google,
+    youtube,
   };
 }
 

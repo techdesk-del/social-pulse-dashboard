@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from '../../types';
+import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData, YouTubeData } from '../../types';
 
 export interface IWeekEntry extends Document {
   userId?: string | mongoose.Types.ObjectId;
@@ -8,6 +8,7 @@ export interface IWeekEntry extends Document {
   instagram: InstagramData;
   facebook: FacebookData;
   google: GoogleReviewsData;
+  youtube?: YouTubeData;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -88,6 +89,24 @@ const GoogleReviewsSchema = new Schema<GoogleReviewsData>(
   { _id: false }
 );
 
+const YouTubeSchema = new Schema<YouTubeData>(
+  {
+    subscribers: { type: Number, default: 16 },
+    newSubscribers: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
+    watchTimeHours: { type: Number, default: 0 },
+    averageViewDurationMinutes: { type: Number, default: 0 },
+    impressions: { type: Number, default: 0 },
+    ctr: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    comments: { type: Number, default: 0 },
+    shares: { type: Number, default: 0 },
+    videosCount: { type: Number, default: 2 },
+    recentVideos: { type: [Schema.Types.Mixed], default: [] },
+  },
+  { _id: false }
+);
+
 const WeekEntrySchema = new Schema<IWeekEntry>(
   {
     userId: { type: String, required: false, default: 'default_user', index: true },
@@ -96,6 +115,7 @@ const WeekEntrySchema = new Schema<IWeekEntry>(
     instagram: { type: InstagramSchema, default: () => ({}) },
     facebook: { type: FacebookSchema, default: () => ({}) },
     google: { type: GoogleReviewsSchema, default: () => ({}) },
+    youtube: { type: YouTubeSchema, default: () => ({}) },
   },
   { timestamps: true }
 );

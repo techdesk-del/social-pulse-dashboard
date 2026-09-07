@@ -93,16 +93,48 @@ export interface GoogleReviewsData {
   recentReviews?: GoogleReviewItem[];
 }
 
+export interface YouTubeVideoItem {
+  videoId: string;
+  title: string;
+  views: number;
+  duration: string;
+  publishedTime?: string;
+  thumbnailUrl: string;
+  url: string;
+  likes?: number;
+}
+
+export interface YouTubeData {
+  // Subscribers & Channel Reach
+  subscribers: number;
+  newSubscribers: number;
+  // Views & Watch Time
+  views: number;
+  watchTimeHours: number;
+  averageViewDurationMinutes?: number;
+  // Reach & Discovery
+  impressions: number;
+  ctr: number; // Click-through rate %
+  // Engagement
+  likes: number;
+  comments: number;
+  shares: number;
+  videosCount: number;
+  // Recent / Featured Video Content
+  recentVideos?: YouTubeVideoItem[];
+}
+
 export interface WeekEntry {
   weekId: string; // "YYYY-MM-DD" (Monday)
   linkedin: LinkedInData;
   instagram: InstagramData;
   facebook: FacebookData;
   google: GoogleReviewsData;
+  youtube?: YouTubeData;
 }
 
-export type PlatformKey = 'linkedin' | 'instagram' | 'facebook' | 'google';
-export type TabId = 'overview' | 'linkedin' | 'instagram' | 'facebook' | 'google' | 'compare';
+export type PlatformKey = 'linkedin' | 'instagram' | 'facebook' | 'google' | 'youtube';
+export type TabId = 'overview' | 'linkedin' | 'instagram' | 'facebook' | 'google' | 'youtube' | 'compare';
 export type TrendDir = 'up' | 'down' | 'flat';
 
 export interface TrendResult {
@@ -149,5 +181,6 @@ export interface FormDraft {
   instagram: Partial<InstagramData> | null;
   facebook: Partial<FacebookData> | null;
   google: Partial<GoogleReviewsData> | null;
+  youtube: Partial<YouTubeData> | null;
 }
 

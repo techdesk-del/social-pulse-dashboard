@@ -1,4 +1,4 @@
-import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData, GoogleReviewItem, PlatformConfig, WeekEntry } from './types';
+import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData, GoogleReviewItem, YouTubeData, YouTubeVideoItem, PlatformConfig, WeekEntry } from './types';
 
 export const COLORS = {
   bg: '#DDEBF8',
@@ -20,6 +20,9 @@ export const COLORS = {
   googYellow: '#FBBC05',
   googGreen: '#34A853',
   googBlue: '#4285F4',
+  yt: '#FF0000',
+  ytSoft: 'rgba(255,0,0,0.12)',
+  ytDark: '#CC0000',
   up: '#127F58',
   upSoft: 'rgba(18,127,88,0.12)',
   down: '#C23838',
@@ -175,6 +178,61 @@ export const PLATFORMS: Record<string, PlatformConfig> = {
       },
     ],
   },
+  youtube: {
+    label: 'YouTube',
+    accent: COLORS.yt,
+    soft: COLORS.ytSoft,
+    primaryKey: 'views',
+    primaryLabel: 'Views',
+    secondaryKey: 'subscribers',
+    secondaryLabel: 'Subscribers',
+    metrics: [
+      { key: 'views', label: 'Video Views' },
+      { key: 'watchTimeHours', label: 'Watch Time (Hours)' },
+      { key: 'subscribers', label: 'Total Subscribers' },
+      { key: 'newSubscribers', label: 'New Subscribers' },
+      { key: 'impressions', label: 'Impressions' },
+      { key: 'ctr', label: 'Impression CTR (%)' },
+      { key: 'averageViewDurationMinutes', label: 'Avg View Duration (Mins)' },
+      { key: 'likes', label: 'Likes' },
+      { key: 'comments', label: 'Comments' },
+      { key: 'shares', label: 'Shares' },
+      { key: 'videosCount', label: 'Videos Uploaded' },
+    ],
+    groups: [
+      {
+        title: 'Audience & Growth',
+        fields: [
+          { key: 'subscribers', label: 'Total Subscribers' },
+          { key: 'newSubscribers', label: 'New Subscribers This Week' },
+          { key: 'videosCount', label: 'Videos Uploaded' },
+        ],
+      },
+      {
+        title: 'Views & Watch Time',
+        fields: [
+          { key: 'views', label: 'Video Views' },
+          { key: 'watchTimeHours', label: 'Watch Time (Hours)' },
+          { key: 'averageViewDurationMinutes', label: 'Avg Duration (Mins)' },
+        ],
+      },
+      {
+        title: 'Discovery & CTR',
+        fields: [
+          { key: 'impressions', label: 'Thumbnail Impressions' },
+          { key: 'ctr', label: 'Impression CTR (%)' },
+        ],
+      },
+      {
+        title: 'Engagement & Reach',
+        fields: [
+          { key: 'likes', label: 'Likes' },
+          { key: 'comments', label: 'Comments' },
+          { key: 'shares', label: 'Shares' },
+        ],
+      },
+    ],
+  },
 };
 
 export function emptyLinkedIn(): LinkedInData {
@@ -316,6 +374,46 @@ export function emptyGoogleReviews(): GoogleReviewsData {
   };
 }
 
+export const DEFAULT_YOUTUBE_VIDEOS: YouTubeVideoItem[] = [
+  {
+    videoId: 'ZgutTbJHIHg',
+    title: 'Why are homes in India so expensive? A big part of the answer has nothing to do with ...',
+    views: 105,
+    duration: '1:01:59',
+    publishedTime: '2 months ago',
+    thumbnailUrl: 'https://i.ytimg.com/vi/ZgutTbJHIHg/hqdefault.jpg',
+    url: 'https://www.youtube.com/watch?v=ZgutTbJHIHg',
+    likes: 18,
+  },
+  {
+    videoId: 'z4AWetcsUWg',
+    title: 'Chinese Business Skills - China ने इन वजहों से पीछे छोड़ा India को!',
+    views: 36,
+    duration: '33:14',
+    publishedTime: '2 months ago',
+    thumbnailUrl: 'https://i.ytimg.com/vi/z4AWetcsUWg/hqdefault.jpg',
+    url: 'https://www.youtube.com/watch?v=z4AWetcsUWg',
+    likes: 6,
+  },
+];
+
+export function emptyYouTube(): YouTubeData {
+  return {
+    subscribers: 16,
+    newSubscribers: 1,
+    views: 141,
+    watchTimeHours: 42,
+    averageViewDurationMinutes: 17.8,
+    impressions: 1850,
+    ctr: 7.6,
+    likes: 24,
+    comments: 6,
+    shares: 12,
+    videosCount: 2,
+    recentVideos: DEFAULT_YOUTUBE_VIDEOS,
+  };
+}
+
 export const SEED_WEEKS: WeekEntry[] = [
   {
     weekId: '2026-07-06',
@@ -367,6 +465,20 @@ export const SEED_WEEKS: WeekEntry[] = [
         { id: 'gr-3', author: 'Chetan Yadav', rating: 5, text: 'Genuinely best for consultation and construction', time: '2023-02-26', relativeTime: '3 years ago' },
       ],
     },
+    youtube: {
+      subscribers: 10,
+      newSubscribers: 1,
+      views: 35,
+      watchTimeHours: 8,
+      averageViewDurationMinutes: 13.5,
+      impressions: 420,
+      ctr: 8.3,
+      likes: 6,
+      comments: 1,
+      shares: 2,
+      videosCount: 1,
+      recentVideos: [DEFAULT_YOUTUBE_VIDEOS[1]],
+    },
   },
   {
     weekId: '2026-07-13',
@@ -416,6 +528,20 @@ export const SEED_WEEKS: WeekEntry[] = [
         { id: 'gr-1', author: 'Tilkesh Soni', rating: 5, text: 'Best experience ever!', time: '2026-07-06', relativeTime: '2 months ago' },
         { id: 'gr-2', author: 'Alok Rai', rating: 5, text: 'One of the best company where i visited,, ultimate services ☺️', time: '2025-02-08', relativeTime: 'a year ago' },
       ],
+    },
+    youtube: {
+      subscribers: 11,
+      newSubscribers: 1,
+      views: 52,
+      watchTimeHours: 14,
+      averageViewDurationMinutes: 15.2,
+      impressions: 680,
+      ctr: 7.6,
+      likes: 9,
+      comments: 2,
+      shares: 4,
+      videosCount: 1,
+      recentVideos: [DEFAULT_YOUTUBE_VIDEOS[1]],
     },
   },
   {
@@ -467,6 +593,20 @@ export const SEED_WEEKS: WeekEntry[] = [
         { id: 'gr-3', author: 'Chetan Yadav', rating: 5, text: 'Genuinely best for consultation and construction', time: '2023-02-26', relativeTime: '3 years ago' },
       ],
     },
+    youtube: {
+      subscribers: 12,
+      newSubscribers: 1,
+      views: 78,
+      watchTimeHours: 21,
+      averageViewDurationMinutes: 16.4,
+      impressions: 940,
+      ctr: 8.2,
+      likes: 13,
+      comments: 3,
+      shares: 6,
+      videosCount: 2,
+      recentVideos: DEFAULT_YOUTUBE_VIDEOS,
+    },
   },
   {
     weekId: '2026-07-27',
@@ -515,6 +655,20 @@ export const SEED_WEEKS: WeekEntry[] = [
       recentReviews: [
         { id: 'gr-4', author: 'Chandra Sharma', rating: 5, text: 'Beautiful Palace', time: '2024-10-22', relativeTime: 'a year ago' },
       ],
+    },
+    youtube: {
+      subscribers: 13,
+      newSubscribers: 1,
+      views: 98,
+      watchTimeHours: 28,
+      averageViewDurationMinutes: 17.1,
+      impressions: 1250,
+      ctr: 7.8,
+      likes: 16,
+      comments: 4,
+      shares: 8,
+      videosCount: 2,
+      recentVideos: DEFAULT_YOUTUBE_VIDEOS,
     },
   },
   {
@@ -566,6 +720,20 @@ export const SEED_WEEKS: WeekEntry[] = [
         { id: 'gr-2', author: 'Alok Rai', rating: 5, text: 'One of the best company where i visited,, ultimate services ☺️', time: '2025-02-08', relativeTime: 'a year ago' },
       ],
     },
+    youtube: {
+      subscribers: 14,
+      newSubscribers: 1,
+      views: 114,
+      watchTimeHours: 33,
+      averageViewDurationMinutes: 17.4,
+      impressions: 1480,
+      ctr: 7.7,
+      likes: 19,
+      comments: 5,
+      shares: 9,
+      videosCount: 2,
+      recentVideos: DEFAULT_YOUTUBE_VIDEOS,
+    },
   },
   {
     weekId: '2026-08-10',
@@ -615,6 +783,20 @@ export const SEED_WEEKS: WeekEntry[] = [
         { id: 'gr-3', author: 'Chetan Yadav', rating: 5, text: 'Genuinely best for consultation and construction', time: '2023-02-26', relativeTime: '3 years ago' },
         { id: 'gr-5', author: 'CHIKU BAIRWAL', rating: 4, text: 'Best in the town', time: '2023-10-31', relativeTime: '2 years ago' },
       ],
+    },
+    youtube: {
+      subscribers: 15,
+      newSubscribers: 1,
+      views: 128,
+      watchTimeHours: 38,
+      averageViewDurationMinutes: 17.6,
+      impressions: 1690,
+      ctr: 7.5,
+      likes: 21,
+      comments: 5,
+      shares: 11,
+      videosCount: 2,
+      recentVideos: DEFAULT_YOUTUBE_VIDEOS,
     },
   },
   {
@@ -668,6 +850,20 @@ export const SEED_WEEKS: WeekEntry[] = [
         { id: 'gr-4', author: 'Chandra Sharma', rating: 5, text: 'Beautiful Palace', time: '2024-10-22', relativeTime: 'a year ago' },
         { id: 'gr-5', author: 'CHIKU BAIRWAL', rating: 4, text: 'Best in the town', time: '2023-10-31', relativeTime: '2 years ago' },
       ],
+    },
+    youtube: {
+      subscribers: 16,
+      newSubscribers: 1,
+      views: 141,
+      watchTimeHours: 42,
+      averageViewDurationMinutes: 17.8,
+      impressions: 1850,
+      ctr: 7.6,
+      likes: 24,
+      comments: 6,
+      shares: 12,
+      videosCount: 2,
+      recentVideos: DEFAULT_YOUTUBE_VIDEOS,
     },
   },
 ];

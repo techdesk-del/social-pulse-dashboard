@@ -25,6 +25,8 @@ export async function POST(req: Request) {
                 linkedin: w.linkedin,
                 instagram: w.instagram,
                 facebook: w.facebook,
+                google: w.google,
+                youtube: w.youtube,
               },
             },
             upsert: true,
@@ -42,6 +44,8 @@ export async function POST(req: Request) {
         linkedin: w.linkedin,
         instagram: w.instagram,
         facebook: w.facebook,
+        google: w.google,
+        youtube: w.youtube,
       }));
 
       return NextResponse.json({ ok: true, weeks: formatted });

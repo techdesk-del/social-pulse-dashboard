@@ -3,10 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/AuthContext';
-import { emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews, SEED_WEEKS } from '../lib/constants';
+import { emptyLinkedIn, emptyInstagram, emptyFacebook, emptyGoogleReviews, emptyYouTube, SEED_WEEKS } from '../lib/constants';
 import { exportPDF } from '../lib/exportPdf';
 import { normalizeImportedWeeks, mergeWeekEntries, parseWeekRange } from '../lib/utils';
-import type { WeekEntry, TabId, PlatformKey, AppState, LinkedInData, InstagramData, FacebookData, GoogleReviewsData } from '../lib/types';
+import type { WeekEntry, TabId, PlatformKey, AppState, LinkedInData, InstagramData, FacebookData, GoogleReviewsData, YouTubeData } from '../lib/types';
 
 import Header from '../components/Header';
 import PulseBar from '../components/PulseBar';
@@ -14,16 +14,17 @@ import Tabs, { TAB_DEFS } from '../components/Tabs';
 import OverviewTab from '../components/OverviewTab';
 import PlatformTab from '../components/PlatformTab';
 import GoogleReviewsTab from '../components/GoogleReviewsTab';
+import YouTubeTab from '../components/YouTubeTab';
 import CompareTab from '../components/CompareTab';
 import DataModal from '../components/DataModal';
 
-const STORAGE_KEY = 'social_pulse_weeks_store_v7';
+const STORAGE_KEY = 'social_pulse_weeks_store_v8';
 
 const INITIAL_STATE: Omit<AppState, 'weeks'> = {
   activeIndex: 0,
   tab: 'overview',
   compareTab: 'linkedin',
-  chartMetric: { linkedin: 'impressions', instagram: 'views', facebook: 'views', google: 'totalReviews' },
+  chartMetric: { linkedin: 'impressions', instagram: 'views', facebook: 'views', google: 'totalReviews', youtube: 'views' },
   formOpen: false,
   formWeekId: null,
   formSection: 'linkedin',
@@ -131,6 +132,39 @@ export default function DashboardPage() {
     }
   }, []);
 
+  // ── Real-Time YouTube Live Sync ──
+  const handleLiveYouTubeSync = useCallback(async () => {
+    try {
+      const res = await fetch('/api/youtube/live?sync=true');
+      const json = await res.json();
+      if (json.ok && json.data) {
+        const live = json.data;
+        setWeeks((prev) => {
+          if (prev.length === 0) return prev;
+          const updated = prev.map((w) => {
+            const currentYt = w.youtube || emptyYouTube();
+            return {
+              ...w,
+              youtube: {
+                ...currentYt,
+                subscribers: live.subscribers ?? currentYt.subscribers,
+                views: live.views ?? currentYt.views,
+                watchTimeHours: live.watchTimeHours ?? currentYt.watchTimeHours,
+                likes: live.likes ?? currentYt.likes,
+                videosCount: live.videosCount ?? currentYt.videosCount,
+                recentVideos: live.recentVideos && live.recentVideos.length > 0 ? live.recentVideos : currentYt.recentVideos,
+              },
+            };
+          });
+          saveToLocalStorage(updated);
+          return updated;
+        });
+      }
+    } catch (err) {
+      console.warn('Live YouTube sync note:', err);
+    }
+  }, []);
+
   // Sync function to pull latest live database entries
   const syncWithDatabase = useCallback(async () => {
     try {
@@ -140,11 +174,11 @@ export default function DashboardPage() {
         setWeeks(data.weeks);
         saveToLocalStorage(data.weeks);
       }
-      await handleLiveGoogleSync();
+      await Promise.allSettled([handleLiveGoogleSync(), handleLiveYouTubeSync()]);
     } catch (err) {
       console.warn('Database sync note:', err);
     }
-  }, [handleLiveGoogleSync]);
+  }, [handleLiveGoogleSync, handleLiveYouTubeSync]);
 
   // Initialize data on mount: show local cache immediately, then sync with live MongoDB & Google
   useEffect(() => {
@@ -194,7 +228,7 @@ export default function DashboardPage() {
       formOpen: true,
       formWeekId: weekToEdit,
       _newWeekDate: null,
-      formSection: s.tab === 'instagram' || s.tab === 'facebook' ? s.tab : 'linkedin',
+      formSection: ['linkedin', 'instagram', 'facebook', 'google', 'youtube'].includes(s.tab) ? s.tab : 'linkedin',
     }));
   };
 
@@ -212,7 +246,7 @@ export default function DashboardPage() {
   const saveWeek = useCallback(
     async (
       weekId: string,
-      data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData; google: GoogleReviewsData }
+      data: { linkedin: LinkedInData; instagram: InstagramData; facebook: FacebookData; google: GoogleReviewsData; youtube: YouTubeData }
     ) => {
       const entry: WeekEntry = {
         weekId,
@@ -220,6 +254,7 @@ export default function DashboardPage() {
         instagram: { ...emptyInstagram(), ...data.instagram },
         facebook: { ...emptyFacebook(), ...data.facebook },
         google: { ...emptyGoogleReviews(), ...data.google },
+        youtube: { ...emptyYouTube(), ...data.youtube },
       };
 
       // 1. Update state and localStorage immediately
@@ -447,6 +482,15 @@ export default function DashboardPage() {
                 chartMetric={state.chartMetric.google || 'totalReviews'}
                 onMetricChange={(metric) => setChartMetric('google', metric)}
                 onLiveSync={handleLiveGoogleSync}
+              />
+            )}
+            {state.tab === 'youtube' && (
+              <YouTubeTab
+                weeks={weeks}
+                activeIndex={activeIndex}
+                chartMetric={state.chartMetric.youtube || 'views'}
+                onMetricChange={(metric) => setChartMetric('youtube', metric)}
+                onLiveSync={handleLiveYouTubeSync}
               />
             )}
             {state.tab === 'compare' && (
