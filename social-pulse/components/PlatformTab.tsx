@@ -14,13 +14,31 @@ interface Props {
   activeIndex: number;
   chartMetric: string;
   onMetricChange: (metric: string) => void;
+  onLiveSync?: (platform: PlatformKey) => Promise<void>;
 }
 
-export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetric, onMetricChange }: Props) {
+export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetric, onMetricChange, onLiveSync }: Props) {
   const cfg = PLATFORMS[platformKey];
   const curr = weeks[activeIndex][platformKey] as unknown as Record<string, number>;
   const prev = activeIndex > 0 ? (weeks[activeIndex - 1][platformKey] as unknown as Record<string, number>) : null;
   const upTo = weeks.slice(0, activeIndex + 1);
+
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncSuccess, setSyncSuccess] = useState(false);
+
+  async function handleSync() {
+    if (!onLiveSync || isSyncing) return;
+    try {
+      setIsSyncing(true);
+      await onLiveSync(platformKey);
+      setSyncSuccess(true);
+      setTimeout(() => setSyncSuccess(false), 3500);
+    } catch (err) {
+      console.warn('Sync failed:', err);
+    } finally {
+      setIsSyncing(false);
+    }
+  }
 
   // Active chart metric validation
   const currentMetricKey = cfg.metrics.some((m) => m.key === chartMetric)
@@ -101,6 +119,81 @@ export default function PlatformTab({ platformKey, weeks, activeIndex, chartMetr
 
   return (
     <>
+      {/* ── Executive Real-Time Platform Connection Strip ── */}
+      <div
+        className="card"
+        style={{
+          background: 'linear-gradient(90deg, #FFFFFF 0%, #F6FAFE 100%)',
+          border: '1px solid var(--border)',
+          borderRadius: 12,
+          padding: '12px 18px',
+          marginBottom: 16,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 12,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              background: 'rgba(18, 127, 88, 0.12)',
+              border: '1px solid rgba(18, 127, 88, 0.3)',
+              borderRadius: 20,
+              padding: '3px 10px',
+              fontSize: 11.5,
+              fontWeight: 700,
+              color: COLORS.up,
+            }}
+          >
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: '50%',
+                background: COLORS.up,
+                boxShadow: `0 0 8px ${COLORS.up}`,
+                display: 'inline-block',
+              }}
+            />
+            Live {cfg.label} Stream Active
+          </span>
+          <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>
+            Real-time feed for active week metrics • <strong>Historical data strictly preserved</strong>
+          </span>
+        </div>
+
+        {onLiveSync && (
+          <button
+            type="button"
+            onClick={handleSync}
+            disabled={isSyncing}
+            className="btn"
+            style={{
+              background: isSyncing ? 'var(--surface-raised)' : 'var(--surface)',
+              color: cfg.accent,
+              border: `1px solid ${cfg.accent}`,
+              fontWeight: 700,
+              fontSize: 12,
+              padding: '7px 14px',
+              borderRadius: 8,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              cursor: isSyncing ? 'not-allowed' : 'pointer',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+            }}
+            id={`btn-sync-live-${platformKey}`}
+          >
+            <span style={{ animation: isSyncing ? 'spin 1s linear infinite' : 'none' }}>⚡</span>
+            {isSyncing ? 'Syncing Live…' : syncSuccess ? '✓ Live Data Synced!' : `Sync Live ${cfg.label}`}
+          </button>
+        )}
+      </div>
       {/* ── KPI Cards (Grouped or Grid) ── */}
       {cfg.groups ? (
         cfg.groups.map((g, gi) => (

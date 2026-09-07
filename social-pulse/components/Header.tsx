@@ -11,6 +11,8 @@ interface Props {
   onImport: () => void;
   onExportPdf: () => void;
   onAdd: () => void;
+  onSyncAllLive?: () => void;
+  syncingAll?: boolean;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   pdfLoading?: boolean;
@@ -23,6 +25,8 @@ export default function Header({
   onImport,
   onExportPdf,
   onAdd,
+  onSyncAllLive,
+  syncingAll,
   fileInputRef,
   onFileChange,
   pdfLoading,
@@ -92,6 +96,31 @@ export default function Header({
           )}
           Export PDF
         </button>
+
+        {onSyncAllLive && (
+          <button
+            type="button"
+            className="btn"
+            onClick={onSyncAllLive}
+            disabled={syncingAll}
+            id="btn-sync-all-live"
+            style={{
+              background: 'rgba(16, 185, 129, 0.12)',
+              borderColor: 'rgba(16, 185, 129, 0.35)',
+              color: '#10b981',
+              fontWeight: 600,
+            }}
+            title="Live Sync all platforms in real-time (LinkedIn, Instagram, Facebook, YouTube, Google Maps)"
+          >
+            <span
+              className={syncingAll ? 'spin' : ''}
+              style={{ display: 'inline-block', fontSize: 13 }}
+            >
+              {syncingAll ? '⟳' : '⚡'}
+            </span>
+            {syncingAll ? 'Syncing All…' : 'Sync All Live'}
+          </button>
+        )}
 
         <button className="btn btn-primary" onClick={onAdd} id="btn-add-week">
           + Add / Edit Week

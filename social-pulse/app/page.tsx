@@ -81,7 +81,14 @@ export default function DashboardPage() {
   });
   const [isReady, setIsReady] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [syncingAll, setSyncingAll] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const weeksRef = useRef(weeks);
+  weeksRef.current = weeks;
+  const activeIndexRef = useRef(state.activeIndex);
+  activeIndexRef.current = state.activeIndex;
+  const initializedRef = useRef(false);
 
   // Guard: if not authenticated, redirect to /login
   useEffect(() => {
@@ -165,26 +172,95 @@ export default function DashboardPage() {
     }
   }, []);
 
-  // Sync function to pull latest live database entries
+  // ── Real-Time Social Platforms (LinkedIn, Instagram, Facebook) Live Sync ──
+  const handleLivePlatformSync = useCallback(async (platform: PlatformKey | 'all') => {
+    try {
+      const currentWeeks = weeksRef.current;
+      const currentIdx = activeIndexRef.current;
+      const currentWeek = currentWeeks[currentIdx] || currentWeeks[currentWeeks.length - 1];
+      const targetWeekId = currentWeek?.weekId;
+      const res = await fetch(
+        `/api/social/live?platform=${platform}&sync=true${targetWeekId ? `&weekId=${encodeURIComponent(targetWeekId)}` : ''}&_t=${Date.now()}`,
+        { cache: 'no-store' }
+      );
+      const json = await res.json();
+      if (json.ok && json.data) {
+        const liveMap = json.data as {
+          linkedin: Partial<LinkedInData>;
+          instagram: Partial<InstagramData>;
+          facebook: Partial<FacebookData>;
+        };
+        setWeeks((prev) => {
+          if (prev.length === 0) return prev;
+          // Target the currently viewed week on user's screen so they see instant real-time changes
+          const targetIdx = currentIdx >= 0 && currentIdx < prev.length ? currentIdx : prev.length - 1;
+          const updated = prev.map((w, idx) => {
+            if (idx !== targetIdx) return w;
+
+            const nextWeek = { ...w };
+            if (platform === 'linkedin' || platform === 'all') {
+              nextWeek.linkedin = { ...w.linkedin, ...liveMap.linkedin };
+            }
+            if (platform === 'instagram' || platform === 'all') {
+              nextWeek.instagram = { ...w.instagram, ...liveMap.instagram };
+            }
+            if (platform === 'facebook' || platform === 'all') {
+              nextWeek.facebook = { ...w.facebook, ...liveMap.facebook };
+            }
+            return nextWeek;
+          });
+          saveToLocalStorage(updated);
+          return updated;
+        });
+      }
+    } catch (err) {
+      console.warn(`Live ${platform} sync note:`, err);
+    }
+  }, []);
+
+  // Sync function to pull latest live database entries across all 5 platforms
   const syncWithDatabase = useCallback(async () => {
     try {
-      const res = await fetch('/api/weeks');
+      const res = await fetch(`/api/weeks?_t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.ok && Array.isArray(data.weeks) && data.weeks.length > 0) {
         setWeeks(data.weeks);
         saveToLocalStorage(data.weeks);
+        setState((s) => ({ ...s, activeIndex: data.weeks.length - 1 }));
       }
-      await Promise.allSettled([handleLiveGoogleSync(), handleLiveYouTubeSync()]);
+      await Promise.allSettled([
+        handleLiveGoogleSync(),
+        handleLiveYouTubeSync(),
+        handleLivePlatformSync('all'),
+      ]);
     } catch (err) {
       console.warn('Database sync note:', err);
     }
-  }, [handleLiveGoogleSync, handleLiveYouTubeSync]);
+  }, [handleLiveGoogleSync, handleLiveYouTubeSync, handleLivePlatformSync]);
+
+  // Master Sync Handler: triggers real-time live sync across all 5 platforms concurrently
+  const handleSyncAllLive = useCallback(async () => {
+    try {
+      setSyncingAll(true);
+      await Promise.allSettled([
+        handleLiveGoogleSync(),
+        handleLiveYouTubeSync(),
+        handleLivePlatformSync('all'),
+      ]);
+    } finally {
+      setSyncingAll(false);
+    }
+  }, [handleLiveGoogleSync, handleLiveYouTubeSync, handleLivePlatformSync]);
 
   // Initialize data on mount: show local cache immediately, then sync with live MongoDB & Google
   useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
     const local = loadFromLocalStorage();
     if (local !== null && local.length > 0) {
       setWeeks(local);
+      setState((s) => ({ ...s, activeIndex: local.length - 1 }));
       setIsReady(true);
     } else {
       setWeeks(SEED_WEEKS);
@@ -200,12 +276,14 @@ export default function DashboardPage() {
     // Automatically re-sync whenever user focuses or returns to the dashboard tab
     const handleFocus = () => syncWithDatabase();
     window.addEventListener('focus', handleFocus);
-    window.addEventListener('visibilitychange', () => {
+    const handleVisibility = () => {
       if (document.visibilityState === 'visible') syncWithDatabase();
-    });
+    };
+    window.addEventListener('visibilitychange', handleVisibility);
 
     return () => {
       window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('visibilitychange', handleVisibility);
     };
   }, [syncWithDatabase]);
 
@@ -415,6 +493,8 @@ export default function DashboardPage() {
         onImport={handleImport}
         onExportPdf={handleExportPdf}
         onAdd={() => openForm()}
+        onSyncAllLive={handleSyncAllLive}
+        syncingAll={syncingAll}
         fileInputRef={fileInputRef}
         onFileChange={handleFileChange}
         pdfLoading={pdfLoading}
@@ -473,6 +553,7 @@ export default function DashboardPage() {
                 activeIndex={activeIndex}
                 chartMetric={state.chartMetric[state.tab]}
                 onMetricChange={(metric) => setChartMetric(state.tab as PlatformKey, metric)}
+                onLiveSync={handleLivePlatformSync}
               />
             )}
             {state.tab === 'google' && (
