@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { num, shortWeekLabel } from '../lib/utils';
 import { COLORS } from '../lib/constants';
 import KpiCard from './KpiCard';
@@ -13,7 +14,11 @@ interface Props {
   activeIndex: number;
 }
 
+type GrowthViewMode = 'all' | 'social' | 'actions';
+
 export default function OverviewTab({ weeks, activeIndex }: Props) {
+  const [growthMode, setGrowthMode] = useState<GrowthViewMode>('all');
+
   const curr = weeks[activeIndex];
   const prev = activeIndex > 0 ? weeks[activeIndex - 1] : null;
   const upTo = weeks.slice(0, activeIndex + 1);
@@ -34,9 +39,10 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
 
   const liFollows = (w: WeekEntry) => num(w.linkedin.newFollowers300Days || w.linkedin.newFollowers);
 
-  const totalNewFollows = liFollows(curr) + num(curr.instagram.follows) + num(curr.facebook.follows);
-  const prevNewFollows = prev
-    ? liFollows(prev) + num(prev.instagram.follows) + num(prev.facebook.follows)
+  // Cross-Platform New Audience Growth (Social Followers + Google Verified Reviews)
+  const totalNewGrowth = liFollows(curr) + num(curr.instagram.follows) + num(curr.facebook.follows) + num(curr.google?.newReviews);
+  const prevNewGrowth = prev
+    ? liFollows(prev) + num(prev.instagram.follows) + num(prev.facebook.follows) + num(prev.google?.newReviews)
     : null;
 
   const totalClicks = num(curr.instagram.linkClicks) + num(curr.facebook.linkClicks) + num(curr.google?.websiteClicks) + num(curr.google?.callClicks);
@@ -47,18 +53,38 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
   }
 
   const lineLabels = upTo.map((w) => shortWeekLabel(w.weekId));
-  const lineData = upTo.map((w) => liFollows(w) + num(w.instagram.follows) + num(w.facebook.follows));
+  const lineData = upTo.map((w) => liFollows(w) + num(w.instagram.follows) + num(w.facebook.follows) + num(w.google?.newReviews));
 
-  const barNames = ['LinkedIn', 'Instagram', 'Facebook'];
-  const barColors = [COLORS.li, COLORS.ig, COLORS.fb];
-  const barVals = [liFollows(curr), num(curr.instagram.follows), num(curr.facebook.follows)];
+  // Platform bar chart datasets
+  let barNames: string[];
+  let barColors: string[];
+  let barVals: number[];
+
+  if (growthMode === 'social') {
+    barNames = ['LinkedIn', 'Instagram', 'Facebook'];
+    barColors = [COLORS.li, COLORS.ig, COLORS.fb];
+    barVals = [liFollows(curr), num(curr.instagram.follows), num(curr.facebook.follows)];
+  } else if (growthMode === 'actions') {
+    barNames = ['IG Clicks', 'FB Clicks', 'Google Actions'];
+    barColors = [COLORS.ig, COLORS.fb, COLORS.goog];
+    barVals = [
+      num(curr.instagram.linkClicks),
+      num(curr.facebook.linkClicks),
+      num(curr.google?.websiteClicks) + num(curr.google?.callClicks) + num(curr.google?.directionRequests),
+    ];
+  } else {
+    // Default: 'all' -> All 4 platforms cleanly labeled
+    barNames = ['LinkedIn', 'Instagram', 'Facebook', 'Google'];
+    barColors = [COLORS.li, COLORS.ig, COLORS.fb, COLORS.goog];
+    barVals = [liFollows(curr), num(curr.instagram.follows), num(curr.facebook.follows), num(curr.google?.newReviews)];
+  }
   
   const reachNames = ['LinkedIn', 'Instagram', 'Facebook', 'Google Discovery'];
   const reachColors = [COLORS.li, COLORS.ig, COLORS.fb, COLORS.goog];
   const reachVals = [num(curr.linkedin.impressions), num(curr.instagram.reach), num(curr.facebook.viewers), googleDiscovery || 100];
 
   const avgRating = curr.google?.averageRating ? Number(curr.google.averageRating).toFixed(1) : '4.7';
-  const totalReviews = num(curr.google?.totalReviews) || 10;
+  const totalReviews = num(curr.google?.totalReviews) || 11;
 
   return (
     <>
@@ -120,10 +146,10 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
           accent={COLORS.up}
         />
         <KpiCard
-          label="New Follows This Week"
-          value={totalNewFollows}
-          prevValue={prevNewFollows}
-          sparkValues={sparkFor((w) => num(w.linkedin.newFollowers) + num(w.instagram.follows) + num(w.facebook.follows))}
+          label="New Follows & Growth (All Platforms)"
+          value={totalNewGrowth}
+          prevValue={prevNewGrowth}
+          sparkValues={sparkFor((w) => liFollows(w) + num(w.instagram.follows) + num(w.facebook.follows) + num(w.google?.newReviews))}
           accent={COLORS.flat}
         />
         <KpiCard
@@ -137,7 +163,72 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
 
       <div className="charts-row-3">
         <div className="card chart-card">
-          <div className="chart-title" style={{ marginBottom: 10 }}>New follows by platform — this week</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+            <div className="chart-title" style={{ margin: 0 }}>
+              New follows & growth — this week
+            </div>
+            <div
+              style={{
+                display: 'inline-flex',
+                background: 'var(--surface-raised)',
+                borderRadius: 6,
+                padding: 2,
+                border: '1px solid var(--border-soft)',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setGrowthMode('all')}
+                style={{
+                  border: 'none',
+                  background: growthMode === 'all' ? 'var(--surface)' : 'transparent',
+                  color: growthMode === 'all' ? 'var(--text)' : 'var(--text-faint)',
+                  fontSize: 10.5,
+                  fontWeight: growthMode === 'all' ? 700 : 500,
+                  padding: '2px 8px',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                  boxShadow: growthMode === 'all' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                }}
+              >
+                All (4)
+              </button>
+              <button
+                type="button"
+                onClick={() => setGrowthMode('social')}
+                style={{
+                  border: 'none',
+                  background: growthMode === 'social' ? 'var(--surface)' : 'transparent',
+                  color: growthMode === 'social' ? 'var(--text)' : 'var(--text-faint)',
+                  fontSize: 10.5,
+                  fontWeight: growthMode === 'social' ? 700 : 500,
+                  padding: '2px 8px',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                  boxShadow: growthMode === 'social' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                }}
+              >
+                Social (3)
+              </button>
+              <button
+                type="button"
+                onClick={() => setGrowthMode('actions')}
+                style={{
+                  border: 'none',
+                  background: growthMode === 'actions' ? 'var(--surface)' : 'transparent',
+                  color: growthMode === 'actions' ? 'var(--text)' : 'var(--text-faint)',
+                  fontSize: 10.5,
+                  fontWeight: growthMode === 'actions' ? 700 : 500,
+                  padding: '2px 8px',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                  boxShadow: growthMode === 'actions' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                }}
+              >
+                Actions
+              </button>
+            </div>
+          </div>
           <div style={{ height: 190 }}>
             <BarChart labels={barNames} data={barVals} colors={barColors} />
           </div>
@@ -149,9 +240,9 @@ export default function OverviewTab({ weeks, activeIndex }: Props) {
           </div>
         </div>
         <div className="card chart-card">
-          <div className="chart-title" style={{ marginBottom: 10 }}>Weekly new follows — all weeks</div>
+          <div className="chart-title" style={{ marginBottom: 10 }}>Weekly audience growth — all weeks</div>
           <div style={{ height: 190 }}>
-            <LineChart labels={lineLabels} data={lineData} color={COLORS.up} label="New follows" />
+            <LineChart labels={lineLabels} data={lineData} color={COLORS.up} label="New follows & reviews" />
           </div>
         </div>
       </div>

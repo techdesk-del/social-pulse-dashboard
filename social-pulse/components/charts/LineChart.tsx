@@ -59,7 +59,12 @@ export default function LineChart({ labels, data, color, label }: Props) {
         scales: {
           x: {
             grid: { color: COLORS.borderSoft },
-            ticks: { color: COLORS.textFaint, font: { size: 11 } },
+            ticks: {
+              color: COLORS.textDim,
+              font: { size: 11, weight: 'normal' },
+              maxRotation: 0,
+              minRotation: 0,
+            },
             border: { color: COLORS.border },
           },
           y: {

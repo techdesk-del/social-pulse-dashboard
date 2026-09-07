@@ -69,8 +69,8 @@ export async function exportPDF(weeks: WeekEntry[], activeIndex: number): Promis
   const prevReach = prevWeek ? num(prevWeek.linkedin.impressions) + num(prevWeek.instagram.reach) + num(prevWeek.facebook.viewers) + (prevGoogleDiscovery ?? 0) : null;
   const totalEng = num(activeWeek.linkedin.reactions) + num(activeWeek.linkedin.comments) + num(activeWeek.linkedin.reposts) + num(activeWeek.instagram.contentInteractions) + num(activeWeek.facebook.contentInteractions) + num(activeWeek.google?.newReviews);
   const prevEng = prevWeek ? num(prevWeek.linkedin.reactions) + num(prevWeek.linkedin.comments) + num(prevWeek.linkedin.reposts) + num(prevWeek.instagram.contentInteractions) + num(prevWeek.facebook.contentInteractions) + num(prevWeek.google?.newReviews) : null;
-  const totalFollows = num(activeWeek.linkedin.newFollowers) + num(activeWeek.instagram.follows) + num(activeWeek.facebook.follows);
-  const prevFollows = prevWeek ? num(prevWeek.linkedin.newFollowers) + num(prevWeek.instagram.follows) + num(prevWeek.facebook.follows) : null;
+  const totalFollows = num(activeWeek.linkedin.newFollowers) + num(activeWeek.instagram.follows) + num(activeWeek.facebook.follows) + num(activeWeek.google?.newReviews);
+  const prevFollows = prevWeek ? num(prevWeek.linkedin.newFollowers) + num(prevWeek.instagram.follows) + num(prevWeek.facebook.follows) + num(prevWeek.google?.newReviews) : null;
   const totalClicks = num(activeWeek.instagram.linkClicks) + num(activeWeek.facebook.linkClicks) + num(activeWeek.google?.websiteClicks) + num(activeWeek.google?.callClicks);
   const prevClicks = prevWeek ? num(prevWeek.instagram.linkClicks) + num(prevWeek.facebook.linkClicks) + num(prevWeek.google?.websiteClicks) + num(prevWeek.google?.callClicks) : null;
 
@@ -88,7 +88,7 @@ export async function exportPDF(weeks: WeekEntry[], activeIndex: number): Promis
     body: [
       ['Total Exposure (Social + Google Discovery)', fmtNum(totalReach), prevWeek ? fmtNum(prevReach!) : '—', trendCell(totalReach, prevReach)],
       ['Total Engagement & Reviews', fmtNum(totalEng), prevWeek ? fmtNum(prevEng!) : '—', trendCell(totalEng, prevEng)],
-      ['New Followers (all platforms)', fmtNum(totalFollows), prevWeek ? fmtNum(prevFollows!) : '—', trendCell(totalFollows, prevFollows)],
+      ['New Audience Growth (Follows + Google Reviews)', fmtNum(totalFollows), prevWeek ? fmtNum(prevFollows!) : '—', trendCell(totalFollows, prevFollows)],
       ['Total Direct Actions & Clicks', fmtNum(totalClicks), prevWeek ? fmtNum(prevClicks!) : '—', trendCell(totalClicks, prevClicks)],
     ],
     headStyles: { fillColor: PRIMARY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9 },
