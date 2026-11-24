@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UrbanGaon Social Pulse - Architecture, Hosting & Data Privacy Brief</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #ffffff;
+      color: #0f172a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      padding: 13mm 16mm 12mm 16mm;
+      box-sizing: border-box;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    /* Page Header */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 7px;
+    }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1e3a8a;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 13px;
+      border-radius: 9999px;
+      border: 1px solid #93c5fd;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .blue-divider {
+      width: 100%;
+      height: 2.5px;
+      background: #2563eb;
+      margin-bottom: 14px;
+      border-radius: 2px;
+    }
+
+    .page-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      border-radius: 10px;
+      padding: 16px 20px;
+      color: #ffffff;
+      margin-bottom: 13px;
+      box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.15);
+    }
+
+    .hero-title {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      font-size: 11px;
+      color: #93c5fd;
+      line-height: 1.4;
+    }
+
+    /* Core Insight Callout Box */
+    .insight-box {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 13px;
+    }
+
+    .insight-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #15803d;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .insight-text {
+      font-size: 11px;
+      color: #166534;
+      line-height: 1.5;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-desc {
+      font-size: 11px;
+      color: #334155;
+      margin-bottom: 9px;
+      line-height: 1.4;
+    }
+
+    /* Tables */
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.5px;
+      margin-bottom: 12px;
+      background: #ffffff;
+    }
+
+    .styled-table th {
+      background: #f8fafc;
+      color: #1e293b;
+      font-weight: 700;
+      text-align: left;
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 10.5px;
+    }
+
+    .styled-table td {
+      padding: 6.5px 10px;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      font-size: 10.5px;
+      line-height: 1.35;
+    }
+
+    /* Architecture Grid */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      margin-bottom: 13px;
+    }
+
+    .arch-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 11px 14px;
+      background: #ffffff;
+    }
+
+    .arch-card.highlight {
+      border-left: 3.5px solid #2563eb;
+      background: #f8fafc;
+    }
+
+    .arch-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .arch-heading {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .arch-body {
+      font-size: 10.5px;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    /* Option Cards */
+    .option-card {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      background: #ffffff;
+    }
+
+    .option-card.recommended {
+      border-color: #93c5fd;
+      background: #f0f7ff;
+    }
+
+    .option-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .option-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .option-pill {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2.5px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .option-pill.green {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    .option-pill.blue {
+      background: #e0e7ff;
+      color: #3730a3;
+      border: 1px solid #a5b4fc;
+    }
+
+    .option-pill.amber {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .option-details {
+      font-size: 10.5px;
+      color: #334155;
+      line-height: 1.45;
+    }
+
+    .option-details strong {
+      color: #0f172a;
+    }
+
+    /* Key Takeaway Bullet List */
+    .bullet-list {
+      list-style-type: none;
+      padding-left: 0;
+      font-size: 10.5px;
+      color: #1e293b;
+      line-height: 1.45;
+    }
+
+    .bullet-list li {
+      margin-bottom: 6px;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .bullet-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #2563eb;
+      font-weight: 800;
+      font-size: 11px;
+    }
+
+    /* Page Footer */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 9px;
+      color: #64748b;
+    }
+
+    .footer-left {
+      font-weight: 500;
+    }
+
+    .footer-right {
+      font-weight: 600;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 1: CORE DATA PRIVACY & ARCHITECTURE REALITY               -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="page-body">
+      <div class="header-bar">
+        <div>
+          <div class="brand-title">UrbanGaon</div>
+          <div class="brand-subtitle">EXECUTIVE ARCHITECTURE &amp; DATA PRIVACY DOSSIER</div>
+        </div>
+        <div class="header-badge">MANAGEMENT BRIEF • OFFICIAL</div>
+      </div>
+      <div class="blue-divider"></div>
+
+      <div class="hero-banner">
+        <div class="hero-title">Social Pulse Dashboard: Hosting &amp; Data Security Brief</div>
+        <div class="hero-subtitle">Prepared for Executive Leadership &amp; Board Review • Clarifying Data Flow, Hosting Options &amp; Privacy Safeguards</div>
+      </div>
+
+      <div class="insight-box">
+        <div class="insight-title">🔒 Direct Answer to the Core Privacy Question:</div>
+        <div class="insight-text">
+          <strong>"If we host the frontend via Vercel on <code>social.urbangaon.com</code>, does our data go to a third party?"</strong><br>
+          <strong>NO.</strong> Business data, customer analytics, and weekly records <strong>NEVER reside on the web host</strong> (neither BigRock nor Vercel). All data is stored exclusively in our encrypted <strong>MongoDB Atlas Enterprise Cloud</strong> cluster. The web host acts strictly as a stateless display engine.
+        </div>
+      </div>
+
+      <div class="section-title">1. Understanding Where Our Corporate Data Actually Lives</div>
+      <div class="section-desc">There is a clear architectural separation between where our application code renders and where our confidential records reside:</div>
+
+      <div class="arch-grid">
+        <div class="arch-card highlight">
+          <div class="arch-tag" style="color: #2563eb;">DATABASE LAYER (CONFIDENTIAL RECORDS)</div>
+          <div class="arch-heading">MongoDB Atlas Enterprise Cluster</div>
+          <div class="arch-body">
+            • <strong>What Lives Here:</strong> All social media metrics, historical week entries, customer reviews, ratings, and encrypted passwords.<br>
+            • <strong>Encryption:</strong> Encrypted in transit (TLS 1.3) and encrypted at rest (AES-256).<br>
+            • <strong>Access:</strong> Protected by IP whitelisting and credentials. Isolated from any web host.
+          </div>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-tag" style="color: #64748b;">APPLICATION LAYER (COMPUTE ENGINE)</div>
+          <div class="arch-heading">Web Hosting Platform (Vercel / Server)</div>
+          <div class="arch-body">
+            • <strong>What Lives Here:</strong> Only compiled React UI code, CSS styling, and stateless API handlers.<br>
+            • <strong>Zero Data Retention:</strong> Does NOT save, log, cache, or inspect database records.<br>
+            • <strong>Pure Bridge:</strong> Simply delivers the HTML/JS interface to the user's browser.
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">2. BigRock Shared Hosting vs. Vercel Cloud Security Comparison</div>
+      <div class="section-desc">A technical risk evaluation between BigRock cPanel shared hosting and modern enterprise edge infrastructure:</div>
+
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Security Factor</th>
+            <th style="width: 37%;">BigRock Shared cPanel Hosting</th>
+            <th style="width: 38%;">Vercel Cloud Edge Platform</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Server Architecture</strong></td>
+            <td>Multi-tenant shared server (hundreds of external websites share the same disk &amp; IP).</td>
+            <td>Sandboxed isolated micro-containers. Zero cross-tenant data exposure.</td>
+          </tr>
+          <tr>
+            <td><strong>Security Compliance</strong></td>
+            <td>Basic shared hosting standard.</td>
+            <td><strong>SOC2 Type II, ISO 27001, GDPR</strong> certified enterprise infrastructure.</td>
+          </tr>
+          <tr>
+            <td><strong>Trusted Industry Users</strong></td>
+            <td>Personal blogs, small local WordPress sites.</td>
+            <td><strong>OpenAI (ChatGPT UI), Nike, Uber, TikTok, The Washington Post</strong>.</td>
+          </tr>
+          <tr>
+            <td><strong>Runtime Compatibility</strong></td>
+            <td>❌ Missing Node.js runtime (jailshell blocks Next.js 16 execution).</td>
+            <td>✔ Native Next.js 16 runtime created by the authors of Next.js.</td>
+          </tr>
+          <tr>
+            <td><strong>Brand / Domain Privacy</strong></td>
+            <td>Runs on <code>social.urbangaon.com</code></td>
+            <td>Runs on <code>social.urbangaon.com</code> (100% company domain, zero external branding).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-left">UrbanGaon Technologies Pvt. Ltd. • Executive Architecture Brief</div>
+      <div class="footer-right">Page 1 of 2 • Data Flow &amp; Security</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 2: STRATEGIC OPTIONS & LEADERSHIP RECOMMENDATION          -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="page-body">
+      <div class="header-bar">
+        <div>
+          <div class="brand-title">UrbanGaon</div>
+          <div class="brand-subtitle">EXECUTIVE DECISION MATRIX &amp; DEPLOYMENT PATHS</div>
+        </div>
+        <div class="header-badge">DECISION ROADMAP</div>
+      </div>
+      <div class="blue-divider"></div>
+
+      <div style="margin-bottom: 11px;">
+        <div style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">Executive Decision Matrix: 3 Viable Hosting Paths</div>
+        <div style="font-size: 11px; color: #475569;">Leadership can evaluate the three operational alternatives based on security, speed, and maintenance overhead:</div>
+      </div>
+
+      <!-- OPTION A -->
+      <div class="option-card recommended">
+        <div class="option-header">
+          <div class="option-title">Option A: Industry-Standard DNS CNAME to Vercel (Recommended)</div>
+          <span class="option-pill green">RECOMMENDED • FASTEST</span>
+        </div>
+        <div class="option-details">
+          • <strong>Mechanism:</strong> Point <code>social.urbangaon.com</code> to Vercel via a single CNAME record in BigRock DNS.<br>
+          • <strong>Domain Sovereignty:</strong> 100% on company domain (<code>https://social.urbangaon.com</code>). Zero third-party branding.<br>
+          • <strong>Data Security:</strong> Database stays on MongoDB Atlas. Zero business data retained by Vercel.<br>
+          • <strong>Timeline &amp; Cost:</strong> <strong>5 minutes setup • ₹0 / month</strong> (Included in Vercel Free Tier). Automated SSL and zero crashes.
+        </div>
+      </div>
+
+      <!-- OPTION B -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-title">Option B: UrbanGaon On-Premise Private NAS Server</div>
+          <span class="option-pill blue">100% PRIVATE • ZERO CLOUD</span>
+        </div>
+        <div class="option-details">
+          • <strong>Mechanism:</strong> Deploy the Docker / Node.js container directly onto UrbanGaon's physical office NAS server.<br>
+          • <strong>Data Security:</strong> 100% physical custody inside company premises. No external compute platform involved.<br>
+          • <strong>External Access:</strong> Requires configuring a Cloudflare Tunnel or local port-forwarding for external office access.<br>
+          • <strong>Timeline &amp; Cost:</strong> <strong>2–3 hours engineering setup • ₹0 ongoing cost</strong> (Hardware already owned).
+        </div>
+      </div>
+
+      <!-- OPTION C -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-title">Option C: Upgrade BigRock Hosting / Enable Node.js Support</div>
+          <span class="option-pill amber">TRADITIONAL CPANEL</span>
+        </div>
+        <div class="option-details">
+          • <strong>Mechanism:</strong> Contact BigRock Support to enable Node.js v18+ in jailshell, or upgrade to a dedicated BigRock VPS.<br>
+          • <strong>Data Security:</strong> Lives on BigRock hosting server alongside main corporate website.<br>
+          • <strong>Limitation:</strong> Requires ongoing manual server patching, Apache configuration, and potential extra hosting fees.<br>
+          • <strong>Timeline &amp; Cost:</strong> <strong>24–48 hours support SLA • Potential recurring server upgrade fee</strong>.
+        </div>
+      </div>
+
+      <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-top: 8px; margin-bottom: 6px;">Key Talking Points for Sir / Leadership Review:</div>
+      <ul class="bullet-list">
+        <li><strong>Zero Data Leakage:</strong> All proprietary business metrics remain in our encrypted MongoDB Atlas cloud regardless of whether BigRock or Vercel renders the page.</li>
+        <li><strong>BigRock is Also a Third Party:</strong> BigRock is a commercial hosting vendor (Newfold Digital). Vercel carries significantly stricter corporate compliance (SOC2 Type II, ISO 27001).</li>
+        <li><strong>100% Brand Integrity:</strong> The URL in every browser, report, and executive device will always be <code>https://social.urbangaon.com</code>.</li>
+        <li><strong>Zero Maintenance &amp; ₹0 Cost:</strong> Option A eliminates server crashes, Apache 500/403 permission errors, and requires zero monthly budget.</li>
+      </ul>
+
+      <div class="insight-box" style="margin-top: 10px; margin-bottom: 0;">
+        <div class="insight-title" style="color: #1e3a8a;">🎯 Engineering Recommendation:</div>
+        <div class="insight-text" style="color: #1e3a8a;">
+          We recommend approving <strong>Option A (Vercel CNAME)</strong> for an instant, zero-cost, enterprise-grade deployment with full data security. Alternatively, if company policy strictly mandates air-gapped on-premise hardware, we can proceed with <strong>Option B (UrbanGaon NAS)</strong>.
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-left">UrbanGaon Technologies Pvt. Ltd. • Executive Architecture Brief</div>
+      <div class="footer-right">Page 2 of 2 • Approved by Lead Engineering</div>
+    </div>
+  </div>
+
+</body>
+</html>

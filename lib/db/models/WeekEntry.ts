@@ -1,0 +1,136 @@
+import mongoose, { Schema, Document, Model } from 'mongoose';
+import type { LinkedInData, InstagramData, FacebookData, GoogleReviewsData, YouTubeData } from '../../types';
+
+export interface IWeekEntry extends Document {
+  userId?: string | mongoose.Types.ObjectId;
+  weekId: string; // "YYYY-MM-DD"
+  linkedin: LinkedInData;
+  instagram: InstagramData;
+  facebook: FacebookData;
+  google: GoogleReviewsData;
+  youtube?: YouTubeData;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const LinkedInSchema = new Schema<LinkedInData>(
+  {
+    impressions: { type: Number, default: 0 },
+    reactions: { type: Number, default: 0 },
+    comments: { type: Number, default: 0 },
+    reposts: { type: Number, default: 0 },
+    pageViews: { type: Number, default: 0 },
+    uniqueVisitors: { type: Number, default: 0 },
+    totalFollowers: { type: Number, default: 0 },
+    newFollowers: { type: Number, default: 0 },
+    searchAppearances: { type: Number, default: 0 },
+    customButtonClick: { type: Number, default: 0 },
+    newFollowers300Days: { type: Number, default: 0 },
+    pageSearches: { type: Number, default: 0 },
+    reach: { type: Number, default: 0 },
+    profileViews: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
+const InstagramSchema = new Schema<InstagramData>(
+  {
+    views: { type: Number, default: 0 },
+    reach: { type: Number, default: 0 },
+    contentInteractions: { type: Number, default: 0 },
+    linkClicks: { type: Number, default: 0 },
+    visits: { type: Number, default: 0 },
+    follows: { type: Number, default: 0 },
+    impressions: { type: Number, default: 0 },
+    profileVisits: { type: Number, default: 0 },
+    reelsViews: { type: Number, default: 0 },
+    postViews: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    comments: { type: Number, default: 0 },
+    shares: { type: Number, default: 0 },
+    saves: { type: Number, default: 0 },
+    totalFollowers: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
+const FacebookSchema = new Schema<FacebookData>(
+  {
+    views: { type: Number, default: 0 },
+    viewers: { type: Number, default: 0 },
+    contentInteractions: { type: Number, default: 0 },
+    linkClicks: { type: Number, default: 0 },
+    visits: { type: Number, default: 0 },
+    follows: { type: Number, default: 0 },
+    profileVisits: { type: Number, default: 0 },
+    reach: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
+const GoogleReviewsSchema = new Schema<GoogleReviewsData>(
+  {
+    averageRating: { type: Number, default: 0 },
+    totalReviews: { type: Number, default: 0 },
+    newReviews: { type: Number, default: 0 },
+    responseRate: { type: Number, default: 100 },
+    fiveStars: { type: Number, default: 0 },
+    fourStars: { type: Number, default: 0 },
+    threeStars: { type: Number, default: 0 },
+    twoStars: { type: Number, default: 0 },
+    oneStar: { type: Number, default: 0 },
+    searchViews: { type: Number, default: 0 },
+    mapsViews: { type: Number, default: 0 },
+    websiteClicks: { type: Number, default: 0 },
+    directionRequests: { type: Number, default: 0 },
+    callClicks: { type: Number, default: 0 },
+    recentReviews: { type: [Schema.Types.Mixed], default: [] },
+  },
+  { _id: false }
+);
+
+const YouTubeSchema = new Schema<YouTubeData>(
+  {
+    subscribers: { type: Number, default: 16 },
+    newSubscribers: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
+    watchTimeHours: { type: Number, default: 0 },
+    averageViewDurationMinutes: { type: Number, default: 0 },
+    impressions: { type: Number, default: 0 },
+    ctr: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    comments: { type: Number, default: 0 },
+    shares: { type: Number, default: 0 },
+    videosCount: { type: Number, default: 2 },
+    recentVideos: { type: [Schema.Types.Mixed], default: [] },
+    urbanGaonChannel: { type: Schema.Types.Mixed, default: null },
+  },
+  { _id: false }
+);
+
+const WeekEntrySchema = new Schema<IWeekEntry>(
+  {
+    userId: { type: String, required: false, default: 'default_user', index: true },
+    weekId: { type: String, required: true },
+    linkedin: { type: LinkedInSchema, default: () => ({}) },
+    instagram: { type: InstagramSchema, default: () => ({}) },
+    facebook: { type: FacebookSchema, default: () => ({}) },
+    google: { type: GoogleReviewsSchema, default: () => ({}) },
+    youtube: { type: YouTubeSchema, default: () => ({}) },
+  },
+  { timestamps: true }
+);
+
+// Compound unique index so each user can only have 1 entry per weekId
+WeekEntrySchema.index({ weekId: 1 }, { unique: true });
+
+// Force model re-registration in HMR development mode
+if (mongoose.models.WeekEntry) {
+  delete mongoose.models.WeekEntry;
+}
+
+const WeekEntry: Model<IWeekEntry> =
+  mongoose.models.WeekEntry || mongoose.model<IWeekEntry>('WeekEntry', WeekEntrySchema);
+
+export default WeekEntry;
+

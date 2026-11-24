@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitignore
+*.log
+*.pdf
+scratch
+scripts
+docs
+CEO_EXECUTIVE_PRESENTATION.*
+Social_Pulse_UI_Flow_Guide.*
+deploy_bundle
+deploy_social_pulse.zip
+nas_social_pulse.zip

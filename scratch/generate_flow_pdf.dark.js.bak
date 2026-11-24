@@ -1,0 +1,1568 @@
+const puppeteer = require('puppeteer-core');
+const fs = require('fs');
+const path = require('path');
+
+const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const OUTPUT_PDF = path.join(__dirname, '..', 'Social_Pulse_UI_Flow_Guide.pdf');
+
+async function buildPdf() {
+  console.log('Building HTML content with 100% Professional English text...');
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social Pulse - Complete UI & Interactive Flow Architecture</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #090d16;
+      color: #f1f5f9;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 297mm;
+      height: 210mm;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+      padding: 13mm 16mm 11mm 16mm;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                  #0a0f1d;
+    }
+
+    /* Page Header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .page-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .badge-category {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      color: #38bdf8;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-category::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+    }
+    .page-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .page-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      max-width: 720px;
+      line-height: 1.4;
+    }
+    .page-meta {
+      text-align: right;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 10px;
+      color: #64748b;
+    }
+    .page-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 2px;
+    }
+
+    /* Content Area */
+    .content-grid {
+      flex: 1;
+      display: grid;
+      gap: 14px;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .grid-2col {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+
+    /* Visual Screenshot Frame */
+    .screenshot-frame {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .frame-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px 8px 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .window-dots {
+      display: flex;
+      gap: 5px;
+    }
+    .window-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .screenshot-img-wrap {
+      flex: 1;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #020617;
+      position: relative;
+    }
+
+    .screenshot-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Flow Cards Column */
+    .flow-steps-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .step-card {
+      background: rgba(30, 41, 59, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 3.5px solid #38bdf8;
+      border-radius: 8px;
+      padding: 8px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .step-card.purple { border-left-color: #a855f7; }
+    .step-card.emerald { border-left-color: #10b981; }
+    .step-card.amber { border-left-color: #f59e0b; }
+    .step-card.rose { border-left-color: #f43f5e; }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-card.purple .step-badge { background: #9333ea; }
+    .step-card.emerald .step-badge { background: #059669; }
+    .step-card.amber .step-badge { background: #d97706; }
+    .step-card.rose .step-badge { background: #e11d48; }
+
+    .step-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .step-action-tag {
+      margin-left: auto;
+      font-family: Consolas, monospace;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+    }
+
+    .step-desc {
+      font-size: 10px;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .step-outcome {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9.5px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    .step-card.emerald .step-outcome { color: #34d399; background: rgba(52, 211, 153, 0.08); }
+    .step-card.purple .step-outcome { color: #c084fc; background: rgba(192, 132, 252, 0.08); }
+    .step-card.amber .step-outcome { color: #fbbf24; background: rgba(251, 191, 36, 0.08); }
+
+    /* Flow Arrow */
+    .flow-arrow-down {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-size: 11px;
+      margin: -3px 0;
+    }
+
+    /* Page Footer */
+    .page-footer {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      color: #64748b;
+    }
+    .footer-brand {
+      font-weight: 700;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer-brand span {
+      color: #38bdf8;
+    }
+
+    /* Cover Page Specific */
+    .cover-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 16mm 20mm;
+    }
+    .cover-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    }
+    .cover-main {
+      margin: auto 0;
+    }
+    .cover-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+    .cover-title {
+      font-size: 38px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+    .cover-desc {
+      font-size: 14px;
+      color: #94a3b8;
+      max-width: 760px;
+      line-height: 1.6;
+      margin-bottom: 26px;
+    }
+    .cover-stats-row {
+      display: flex;
+      gap: 16px;
+    }
+    .cover-stat-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px 16px;
+      min-width: 140px;
+    }
+    .stat-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 2px;
+    }
+    .stat-lbl {
+      font-size: 9px;
+      color: #64748b;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= PAGE 0: COVER ================= -->
+  <div class="page">
+    <div class="cover-container">
+      <div class="cover-top">
+        <div class="logo-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+          </svg>
+        </div>
+        <div>
+          <div style="font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.01em;">Social Pulse</div>
+          <div style="font-size: 10px; color: #64748b; font-family: Consolas, monospace;">Enterprise Cross-Platform Social Intelligence Platform</div>
+        </div>
+      </div>
+
+      <div class="cover-main">
+        <div class="cover-tag">Visual Flow Architecture &amp; Complete Button Control Manual</div>
+        <h1 class="cover-title">Interactive UI Flow &amp; Execution Guide</h1>
+        <p class="cover-desc">
+          An end-to-end, image-first technical specification documenting every user interaction, button trigger, real-time live synchronization engine, and state lifecycle across the Social Pulse analytics dashboard running on localhost:3000.
+        </p>
+
+        <div class="cover-stats-row">
+          <div class="cover-stat-card">
+            <div class="stat-val">7 Channels</div>
+            <div class="stat-lbl">Connected Ecosystem</div>
+          </div>
+          <div class="cover-stat-card">
+            <div class="stat-val">Real-Time</div>
+            <div class="stat-lbl">Live Places &amp; YouTube Sync</div>
+          </div>
+          <div class="cover-stat-card">
+            <div class="stat-val">Client Vector</div>
+            <div class="stat-lbl">1-Click jsPDF Export</div>
+          </div>
+          <div class="cover-stat-card">
+            <div class="stat-val">Dual Storage</div>
+            <div class="stat-lbl">MongoDB Atlas + Local Cache</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <div class="footer-brand"><span>SOCIAL PULSE</span> · UrbanGaon Cloud Suite</div>
+        <div>Running on localhost:3000 · Next.js 16 · React 19 · Chart.js · MongoDB Atlas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 1: SYSTEM MASTER FLOW ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">System Architecture & High-Level Flow</div>
+        <div class="page-title">1. Complete System Flow &amp; Lifecycle Diagram</div>
+        <div class="page-subtitle">End-to-end architecture: Authentication, state hydration, live sync connectors, multi-channel tabs, and vector PDF generation.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 01</div>
+        <div>SYS_FLOW_MAP</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>Dashboard Overview &amp; Control Center (localhost:3000)</div>
+          <div style="color: #10b981;">● Online</div>
+        </div>
+        <div class="screenshot-img-wrap">
+          <img src="screenshots/02_dashboard_overview_full.png" alt="Dashboard Overview" />
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">1</div>
+            <div class="step-title">Authentication &amp; Session Guard</div>
+            <div class="step-action-tag">POST /api/auth/login</div>
+          </div>
+          <div class="step-desc">User inputs authorized email &amp; password. The server verifies bcrypt password hashes, issues a secure 30-day HttpOnly JWT cookie, and unlocks the workspace.</div>
+          <div class="step-outcome">✓ Session verified → Redirect to /</div>
+        </div>
+
+        <div class="flow-arrow-down">↓</div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">2</div>
+            <div class="step-title">PulseBar Week Hydration</div>
+            <div class="step-action-tag">GET /api/weeks &amp; LocalStorage</div>
+          </div>
+          <div class="step-desc">On dashboard initialization, weekly metrics load from MongoDB Atlas with automatic fallback to localStorage. Chronological week bars render in the top ticker.</div>
+          <div class="step-outcome">✓ State activeIndex = weeks.length - 1</div>
+        </div>
+
+        <div class="flow-arrow-down">↓</div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">3</div>
+            <div class="step-title">Real-Time Live Sync Engine</div>
+            <div class="step-action-tag">Google Places + YouTube API</div>
+          </div>
+          <div class="step-desc">Clicking "Sync All Live" dispatches parallel asynchronous requests to Google Places API (4.9★ reviews) and YouTube Data API (subscribers, views &amp; videos).</div>
+          <div class="step-outcome">✓ Real-time active week auto-update</div>
+        </div>
+
+        <div class="flow-arrow-down">↓</div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">4</div>
+            <div class="step-title">Multi-Platform Interactive Tabs</div>
+            <div class="step-action-tag">Chart.js 4 + React Canvas</div>
+          </div>
+          <div class="step-desc">Navigating between Overview, LinkedIn, Instagram, Facebook, Google, and YouTube updates responsive Chart.js spline curves and tables with zero page reloads.</div>
+          <div class="step-outcome">✓ Instant tab render &amp; tooltips</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Master Lifecycle</div>
+      <div>End-to-End Enterprise Flow</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 2: AUTHENTICATION FLOW ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Security & Access Management</div>
+        <div class="page-title">2. Authentication &amp; Secure Login Flow</div>
+        <div class="page-subtitle">Visual breakdown of the login screen: credential inputs, interactive password unmasking, and JWT authorization.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 02</div>
+        <div>AUTH_SECURITY_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 10px; height: 100%;">
+        <div class="screenshot-frame" style="height: 100%;">
+          <div class="frame-header">
+            <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+            <div>Screen A: Login Initial State (/login)</div>
+            <div style="color: #38bdf8;">Idle Form</div>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="screenshots/01_login_page.png" alt="Login Page" />
+          </div>
+        </div>
+
+        <div class="screenshot-frame" style="height: 100%;">
+          <div class="frame-header">
+            <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+            <div>Screen B: Filled Credentials &amp; Eye Toggle</div>
+            <div style="color: #10b981;">Ready to Submit</div>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="screenshots/01b_login_filled.png" alt="Login Filled" />
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">Email Input Field (#login-email)</div>
+            <div class="step-action-tag">Type: email</div>
+          </div>
+          <div class="step-desc">Accepts the authorized corporate email (<code>social@urbangaon.com</code>). Enforces strict email regex validation, whitespace trimming, and lowercase normalisation.</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Password Field &amp; Eye Toggle Button</div>
+            <div class="step-action-tag">.auth-eye-btn</div>
+          </div>
+          <div class="step-desc">Secure masked password input. Includes an interactive eye button on the right, allowing the user to unmask and preview plain-text credentials dynamically.</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Sign In Button (#btn-login)</div>
+            <div class="step-action-tag">onSubmit Event</div>
+          </div>
+          <div class="step-desc">Triggered on click or Enter key:
+            <br>• Disables button and displays a rotating CSS spinner (<code>.auth-spinner</code>).
+            <br>• Transmits JSON payload to <code>/api/auth/login</code>.
+            <br>• Validates password against bcrypt hash in MongoDB Atlas.
+            <br>• Sets signed 30-day JWT cookie <code>social_pulse_token</code>.
+          </div>
+          <div class="step-outcome">✓ Cookie set → Router push ('/')</div>
+        </div>
+
+        <div class="step-card rose">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">Route Protection Guard (useAuth)</div>
+            <div class="step-action-tag">useEffect Route Guard</div>
+          </div>
+          <div class="step-desc">In <code>app/page.tsx</code>, if <code>!loading &amp;&amp; !session</code> evaluates to true, unauthenticated direct visits are intercepted and redirected immediately back to <code>/login</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Authentication Engine</div>
+      <div>JWT + HttpOnly Cookie Protection</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 3: GLOBAL HEADER CONTROLS ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Header Navigation & Action Bar</div>
+        <div class="page-title">3. Global Action Buttons &amp; Header Control Flow</div>
+        <div class="page-subtitle">Detailed breakdown of top toolbar controls: user session pill, data import, PDF export, live sync, and modal triggers.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 03</div>
+        <div>HEADER_ACTIONS_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>Global Header Toolbar Close-Up (.header-row)</div>
+          <div style="color: #38bdf8;">Controls Active</div>
+        </div>
+        <div class="screenshot-img-wrap" style="padding: 18px;">
+          <img src="screenshots/03_header_row.png" alt="Header Row" style="box-shadow: 0 4px 20px rgba(0,0,0,0.4); border-radius: 8px;" />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px;">
+          <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase;">Sync Button</div>
+            <img src="screenshots/btn_sync_all.png" style="max-height: 26px; margin-top: 4px; object-fit: contain;" />
+          </div>
+          <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase;">PDF Button</div>
+            <img src="screenshots/btn_export_pdf.png" style="max-height: 26px; margin-top: 4px; object-fit: contain;" />
+          </div>
+          <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase;">Add Week Button</div>
+            <img src="screenshots/btn_add_week.png" style="max-height: 26px; margin-top: 4px; object-fit: contain;" />
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">Import Button (#btn-import)</div>
+            <div class="step-action-tag">fileInput.click()</div>
+          </div>
+          <div class="step-desc">Triggers the hidden file input element. Reads uploaded <code>.json</code> performance backups, validates schema structure, and merges weeks into local and remote state.</div>
+        </div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Export PDF Button (#btn-export-pdf)</div>
+            <div class="step-action-tag">exportPDF(activeWeek, weeks)</div>
+          </div>
+          <div class="step-desc">Builds a comprehensive executive report via <code>jspdf</code> and <code>jspdf-autotable</code>. Displays a spinning <code>⟳</code> loader and triggers direct browser download.</div>
+          <div class="step-outcome">✓ Downloads UrbanGaon_Social_Pulse_*.pdf</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Sync All Live Button (#btn-sync-all-live)</div>
+            <div class="step-action-tag">Promise.all() Multi-API</div>
+          </div>
+          <div class="step-desc">Simultaneously calls Google Places API and YouTube Data API v3 in parallel, injecting fresh ratings, customer reviews, subscriber counts, and video metrics into the active week.</div>
+          <div class="step-outcome">✓ Refreshes cards in ~1.2s</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">+ Add / Edit Week Button (#btn-add-week)</div>
+            <div class="step-action-tag">setState(formOpen: true)</div>
+          </div>
+          <div class="step-desc">Renders the modal overlay (<code>DataModal</code>) enabling full CRUD operations: date selection, platform metric inputs, auto-calculations, and week deletion.</div>
+        </div>
+
+        <div class="step-card rose">
+          <div class="step-header">
+            <div class="step-badge">❺</div>
+            <div class="step-title">Logout Button (#btn-logout)</div>
+            <div class="step-action-tag">POST /api/auth/logout</div>
+          </div>
+          <div class="step-desc">Deletes the <code>social_pulse_token</code> cookie server-side, resets AuthContext state, and redirects the browser back to <code>/login</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Action Bar Architecture</div>
+      <div>Header Micro-Interactions</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 4: PULSEBAR & WEEK SELECTION ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Time Series & Historical Navigation</div>
+        <div class="page-title">4. PulseBar &amp; Weekly Time-Travel Flow</div>
+        <div class="page-subtitle">Instant historical navigation: dynamic bar height scaling and synchronous state recalculation without page reload.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 04</div>
+        <div>PULSE_WEEK_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>PulseBar Component View (.pulse-bar)</div>
+          <div style="color: #10b981;">Active Week: Latest</div>
+        </div>
+        <div class="screenshot-img-wrap" style="padding: 24px;">
+          <img src="screenshots/04_pulse_week_bar.png" alt="PulseBar" style="box-shadow: 0 4px 16px rgba(0,0,0,0.5); border-radius: 8px; width: 90%;" />
+        </div>
+        <div style="padding: 12px; font-size: 11px; color: #94a3b8; line-height: 1.5; background: rgba(0,0,0,0.2); border-radius: 6px; margin-top: 8px;">
+          <strong style="color: #fff;">Mathematical Bar Height Algorithm:</strong>
+          <br><code style="color: #38bdf8; font-family: Consolas, monospace;">h = minH (8px) + (i / max(weeks.length - 1, 1)) * (maxH (30px) - minH - 4)</code>
+          <br>The active week bar expands to <strong>30px</strong> and reflects the active platform's theme color accent.
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">PulseBar Dot Button (.pulse-dot)</div>
+            <div class="step-action-tag">onClick: onSelectWeek(i)</div>
+          </div>
+          <div class="step-desc">Each vertical bar represents a distinct 7-day reporting cycle (e.g. <code>2025-01-06 to 2025-01-12</code>). Hovering displays full date range tooltips.</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Synchronous State Mutation (activeIndex)</div>
+            <div class="step-action-tag">setState(activeIndex: i)</div>
+          </div>
+          <div class="step-desc">Clicking a bar re-points <code>activeWeek = weeks[activeIndex]</code> throughout the React component tree with sub-16ms render latency.</div>
+          <div class="step-outcome">✓ 0ms latency client recalculation</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Header Week Range Badge Sync</div>
+            <div class="step-action-tag">formatWeekLabel(weekId)</div>
+          </div>
+          <div class="step-desc">The top title badge <code>.title .week-range</code> updates its formatted text automatically (e.g., <em>"Jan 06 – Jan 12, 2025"</em>).</div>
+        </div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">KPI Cards &amp; Chart Redraw</div>
+            <div class="step-action-tag">calcSummary(activeWeek, prevWeek)</div>
+          </div>
+          <div class="step-desc">Compares active week data against preceding week <code>weeks[activeIndex - 1]</code> to recompute percentage growth badges (+14.2% ↑ or -3.1% ↓) in real time.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Pulse Engine</div>
+      <div>Time-Travel Analytics State</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 5: OVERVIEW TAB FLOW ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Executive Dashboard</div>
+        <div class="page-title">5. Overview Tab: Cross-Platform KPI Aggregation</div>
+        <div class="page-subtitle">Consolidation of multi-channel metrics across LinkedIn, Instagram, Facebook, Google, and YouTube into executive KPIs.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 05</div>
+        <div>OVERVIEW_KPI_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>Overview Tab &amp; KPI Cards Grid (.kpi-grid)</div>
+          <div style="color: #38bdf8;">Overview Active</div>
+        </div>
+        <div class="screenshot-img-wrap">
+          <img src="screenshots/06_overview_kpi_cards.png" alt="Overview KPIs" style="object-fit: contain; width: 95%;" />
+        </div>
+        <div style="margin-top: 10px; border-radius: 8px; overflow: hidden;">
+          <img src="screenshots/05_tabs_navigation.png" alt="Tabs Navigation" style="width: 100%;" />
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">Total Reach KPI Card</div>
+            <div class="step-action-tag">calcTotalReach()</div>
+          </div>
+          <div class="step-desc">Combines LinkedIn impressions, Instagram reach, Facebook reach, YouTube views, and Google Search/Maps views into a single master reach metric.</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Total Engagements Card</div>
+            <div class="step-action-tag">calcTotalEngagements()</div>
+          </div>
+          <div class="step-desc">Sums reactions, comments, and reposts on LinkedIn; likes, comments, and shares on Instagram; Facebook reactions; and YouTube video interactions.</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Total Community Audience</div>
+            <div class="step-action-tag">calcTotalFollowers()</div>
+          </div>
+          <div class="step-desc">Aggregates verified corporate followers across LinkedIn, Instagram, Facebook Page likes, and YouTube subscribers into a unified audience tally.</div>
+          <div class="step-outcome">✓ True cross-platform community total</div>
+        </div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">Top Performing Platform Badge</div>
+            <div class="step-action-tag">calcTopPlatform()</div>
+          </div>
+          <div class="step-desc">Identifies the network with the highest growth velocity and engagement rate, awarding it the "Platform of the Week" trophy badge.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Overview Engine</div>
+      <div>Cross-Platform Synthesis</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 6: LINKEDIN DEEP DIVE ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Platform Analytics · B2B Intelligence</div>
+        <div class="page-title">6. LinkedIn Analytics &amp; Metric Switcher Flow</div>
+        <div class="page-subtitle">Interactive controls on the LinkedIn tab: metric switcher pills, responsive Chart.js spline curves, and top posts table.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 06</div>
+        <div>LINKEDIN_ANALYTICS_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>LinkedIn Dashboard Tab (#tab-linkedin)</div>
+          <div style="color: #0a66c2;">● LinkedIn Connected</div>
+        </div>
+        <div class="screenshot-img-wrap">
+          <img src="screenshots/07_tab_linkedin.png" alt="LinkedIn Tab" />
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">Metric Switcher Buttons (.metric-pill)</div>
+            <div class="step-action-tag">chartMetric: 'impressions'|'followers'</div>
+          </div>
+          <div class="step-desc">Selecting <em>Impressions</em>, <em>Reactions</em>, <em>Comments</em>, or <em>Followers</em> toggles the active dataset on the LineChart canvas instantly without component re-mounting.</div>
+        </div>
+
+        <div class="step-card" style="border-left-color: #0a66c2;">
+          <div class="step-header">
+            <div class="step-badge" style="background: #0a66c2;">❷</div>
+            <div class="step-title">Interactive Chart.js Canvas</div>
+            <div class="step-action-tag">&lt;LineChart /&gt;</div>
+          </div>
+          <div class="step-desc">Historical weeks are aligned on the X-axis. Hovering activates glassmorphic tooltips displaying precise numeric counts and week-over-week deltas.</div>
+          <div class="step-outcome">✓ Smooth cubic spline curves</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">LinkedIn Stats Grid Breakdown</div>
+            <div class="step-action-tag">&lt;KpiCard /&gt;</div>
+          </div>
+          <div class="step-desc">Four dedicated KPI cards:
+            <br>• Total Followers (Company Page audience)
+            <br>• Impressions (Organic reach)
+            <br>• Reactions &amp; Comments (Audience responsiveness)
+            <br>• Reposts &amp; Click-Through Rate (CTR%).
+          </div>
+        </div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">Top Posts Performance Table</div>
+            <div class="step-action-tag">linkedin.topPosts[]</div>
+          </div>
+          <div class="step-desc">Lists top-performing posts with copy snippets, impression counts, and outbound direct links to the published LinkedIn post.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · B2B Intelligence</div>
+      <div>LinkedIn API &amp; Performance Pipeline</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 7: INSTAGRAM & FACEBOOK ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Meta Ecosystem Analytics</div>
+        <div class="page-title">7. Instagram &amp; Facebook Multi-Channel Flows</div>
+        <div class="page-subtitle">Tracking visual engagement: Instagram Reels reach, profile visits, engagement rates, and Facebook Page audience trends.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 07</div>
+        <div>META_ECOSYSTEM_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 10px; height: 100%;">
+        <div class="screenshot-frame" style="height: 100%;">
+          <div class="frame-header">
+            <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+            <div>Instagram Performance Tab (#tab-instagram)</div>
+            <div style="color: #e1306c;">● Instagram Active</div>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="screenshots/08_tab_instagram.png" alt="Instagram Tab" />
+          </div>
+        </div>
+
+        <div class="screenshot-frame" style="height: 100%;">
+          <div class="frame-header">
+            <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+            <div>Facebook Performance Tab (#tab-facebook)</div>
+            <div style="color: #1877f2;">● Facebook Active</div>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="screenshots/09_tab_facebook.png" alt="Facebook Tab" />
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card" style="border-left-color: #e1306c;">
+          <div class="step-header">
+            <div class="step-badge" style="background: #e1306c;">❶</div>
+            <div class="step-title">Instagram Reels &amp; Reach Engine</div>
+            <div class="step-action-tag">instagram.views &amp; reach</div>
+          </div>
+          <div class="step-desc">Isolates short-form Reels video views from standard feed reach. Also records Profile Visits and Website Link Clicks generated for UrbanGaon.</div>
+        </div>
+
+        <div class="step-card" style="border-left-color: #e1306c;">
+          <div class="step-header">
+            <div class="step-badge" style="background: #e1306c;">❷</div>
+            <div class="step-title">Engagement Rate Calculator</div>
+            <div class="step-action-tag">(Likes + Comments) / Followers</div>
+          </div>
+          <div class="step-desc">Calculates authentic audience participation, benchmarking weekly performance against the industry baseline range of 1.8% – 3.5%.</div>
+        </div>
+
+        <div class="step-card" style="border-left-color: #1877f2;">
+          <div class="step-header">
+            <div class="step-badge" style="background: #1877f2;">❸</div>
+            <div class="step-title">Facebook Page Reach &amp; Likes</div>
+            <div class="step-action-tag">facebook.pageLikes</div>
+          </div>
+          <div class="step-desc">Monitors follower growth on the official UrbanGaon Facebook Page, alongside post reach and organic community shares.</div>
+        </div>
+
+        <div class="step-card" style="border-left-color: #1877f2;">
+          <div class="step-header">
+            <div class="step-badge" style="background: #1877f2;">❹</div>
+            <div class="step-title">Link Clicks &amp; Lead Conversion</div>
+            <div class="step-action-tag">facebook.linkClicks</div>
+          </div>
+          <div class="step-desc">Measures outbound traffic generated from property showcase posts directly to the main UrbanGaon digital portal.</div>
+          <div class="step-outcome">✓ High-intent lead generation tracker</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Meta Pipeline</div>
+      <div>Instagram &amp; Facebook Analytics</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 8: GOOGLE REVIEWS REAL-TIME ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Local SEO & Customer Sentiment</div>
+        <div class="page-title">8. Google Business Profile &amp; Real-Time Reviews Flow</div>
+        <div class="page-subtitle">Live Google Places API sync, 4.9★ rating bar distribution, Maps views, and verified customer testimonials.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 08</div>
+        <div>GOOGLE_REVIEWS_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>Google Reviews Tab (#tab-google)</div>
+          <div style="color: #ea4335;">● Google Places API Live</div>
+        </div>
+        <div class="screenshot-img-wrap">
+          <img src="screenshots/10_tab_google_full.png" alt="Google Reviews Tab" />
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card" style="border-left-color: #34a853;">
+          <div class="step-header">
+            <div class="step-badge" style="background: #34a853;">❶</div>
+            <div class="step-title">Live Sync Button (#btn-sync-google-live)</div>
+            <div class="step-action-tag">GET /api/google-reviews/live?sync=true</div>
+          </div>
+          <div class="step-desc">Queries Google Places API using UrbanGaon's Jaipur Place ID (<code>ChIJb4BlCW20bTkRjY9rIogywsM</code>). Updates star rating, total review count, and reviews in real time.</div>
+          <div class="step-outcome">✓ Official Places API direct sync</div>
+        </div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">4.9★ Master Rating &amp; Review Count</div>
+            <div class="step-action-tag">google.averageRating</div>
+          </div>
+          <div class="step-desc">Displays the gold rating badge alongside total reviews count and newly acquired testimonials for the reporting week.</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">5★ to 1★ Rating Distribution Bars</div>
+            <div class="step-action-tag">Horizontal Progress Breakdown</div>
+          </div>
+          <div class="step-desc">Tier-wise breakdown illustrating 5-star review dominance (95%+), 4-star, 3-star, 2-star, and 1-star reviews via color-coded horizontal bars.</div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">Google Maps &amp; Local Actions</div>
+            <div class="step-action-tag">Search · Maps · Directions · Calls</div>
+          </div>
+          <div class="step-desc">Four key local conversion metrics: Google Search Views, Maps Views, Direction Requests, and Phone Call Clicks from prospective clients.</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❺</div>
+            <div class="step-title">Recent Customer Reviews Card Feed</div>
+            <div class="step-action-tag">recentReviews[] Map</div>
+          </div>
+          <div class="step-desc">Renders author avatar, star rating, relative timestamp (e.g., <em>"a week ago"</em>), and verified customer feedback cards.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Google Places API</div>
+      <div>Reputation &amp; Local Search Engine</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 9: YOUTUBE REAL-TIME ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Video Content Intelligence</div>
+        <div class="page-title">9. YouTube Real-Time Channel &amp; Video Analytics</div>
+        <div class="page-subtitle">Direct YouTube Data API v3 live sync, subscriber count, watch time hours, and top video performance grid.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 09</div>
+        <div>YOUTUBE_ANALYTICS_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>YouTube Channel Dashboard Tab (#tab-youtube)</div>
+          <div style="color: #ff0000;">● YouTube API v3</div>
+        </div>
+        <div class="screenshot-img-wrap">
+          <img src="screenshots/11_tab_youtube_full.png" alt="YouTube Tab" />
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card" style="border-left-color: #ff0000;">
+          <div class="step-header">
+            <div class="step-badge" style="background: #ff0000;">❶</div>
+            <div class="step-title">YouTube Live Sync Button (#btn-sync-youtube-live)</div>
+            <div class="step-action-tag">GET /api/youtube/live?sync=true</div>
+          </div>
+          <div class="step-desc">Triggers the YouTube Data API endpoint with cache-busting timestamp. Fetches channel subscribers, lifetime views, and recent uploads in real time.</div>
+          <div class="step-outcome">✓ Live YouTube stats in &lt;800ms</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Subscribers &amp; Watch Time Cards</div>
+            <div class="step-action-tag">youtube.subscribers &amp; watchHours</div>
+          </div>
+          <div class="step-desc">Displays verified channel subscribers, weekly net subscriber additions, and estimated total video watch time in hours.</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Top Videos Performance Cards</div>
+            <div class="step-action-tag">youtube.topVideos[]</div>
+          </div>
+          <div class="step-desc">Renders high-resolution video thumbnails, video title, release date, view count badge, and likes count for top UrbanGaon video releases.</div>
+        </div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">Video Watch Action</div>
+            <div class="step-action-tag">window.open(video.url)</div>
+          </div>
+          <div class="step-desc">Clicking any video card opens the official YouTube video in a new browser tab for immediate playback and community moderation.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · YouTube API Engine</div>
+      <div>Video &amp; Subscriber Performance Flow</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 10: COMPARE TAB ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Comparative Intelligence</div>
+        <div class="page-title">10. Multi-Platform Cross-Comparison Flow</div>
+        <div class="page-subtitle">Benchmarking all social networks side-by-side: audience share, engagement efficiency, and ROI analysis.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 10</div>
+        <div>COMPARE_MATRIX_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>Compare Weeks &amp; Platforms Tab (#tab-compare)</div>
+          <div style="color: #38bdf8;">Multi-Channel Matrix</div>
+        </div>
+        <div class="screenshot-img-wrap">
+          <img src="screenshots/12_tab_compare.png" alt="Compare Tab" />
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">Cross-Platform Comparison Matrix</div>
+            <div class="step-action-tag">&lt;CompareTab /&gt;</div>
+          </div>
+          <div class="step-desc">Normalizes diverse channel metrics (impressions, reach, views) into standardized indices for side-by-side performance benchmarking.</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Channel Share Breakdown</div>
+            <div class="step-action-tag">Doughnut &amp; Bar Comparison</div>
+          </div>
+          <div class="step-desc">Quantifies the impact share of each platform:
+            <br>• LinkedIn: B2B authority, thought leadership &amp; partnerships
+            <br>• Instagram: Visual brand storytelling &amp; lifestyle reach
+            <br>• YouTube: Educational long-form property tours
+            <br>• Google Maps: High-converting local footfall &amp; direct calls.
+          </div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Week-over-Week Momentum Analysis</div>
+            <div class="step-action-tag">Delta Velocity Engine</div>
+          </div>
+          <div class="step-desc">Evaluates which channel gained the highest acceleration over trailing 4-week cycles to optimize content resource allocation.</div>
+          <div class="step-outcome">✓ Budget allocation decision support</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Comparative Engine</div>
+      <div>Cross-Channel Intelligence</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 11: DATA MODAL DATA ENTRY ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Data Governance & Entry</div>
+        <div class="page-title">11. Data Management &amp; Add/Edit Week Modal Flow</div>
+        <div class="page-subtitle">Creating new reporting periods, editing historical records, automated 7-day date range generation, and database sync.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 11</div>
+        <div>DATA_MODAL_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 10px; height: 100%;">
+        <div class="screenshot-frame" style="height: 100%;">
+          <div class="frame-header">
+            <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+            <div>Modal State 1: Edit Active Week (#form-week-select)</div>
+            <div style="color: #38bdf8;">DataModal Open</div>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="screenshots/13_modal_open.png" alt="Modal Open" />
+          </div>
+        </div>
+
+        <div class="screenshot-frame" style="height: 100%;">
+          <div class="frame-header">
+            <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+            <div>Modal State 2: + Add New Week Date Picker</div>
+            <div style="color: #10b981;">7-Day Auto Calculation</div>
+          </div>
+          <div class="screenshot-img-wrap">
+            <img src="screenshots/14_modal_new_week_dates.png" alt="Modal Dates" />
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">Week Select Dropdown (#form-week-select)</div>
+            <div class="step-action-tag">onChange: onSelectFormWeek()</div>
+          </div>
+          <div class="step-desc">Allows switching between editing any previously saved weekly entry or selecting <em>"+ Add New Week"</em> to initiate a new reporting cycle.</div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Start Date Picker &amp; 7-Day Auto Engine</div>
+            <div class="step-action-tag">#form-start-date &amp; #form-end-date</div>
+          </div>
+          <div class="step-desc">Selecting a Monday start date automatically adds +6 days to populate the Sunday end date and constructs the composite ID <code>YYYY-MM-DD_to_YYYY-MM-DD</code>.</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Platform Field Inputs (.field-input)</div>
+            <div class="step-action-tag">onFocus: e.target.select()</div>
+          </div>
+          <div class="step-desc">Clicking any input auto-selects the existing value for rapid entry. Sanitizes non-numeric input and clamps star ratings to decimal intervals.</div>
+        </div>
+
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">Save Button (.btn-save / Enter Key)</div>
+            <div class="step-action-tag">POST /api/weeks &amp; localStorage</div>
+          </div>
+          <div class="step-desc">Saves sanitized weekly metrics to MongoDB Atlas via <code>/api/weeks</code> and immediately updates client <code>localStorage</code> for offline persistence.</div>
+          <div class="step-outcome">✓ Dual-write persistent sync</div>
+        </div>
+
+        <div class="step-card rose">
+          <div class="step-header">
+            <div class="step-badge">❺</div>
+            <div class="step-title">Remove Week Button (#btn-delete-week)</div>
+            <div class="step-action-tag">DELETE /api/weeks?id=...</div>
+          </div>
+          <div class="step-desc">Requires two-step confirmation (<em>"Click again to confirm delete"</em>) to prevent accidental deletions. Permanently removes the record and updates PulseBar.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Data Governance Engine</div>
+      <div>Modal Ingestion &amp; Database CRUD</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 12: PDF EXPORT FLOW ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Executive Reporting & Export</div>
+        <div class="page-title">12. PDF Executive Report Generator Flow</div>
+        <div class="page-subtitle">End-to-end flow from clicking "Export PDF" to in-memory vector compilation and automated browser file download.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 12</div>
+        <div>PDF_REPORT_FLOW</div>
+      </div>
+    </div>
+
+    <div class="content-grid grid-2col">
+      <div class="screenshot-frame">
+        <div class="frame-header">
+          <div class="window-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+          <div>PDF Export Trigger &amp; Output Flow (#btn-export-pdf)</div>
+          <div style="color: #10b981;">Vector jsPDF Engine</div>
+        </div>
+        <div class="screenshot-img-wrap" style="padding: 24px; flex-direction: column; gap: 16px;">
+          <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 16px; width: 100%;">
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; margin-bottom: 6px;">EXPORT TRIGGER BUTTON:</div>
+            <img src="screenshots/btn_export_pdf.png" style="max-height: 38px; object-fit: contain;" />
+          </div>
+          <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 8px; padding: 16px; width: 100%; font-family: Consolas, monospace; font-size: 10.5px; color: #94a3b8; line-height: 1.6;">
+            <div style="color: #38bdf8; font-weight: 700; margin-bottom: 6px;">AUTOMATIC BROWSER DOWNLOAD:</div>
+            File: <span style="color: #fff;">UrbanGaon_Social_Pulse_Week_2025_W02.pdf</span><br>
+            Pages: 2 Pages (Executive Summary + Channel Breakdown)<br>
+            Engine: jsPDF v4.2 + jspdf-autotable v5.0<br>
+            Quality: 100% Vector Typography, Formatted Tables &amp; Color Accents
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-steps-col">
+        <div class="step-card amber">
+          <div class="step-header">
+            <div class="step-badge">❶</div>
+            <div class="step-title">Export Button Click (#btn-export-pdf)</div>
+            <div class="step-action-tag">setPdfLoading(true)</div>
+          </div>
+          <div class="step-desc">The button icon switches to a rotating spinner <code>⟳</code>, preventing duplicate execution while the PDF document compiles in memory.</div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-badge">❷</div>
+            <div class="step-title">Data Extraction &amp; Aggregation</div>
+            <div class="step-action-tag">lib/exportPdf.ts</div>
+          </div>
+          <div class="step-desc">Extracts active week metrics and historical benchmarks across LinkedIn, Instagram, Facebook, Google Reviews, and YouTube channels.</div>
+        </div>
+
+        <div class="step-card purple">
+          <div class="step-header">
+            <div class="step-badge">❸</div>
+            <div class="step-title">Vector Document Assembly</div>
+            <div class="step-action-tag">new jsPDF('p', 'mm', 'a4')</div>
+          </div>
+          <div class="step-desc">Constructs the PDF:
+            <br>• UrbanGaon corporate executive header &amp; metadata
+            <br>• Key metric summaries and growth indicators
+            <br>• Formatted AutoTable grids with styled headers and percentage deltas.
+          </div>
+        </div>
+
+        <div class="step-card emerald">
+          <div class="step-header">
+            <div class="step-badge">❹</div>
+            <div class="step-title">Client-Side File Delivery</div>
+            <div class="step-action-tag">doc.save(fileName)</div>
+          </div>
+          <div class="step-desc">Triggers the browser's native blob download API, saving the document directly to the user's Downloads folder without any external server rendering.</div>
+          <div class="step-outcome">✓ 100% Client-side instant download</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Reporting Pipeline</div>
+      <div>Executive PDF Synthesis</div>
+    </div>
+  </div>
+
+  <!-- ================= PAGE 13: BUTTON REFERENCE DIRECTORY ================= -->
+  <div class="page">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <div class="badge-category">Master Interactive Index</div>
+        <div class="page-title">13. Master Button &amp; Control Reference Directory</div>
+        <div class="page-subtitle">Consolidated operational dictionary mapping every interactive UI button to its selector, trigger, action, and resulting state.</div>
+      </div>
+      <div class="page-meta">
+        <div class="page-num">PAGE 13</div>
+        <div>BUTTON_MASTER_INDEX</div>
+      </div>
+    </div>
+
+    <div style="flex: 1; overflow: hidden; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 10px;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 10px; text-align: left;">
+        <thead>
+          <tr style="border-bottom: 2px solid rgba(255, 255, 255, 0.15); color: #38bdf8; font-family: Consolas, monospace;">
+            <th style="padding: 6px 8px;">BUTTON / ELEMENT</th>
+            <th style="padding: 6px 8px;">DOM ID / SELECTOR</th>
+            <th style="padding: 6px 8px;">LOCATION</th>
+            <th style="padding: 6px 8px;">EVENT ACTION</th>
+            <th style="padding: 6px 8px;">INTERNAL FUNCTION</th>
+            <th style="padding: 6px 8px;">SYSTEM STATE CHANGE</th>
+          </tr>
+        </thead>
+        <tbody style="color: #cbd5e1; line-height: 1.4;">
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255,255,255,0.02);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #fff;">Sign in Button</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #38bdf8;">#btn-login</td>
+            <td style="padding: 6px 8px;">/login Card</td>
+            <td style="padding: 6px 8px;">Click / Enter</td>
+            <td style="padding: 6px 8px;">loginUserApi()</td>
+            <td style="padding: 6px 8px;">Issues JWT cookie, sets session, redirects to /</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #fff;">Import JSON</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #38bdf8;">#btn-import</td>
+            <td style="padding: 6px 8px;">Header Actions</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">fileInputRef.click()</td>
+            <td style="padding: 6px 8px;">Opens file selector, validates &amp; parses JSON data</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255,255,255,0.02);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #fff;">Export PDF</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #38bdf8;">#btn-export-pdf</td>
+            <td style="padding: 6px 8px;">Header Actions</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">exportPDF()</td>
+            <td style="padding: 6px 8px;">Generates vector executive PDF, triggers download</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #10b981;">Sync All Live</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #10b981;">#btn-sync-all-live</td>
+            <td style="padding: 6px 8px;">Header Actions</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">handleSyncAllLive()</td>
+            <td style="padding: 6px 8px;">Simultaneously queries Google Places &amp; YouTube APIs</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255,255,255,0.02);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #38bdf8;">+ Add/Edit Week</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #38bdf8;">#btn-add-week</td>
+            <td style="padding: 6px 8px;">Header Actions</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">setState(formOpen: true)</td>
+            <td style="padding: 6px 8px;">Renders DataModal overlay for data entry</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #ef4444;">Logout</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #ef4444;">#btn-logout</td>
+            <td style="padding: 6px 8px;">Header Actions</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">logoutUserApi()</td>
+            <td style="padding: 6px 8px;">Deletes cookie, clears session, redirects to /login</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255,255,255,0.02);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #fff;">Pulse Week Bar</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #38bdf8;">.pulse-dot</td>
+            <td style="padding: 6px 8px;">PulseBar</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">onSelectWeek(i)</td>
+            <td style="padding: 6px 8px;">Mutates activeIndex, recalculates all cards &amp; charts</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #fff;">Navigation Tabs</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #38bdf8;">#tab-[id]</td>
+            <td style="padding: 6px 8px;">Tabs Bar</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">onSelectTab(id)</td>
+            <td style="padding: 6px 8px;">Switches active view (overview, li, ig, fb, goog, yt, compare)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255,255,255,0.02);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #10b981;">Google Live Sync</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #10b981;">#btn-sync-google-live</td>
+            <td style="padding: 6px 8px;">Google Tab</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">handleLiveGoogleSync()</td>
+            <td style="padding: 6px 8px;">Queries Places API, updates rating &amp; customer reviews</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #ff0000;">YouTube Live Sync</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #ff0000;">#btn-sync-youtube-live</td>
+            <td style="padding: 6px 8px;">YouTube Tab</td>
+            <td style="padding: 6px 8px;">Click</td>
+            <td style="padding: 6px 8px;">handleLiveYouTubeSync()</td>
+            <td style="padding: 6px 8px;">Queries YouTube API, updates subscribers, views &amp; videos</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255,255,255,0.02);">
+            <td style="padding: 6px 8px; font-weight: 700; color: #38bdf8;">Save Week Data</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #38bdf8;">.btn-save</td>
+            <td style="padding: 6px 8px;">DataModal Foot</td>
+            <td style="padding: 6px 8px;">Click / Enter</td>
+            <td style="padding: 6px 8px;">handleSave()</td>
+            <td style="padding: 6px 8px;">Writes sanitized data to MongoDB Atlas &amp; localStorage</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 8px; font-weight: 700; color: #ef4444;">Remove Week</td>
+            <td style="padding: 6px 8px; font-family: Consolas, monospace; color: #ef4444;">#btn-delete-week</td>
+            <td style="padding: 6px 8px;">DataModal Head</td>
+            <td style="padding: 6px 8px;">Click (x2)</td>
+            <td style="padding: 6px 8px;">handleDelete()</td>
+            <td style="padding: 6px 8px;">Deletes week from MongoDB, recalculates pulse ticker</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-brand"><span>SOCIAL PULSE</span> · Master Dictionary</div>
+      <div>Complete System Button &amp; Action Coverage</div>
+    </div>
+  </div>
+
+</body>
+</html>`;
+
+  const htmlPath = path.join(__dirname, 'flow_presentation.html');
+  fs.writeFileSync(htmlPath, html, 'utf8');
+  console.log('HTML written to:', htmlPath);
+
+  console.log('Launching Puppeteer to render file:///' + htmlPath.replace(/\\/g, '/'));
+  const browser = await puppeteer.launch({
+    executablePath: CHROME_PATH,
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--allow-file-access-from-files']
+  });
+
+  const page = await browser.newPage();
+  const fileUrl = 'file:///' + htmlPath.replace(/\\/g, '/');
+  await page.goto(fileUrl, { waitUntil: 'load', timeout: 30000 });
+  await new Promise(r => setTimeout(r, 1000));
+
+  console.log('Generating PDF...');
+  await page.pdf({
+    path: OUTPUT_PDF,
+    format: 'A4',
+    landscape: true,
+    printBackground: true,
+    preferCSSPageSize: true,
+  });
+
+  console.log('PDF successfully generated at:', OUTPUT_PDF);
+  await browser.close();
+}
+
+buildPdf().catch(err => {
+  console.error('Error generating PDF:', err);
+  process.exit(1);
+});

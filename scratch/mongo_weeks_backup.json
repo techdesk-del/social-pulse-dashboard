@@ -1,0 +1,2261 @@
+[
+  {
+    "_id": "6a92cbb6871316e09bf54349",
+    "weekId": "2026-07-06",
+    "linkedin": {
+      "impressions": 420,
+      "reactions": 39,
+      "comments": 1,
+      "reposts": 0,
+      "pageViews": 17,
+      "uniqueVisitors": 8,
+      "totalFollowers": 49,
+      "newFollowers": 1,
+      "searchAppearances": 98
+    },
+    "instagram": {
+      "views": 237,
+      "reach": 46,
+      "contentInteractions": 15,
+      "linkClicks": 0,
+      "visits": 25,
+      "follows": 11
+    },
+    "facebook": {
+      "views": 78,
+      "viewers": 15,
+      "contentInteractions": 6,
+      "linkClicks": 0,
+      "visits": 17,
+      "follows": 8
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 4,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 840,
+      "mapsViews": 2150,
+      "websiteClicks": 112,
+      "directionRequests": 64,
+      "callClicks": 28,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.5,
+      "impressions": 24500,
+      "ctr": 7.5,
+      "likes": 24,
+      "comments": 1,
+      "shares": 2,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a92cbb6871316e09bf5434a",
+    "weekId": "2026-07-13",
+    "linkedin": {
+      "impressions": 223,
+      "reactions": 18,
+      "comments": 0,
+      "reposts": 0,
+      "pageViews": 19,
+      "uniqueVisitors": 8,
+      "totalFollowers": 49,
+      "newFollowers": 3,
+      "searchAppearances": 78
+    },
+    "instagram": {
+      "views": 522,
+      "reach": 152,
+      "contentInteractions": 27,
+      "linkClicks": 0,
+      "visits": 16,
+      "follows": 13
+    },
+    "facebook": {
+      "views": 103,
+      "viewers": 71,
+      "contentInteractions": 6,
+      "linkClicks": 0,
+      "visits": 12,
+      "follows": 11
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 7,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 920,
+      "mapsViews": 2480,
+      "websiteClicks": 128,
+      "directionRequests": 79,
+      "callClicks": 32,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.2,
+      "impressions": 45000,
+      "ctr": 7.6,
+      "likes": 24,
+      "comments": 2,
+      "shares": 4,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a92cbb6871316e09bf5434b",
+    "weekId": "2026-07-20",
+    "linkedin": {
+      "impressions": 663,
+      "reactions": 69,
+      "comments": 0,
+      "reposts": 0,
+      "pageViews": 56,
+      "uniqueVisitors": 21,
+      "totalFollowers": 51,
+      "newFollowers": 3,
+      "searchAppearances": 98
+    },
+    "instagram": {
+      "views": 616,
+      "reach": 200,
+      "contentInteractions": 30,
+      "linkClicks": 0,
+      "visits": 54,
+      "follows": 4700
+    },
+    "facebook": {
+      "views": 122,
+      "viewers": 57,
+      "contentInteractions": 7,
+      "linkClicks": 0,
+      "visits": 13,
+      "follows": 40
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 8,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1150,
+      "mapsViews": 3020,
+      "websiteClicks": 145,
+      "directionRequests": 92,
+      "callClicks": 39,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 68000,
+      "ctr": 7.5,
+      "likes": 24,
+      "comments": 3,
+      "shares": 6,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a92cbb6871316e09bf5434c",
+    "weekId": "2026-07-27",
+    "linkedin": {
+      "impressions": 780,
+      "reactions": 82,
+      "comments": 2,
+      "reposts": 1,
+      "pageViews": 68,
+      "uniqueVisitors": 26,
+      "totalFollowers": 56,
+      "newFollowers": 5,
+      "searchAppearances": 112
+    },
+    "instagram": {
+      "views": 745,
+      "reach": 240,
+      "contentInteractions": 38,
+      "linkClicks": 3,
+      "visits": 62,
+      "follows": 24
+    },
+    "facebook": {
+      "views": 145,
+      "viewers": 84,
+      "contentInteractions": 9,
+      "linkClicks": 2,
+      "visits": 19,
+      "follows": 15
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 4,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1080,
+      "mapsViews": 2890,
+      "websiteClicks": 138,
+      "directionRequests": 84,
+      "callClicks": 35,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.7,
+      "impressions": 92000,
+      "ctr": 7.5,
+      "likes": 24,
+      "comments": 4,
+      "shares": 8,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a92cbb6871316e09bf5434d",
+    "weekId": "2026-08-03",
+    "linkedin": {
+      "impressions": 895,
+      "reactions": 95,
+      "comments": 4,
+      "reposts": 2,
+      "pageViews": 84,
+      "uniqueVisitors": 33,
+      "totalFollowers": 63,
+      "newFollowers": 7,
+      "searchAppearances": 128
+    },
+    "instagram": {
+      "views": 910,
+      "reach": 310,
+      "contentInteractions": 46,
+      "linkClicks": 5,
+      "visits": 78,
+      "follows": 31
+    },
+    "facebook": {
+      "views": 168,
+      "viewers": 96,
+      "contentInteractions": 12,
+      "linkClicks": 3,
+      "visits": 24,
+      "follows": 18
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 5,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1240,
+      "mapsViews": 3120,
+      "websiteClicks": 156,
+      "directionRequests": 98,
+      "callClicks": 42,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.7,
+      "impressions": 112000,
+      "ctr": 7.6,
+      "likes": 24,
+      "comments": 5,
+      "shares": 9,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a92cbb6871316e09bf5434e",
+    "weekId": "2026-08-10",
+    "linkedin": {
+      "impressions": 1050,
+      "reactions": 112,
+      "comments": 5,
+      "reposts": 2,
+      "pageViews": 98,
+      "uniqueVisitors": 41,
+      "totalFollowers": 72,
+      "newFollowers": 9,
+      "searchAppearances": 145
+    },
+    "instagram": {
+      "views": 1120,
+      "reach": 380,
+      "contentInteractions": 58,
+      "linkClicks": 8,
+      "visits": 94,
+      "follows": 38
+    },
+    "facebook": {
+      "views": 195,
+      "viewers": 115,
+      "contentInteractions": 16,
+      "linkClicks": 5,
+      "visits": 31,
+      "follows": 22
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 6,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1380,
+      "mapsViews": 3450,
+      "websiteClicks": 172,
+      "directionRequests": 108,
+      "callClicks": 48,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.7,
+      "impressions": 130000,
+      "ctr": 7.6,
+      "likes": 24,
+      "comments": 5,
+      "shares": 11,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a92cbb6871316e09bf5434f",
+    "weekId": "2026-08-17",
+    "linkedin": {
+      "impressions": 1240,
+      "reactions": 134,
+      "comments": 7,
+      "reposts": 3,
+      "pageViews": 115,
+      "uniqueVisitors": 52,
+      "totalFollowers": 65,
+      "newFollowers": 12,
+      "searchAppearances": 168
+    },
+    "instagram": {
+      "views": 1420,
+      "reach": 485,
+      "contentInteractions": 78,
+      "linkClicks": 14,
+      "visits": 124,
+      "follows": 48
+    },
+    "facebook": {
+      "views": 245,
+      "viewers": 146,
+      "contentInteractions": 24,
+      "linkClicks": 8,
+      "visits": 46,
+      "follows": 31
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 7,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1520,
+      "mapsViews": 3780,
+      "websiteClicks": 194,
+      "directionRequests": 124,
+      "callClicks": 56,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 145800,
+      "ctr": 7.6,
+      "likes": 24,
+      "comments": 6,
+      "shares": 12,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a96547084126b452e666b43",
+    "weekId": "2026-08-24_to_2026-08-30",
+    "__v": 0,
+    "createdAt": "2026-09-01T04:28:32.826Z",
+    "facebook": {
+      "views": 89,
+      "viewers": 27,
+      "contentInteractions": 7,
+      "linkClicks": 0,
+      "visits": 7,
+      "follows": 16,
+      "profileVisits": 0,
+      "reach": 0
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 1,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1240,
+      "mapsViews": 3120,
+      "websiteClicks": 156,
+      "directionRequests": 98,
+      "callClicks": 42,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "instagram": {
+      "views": 284,
+      "reach": 80,
+      "contentInteractions": 21,
+      "linkClicks": 0,
+      "visits": 20,
+      "follows": 81,
+      "impressions": 0,
+      "profileVisits": 0,
+      "reelsViews": 0,
+      "postViews": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0,
+      "saves": 0,
+      "totalFollowers": 0
+    },
+    "linkedin": {
+      "impressions": 340,
+      "reactions": 45,
+      "comments": 0,
+      "reposts": 0,
+      "pageViews": 52,
+      "uniqueVisitors": 12,
+      "totalFollowers": 62,
+      "newFollowers": 1,
+      "searchAppearances": 124,
+      "customButtonClick": 0,
+      "newFollowers300Days": 0,
+      "pageSearches": 0,
+      "reach": 0,
+      "profileViews": 0
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "userId": "default_user",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 145800,
+      "ctr": 7.6,
+      "likes": 24,
+      "comments": 6,
+      "shares": 12,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6a9e5763eae3399ad42d8c93",
+    "weekId": "2026-08-31_to_2026-09-06",
+    "__v": 0,
+    "createdAt": "2026-09-07T06:19:15.581Z",
+    "facebook": {
+      "views": 245,
+      "viewers": 146,
+      "contentInteractions": 24,
+      "linkClicks": 8,
+      "visits": 46,
+      "follows": 31,
+      "profileVisits": 0,
+      "reach": 0
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 1,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1240,
+      "mapsViews": 3120,
+      "websiteClicks": 156,
+      "directionRequests": 98,
+      "callClicks": 42,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "instagram": {
+      "views": 1420,
+      "reach": 485,
+      "contentInteractions": 78,
+      "linkClicks": 14,
+      "visits": 124,
+      "follows": 48,
+      "impressions": 0,
+      "profileVisits": 0,
+      "reelsViews": 0,
+      "postViews": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0,
+      "saves": 0,
+      "totalFollowers": 0
+    },
+    "linkedin": {
+      "impressions": 660,
+      "reactions": 75,
+      "comments": 1,
+      "reposts": 0,
+      "pageViews": 89,
+      "uniqueVisitors": 27,
+      "totalFollowers": 68,
+      "newFollowers": 4,
+      "searchAppearances": 141,
+      "customButtonClick": 0,
+      "newFollowers300Days": 0,
+      "pageSearches": 0,
+      "reach": 0,
+      "profileViews": 0
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "userId": "default_user",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 147,
+      "watchTimeHours": 44,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 145868,
+      "ctr": 7.6,
+      "likes": 24,
+      "comments": 6,
+      "shares": 12,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6aa8edd65bfdce54968fd4f2",
+    "weekId": "2026-09-07_to_2026-09-13",
+    "__v": 0,
+    "createdAt": "2026-09-15T07:03:50.769Z",
+    "facebook": {
+      "views": 245,
+      "viewers": 146,
+      "contentInteractions": 24,
+      "linkClicks": 8,
+      "visits": 46,
+      "follows": 31,
+      "profileVisits": 0,
+      "reach": 0
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 1,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1240,
+      "mapsViews": 3120,
+      "websiteClicks": 156,
+      "directionRequests": 98,
+      "callClicks": 42,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "instagram": {
+      "views": 1420,
+      "reach": 485,
+      "contentInteractions": 78,
+      "linkClicks": 14,
+      "visits": 124,
+      "follows": 48,
+      "impressions": 0,
+      "profileVisits": 0,
+      "reelsViews": 0,
+      "postViews": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0,
+      "saves": 0,
+      "totalFollowers": 0
+    },
+    "linkedin": {
+      "impressions": 573,
+      "reactions": 25,
+      "comments": 5,
+      "reposts": 0,
+      "pageViews": 77,
+      "uniqueVisitors": 25,
+      "totalFollowers": 82,
+      "newFollowers": 3,
+      "searchAppearances": 119,
+      "customButtonClick": 0,
+      "newFollowers300Days": 0,
+      "pageSearches": 0,
+      "reach": 0,
+      "profileViews": 0
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "userId": "default_user",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 11194,
+      "watchTimeHours": 3321,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 1850,
+      "ctr": 7.6,
+      "likes": 162,
+      "comments": 6,
+      "shares": 12,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6ab253d55bfdce5496906ef1",
+    "weekId": "2026-09-14_to_2026-09-20",
+    "__v": 0,
+    "createdAt": "2026-09-22T10:09:25.246Z",
+    "facebook": {
+      "views": 245,
+      "viewers": 146,
+      "contentInteractions": 24,
+      "linkClicks": 8,
+      "visits": 46,
+      "follows": 31,
+      "profileVisits": 0,
+      "reach": 0
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 1,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1240,
+      "mapsViews": 3120,
+      "websiteClicks": 156,
+      "directionRequests": 98,
+      "callClicks": 42,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "instagram": {
+      "views": 1420,
+      "reach": 485,
+      "contentInteractions": 78,
+      "linkClicks": 14,
+      "visits": 124,
+      "follows": 48,
+      "impressions": 0,
+      "profileVisits": 0,
+      "reelsViews": 0,
+      "postViews": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0,
+      "saves": 0,
+      "totalFollowers": 0
+    },
+    "linkedin": {
+      "impressions": 1078,
+      "reactions": 72,
+      "comments": 10,
+      "reposts": 0,
+      "pageViews": 85,
+      "uniqueVisitors": 24,
+      "totalFollowers": 82,
+      "newFollowers": 1,
+      "searchAppearances": 206,
+      "customButtonClick": 0,
+      "newFollowers300Days": 0,
+      "pageSearches": 0,
+      "reach": 0,
+      "profileViews": 0
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "userId": "default_user",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 11301,
+      "watchTimeHours": 3353,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 145800,
+      "ctr": 7.6,
+      "likes": 162,
+      "comments": 6,
+      "shares": 12,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6abb9e8df665086b17abf2ac",
+    "weekId": "2026-09-21_to_2026-09-27",
+    "__v": 0,
+    "createdAt": "2026-09-29T11:18:37.620Z",
+    "facebook": {
+      "views": 245,
+      "viewers": 146,
+      "contentInteractions": 24,
+      "linkClicks": 8,
+      "visits": 46,
+      "follows": 31,
+      "profileVisits": 0,
+      "reach": 0
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 1,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1240,
+      "mapsViews": 3120,
+      "websiteClicks": 156,
+      "directionRequests": 98,
+      "callClicks": 42,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "instagram": {
+      "views": 1420,
+      "reach": 485,
+      "contentInteractions": 78,
+      "linkClicks": 14,
+      "visits": 124,
+      "follows": 48,
+      "impressions": 0,
+      "profileVisits": 0,
+      "reelsViews": 0,
+      "postViews": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0,
+      "saves": 0,
+      "totalFollowers": 0
+    },
+    "linkedin": {
+      "impressions": 320,
+      "reactions": 6,
+      "comments": 0,
+      "reposts": 0,
+      "pageViews": 34,
+      "uniqueVisitors": 12,
+      "totalFollowers": 83,
+      "newFollowers": 2,
+      "searchAppearances": 247,
+      "customButtonClick": 0,
+      "newFollowers300Days": 0,
+      "pageSearches": 0,
+      "reach": 0,
+      "profileViews": 0
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "userId": "default_user",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 11434,
+      "watchTimeHours": 3392,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 145800,
+      "ctr": 7.6,
+      "likes": 163,
+      "comments": 6,
+      "shares": 12,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  },
+  {
+    "_id": "6ac5c994230f565b45f9747a",
+    "weekId": "2026-09-28_to_2026-10-04",
+    "__v": 0,
+    "createdAt": "2026-10-07T04:24:52.906Z",
+    "facebook": {
+      "views": 245,
+      "viewers": 146,
+      "contentInteractions": 24,
+      "linkClicks": 8,
+      "visits": 46,
+      "follows": 31,
+      "profileVisits": 0,
+      "reach": 0
+    },
+    "google": {
+      "averageRating": 4.7,
+      "totalReviews": 11,
+      "newReviews": 1,
+      "responseRate": 100,
+      "fiveStars": 10,
+      "fourStars": 1,
+      "threeStars": 0,
+      "twoStars": 0,
+      "oneStar": 0,
+      "searchViews": 1240,
+      "mapsViews": 3120,
+      "websiteClicks": 156,
+      "directionRequests": 98,
+      "callClicks": 42,
+      "recentReviews": [
+        {
+          "id": "live-gr-1791197927",
+          "author": "Mukesh Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/116730524971788685745/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-10-05T10:58:47.000Z",
+          "relativeTime": "in the last week",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocLsb_VIiq8r1hk7C51nYxAl3s6wLkIurXcy06Dlifz4gXn8k4A=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1784985559",
+          "author": "Sandeep Parmar",
+          "authorUrl": "https://www.google.com/maps/contrib/112621933417417128380/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2026-07-25T13:19:19.000Z",
+          "relativeTime": "2 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocJEFzp6UfVQivTX80ESCnRhjI2JY9dS71EuBI52pBeVeexBoPY=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1782881270",
+          "author": "Tilkesh Soni",
+          "authorUrl": "https://www.google.com/maps/contrib/102196620152844809641/reviews",
+          "rating": 5,
+          "text": "Best experience ever!",
+          "time": "2026-07-01T04:47:50.000Z",
+          "relativeTime": "3 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXDwm9JFP5zaAxN1bOegXq5RpTjznKVBEW3dd3HLOnmPlDxZak=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1765371155",
+          "author": "Interior Walas",
+          "authorUrl": "https://www.google.com/maps/contrib/106776411704823889654/reviews",
+          "rating": 5,
+          "text": "",
+          "time": "2025-12-10T12:52:35.000Z",
+          "relativeTime": "10 months ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjUvFAnhpCXxYmNMoxZ3uuad6uJ75oVH6a5jKcn3HFgmF3th8aor=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1738943973",
+          "author": "Alok Rai",
+          "authorUrl": "https://www.google.com/maps/contrib/115930082956981422086/reviews",
+          "rating": 5,
+          "text": "One of the best company where i visited,, ultimate services ☺️",
+          "time": "2025-02-07T15:59:33.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXFJZrctzA9ewWtpg493yBMnfP82P6GVNUkkjMGuQJ1KjbLjjw=s128-c0x00000000-cc-rp-mo"
+        },
+        {
+          "id": "live-gr-1729585921",
+          "author": "Chandra Sharma",
+          "authorUrl": "https://www.google.com/maps/contrib/107059741006920577335/reviews",
+          "rating": 5,
+          "text": "Beautiful Palace",
+          "time": "2024-10-22T08:32:01.000Z",
+          "relativeTime": "a year ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocILW7nQJGPjLvqGkJCgLHRGnfXkArUnDBzIGNlosRWyVZb7gQ=s128-c0x00000000-cc-rp-mo-ba3"
+        },
+        {
+          "id": "live-gr-1698720292",
+          "author": "CHIKU BAIRWAL",
+          "authorUrl": "https://www.google.com/maps/contrib/113739786219506035705/reviews",
+          "rating": 4,
+          "text": "Best in the town",
+          "time": "2023-10-31T02:44:52.000Z",
+          "relativeTime": "2 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a-/ALV-UjX5NEVM2MnmE8sHwcWpXvY4GF7o1KgHrk6WvJeFoKVYe6RCMYSovQ=s128-c0x00000000-cc-rp-mo-ba4"
+        },
+        {
+          "id": "live-gr-1677436526",
+          "author": "Chetan Yadav",
+          "authorUrl": "https://www.google.com/maps/contrib/118089343163939241756/reviews",
+          "rating": 5,
+          "text": "Genuinely best for consultation and construction",
+          "time": "2023-02-26T18:35:26.000Z",
+          "relativeTime": "3 years ago",
+          "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocKH1X3MlBSdHpoTapFuVeg_nid2q0r9KyE0wtv96tphbvYWspU=s128-c0x00000000-cc-rp-mo-ba2"
+        }
+      ]
+    },
+    "instagram": {
+      "views": 1420,
+      "reach": 485,
+      "contentInteractions": 78,
+      "linkClicks": 14,
+      "visits": 124,
+      "follows": 48,
+      "impressions": 0,
+      "profileVisits": 0,
+      "reelsViews": 0,
+      "postViews": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0,
+      "saves": 0,
+      "totalFollowers": 0
+    },
+    "linkedin": {
+      "impressions": 1257,
+      "reactions": 32,
+      "comments": 1,
+      "reposts": 0,
+      "pageViews": 172,
+      "uniqueVisitors": 56,
+      "totalFollowers": 65,
+      "newFollowers": 8,
+      "searchAppearances": 229,
+      "customButtonClick": 0,
+      "newFollowers300Days": 0,
+      "pageSearches": 0,
+      "reach": 0,
+      "profileViews": 0
+    },
+    "updatedAt": "2026-10-07T07:17:04.795Z",
+    "userId": "default_user",
+    "youtube": {
+      "subscribers": 16,
+      "newSubscribers": 1,
+      "views": 11434,
+      "watchTimeHours": 3392,
+      "averageViewDurationMinutes": 17.8,
+      "impressions": 145800,
+      "ctr": 7.6,
+      "likes": 163,
+      "comments": 6,
+      "shares": 12,
+      "videosCount": 2,
+      "recentVideos": [
+        {
+          "videoId": "OVNVRyeD3M4",
+          "title": "किन शहरों में रियल इस्टेट में बूम आ रहा है, किनकी property सस्ती होगी? Podcast ft Real Estate Expert",
+          "views": 10848,
+          "duration": "1:01:59",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OVNVRyeD3M4/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=OVNVRyeD3M4",
+          "likes": 137
+        },
+        {
+          "videoId": "N9rH0Bj-4dw",
+          "title": "India आज भी अगर China से ये सब सीख ले तो इंडियन्स का भला हो सकता है | Podcast ft Business Strategist",
+          "views": 586,
+          "duration": "33:14",
+          "publishedTime": "2 months ago",
+          "thumbnailUrl": "https://i.ytimg.com/vi/N9rH0Bj-4dw/hqdefault.jpg",
+          "url": "https://www.youtube.com/watch?v=N9rH0Bj-4dw",
+          "likes": 26
+        }
+      ]
+    }
+  }
+]

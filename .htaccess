@@ -1,0 +1,5 @@
+# UrbanGaon Social Pulse - cPanel Passenger Configuration
+PassengerEnabled On
+PassengerAppRoot /home3/urbanumh/social.urbangaon.com
+PassengerAppType node
+PassengerStartupFile server.js

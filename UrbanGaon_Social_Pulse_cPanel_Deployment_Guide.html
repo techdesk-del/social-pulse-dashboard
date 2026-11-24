@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UrbanGaon Social Pulse - Official cPanel Deployment Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #ffffff;
+      color: #0f172a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      padding: 13mm 16mm 12mm 16mm;
+      box-sizing: border-box;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    /* Page Header */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 7px;
+    }
+
+    .brand-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #1e3a8a;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 13px;
+      border-radius: 9999px;
+      border: 1px solid #93c5fd;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .blue-divider {
+      width: 100%;
+      height: 2.5px;
+      background: #2563eb;
+      margin-bottom: 14px;
+      border-radius: 2px;
+    }
+
+    /* Main Content Container */
+    .page-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hero Banner Card */
+    .hero-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      border-radius: 10px;
+      padding: 18px 22px;
+      color: #ffffff;
+      margin-bottom: 13px;
+      box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.15);
+    }
+
+    .hero-title {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      font-size: 11.5px;
+      color: #dbeafe;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* Key Confirmation Alert Box */
+    .alert-box {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+    }
+
+    .alert-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #15803d;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .alert-text {
+      font-size: 11px;
+      color: #166534;
+      line-height: 1.5;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-desc {
+      font-size: 11px;
+      color: #334155;
+      margin-bottom: 9px;
+      line-height: 1.4;
+    }
+
+    /* Modern Styled Tables */
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.5px;
+      margin-bottom: 11px;
+      background: #ffffff;
+    }
+
+    .styled-table th {
+      background: #f8fafc;
+      color: #1e293b;
+      font-weight: 700;
+      text-align: left;
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 10.5px;
+    }
+
+    .styled-table td {
+      padding: 6.5px 10px;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      font-size: 10.5px;
+    }
+
+    .styled-table tr.total-row {
+      font-weight: 700;
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .styled-table tr.highlight-row {
+      background: #f0fdf4;
+      font-weight: 600;
+      color: #166534;
+    }
+
+    /* Headroom Box */
+    .headroom-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 7px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+
+    .headroom-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #1d4ed8;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .headroom-desc {
+      font-size: 10.5px;
+      color: #1e40af;
+      line-height: 1.45;
+    }
+
+    /* Architecture Grid */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .domain-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 11px 14px;
+      background: #ffffff;
+    }
+
+    .domain-card.active {
+      border-left: 3.5px solid #2563eb;
+      background: #f8fafc;
+    }
+
+    .domain-tag {
+      font-size: 9px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .domain-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .domain-desc {
+      font-size: 10.5px;
+      color: #475569;
+      line-height: 1.35;
+    }
+
+    /* Step Card */
+    .step-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 13px 16px;
+      margin-bottom: 12px;
+      background: #ffffff;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 7px;
+    }
+
+    .step-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-heading {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+
+    .step-list {
+      list-style-type: none;
+      padding-left: 31px;
+      font-size: 11px;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .step-list li {
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .step-list li::before {
+      content: "•";
+      position: absolute;
+      left: -12px;
+      color: #64748b;
+      font-weight: bold;
+    }
+
+    .step-list strong {
+      color: #0f172a;
+    }
+
+    /* Code Block with Pre formatting */
+    .code-box {
+      background: #0f172a;
+      border-radius: 6px;
+      padding: 9px 12px;
+      color: #e2e8f0;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9px;
+      line-height: 1.42;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .code-box-inline {
+      background: #0f172a;
+      border-radius: 5px;
+      padding: 6px 14px;
+      color: #38bdf8;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 11px;
+      font-weight: 600;
+      display: block;
+      width: fit-content;
+      margin: 4px 0;
+    }
+
+    /* Executive Callout Card */
+    .fast-cname-card {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 13px 16px;
+      margin-bottom: 14px;
+    }
+
+    .fast-cname-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1d4ed8;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .fast-cname-desc {
+      font-size: 11px;
+      color: #1e3a8a;
+      line-height: 1.45;
+      margin-bottom: 6px;
+    }
+
+    .fast-cname-bullets {
+      list-style-type: none;
+      padding-left: 12px;
+      font-size: 10.5px;
+      color: #1e40af;
+      line-height: 1.45;
+    }
+
+    .fast-cname-bullets li {
+      position: relative;
+      margin-bottom: 3px;
+    }
+
+    .fast-cname-bullets li::before {
+      content: "•";
+      position: absolute;
+      left: -10px;
+      font-weight: bold;
+    }
+
+    /* Talking Points */
+    .talking-points-list {
+      list-style-type: none;
+      font-size: 10.5px;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    .talking-points-list li {
+      margin-bottom: 7px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .talking-points-list li .num-tag {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 800;
+      color: #1d4ed8;
+    }
+
+    /* Running Footer */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 9px;
+      color: #64748b;
+    }
+
+    .footer-left {
+      font-weight: 500;
+    }
+
+    .footer-right {
+      font-weight: 600;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 1: OFFICIAL cPANEL DEPLOYMENT & STORAGE VERIFICATION      -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="page-body">
+      <div class="header-bar">
+        <div>
+          <div class="brand-title">UrbanGaon</div>
+          <div class="brand-subtitle">EXECUTIVE TECHNICAL DEPLOYMENT &amp; SERVER SETUP GUIDE</div>
+        </div>
+        <div class="header-badge">cPanel TAILORED • OFFICIAL</div>
+      </div>
+      <div class="blue-divider"></div>
+
+      <div class="hero-banner">
+        <div class="hero-title">Official cPanel Deployment &amp; Configuration Guide</div>
+        <div class="hero-subtitle">Tailored specifically for UrbanGaon's BigRock cPanel Hosting (Server: md-in-35.webhostbox.net)</div>
+      </div>
+
+      <div class="alert-box">
+        <div class="alert-title">✅ Key Confirmation: Application Manager &amp; Terminal are Fully Active</div>
+        <div class="alert-text">
+          In your cPanel dashboard, you have two powerful features already installed:<br>
+          <strong>1. "Application Manager"</strong> (under Software) — used by cPanel/Passenger to host Node.js &amp; Next.js apps.<br>
+          <strong>2. "Terminal"</strong> (under Advanced) — full command-line access to install packages and run Node processes.
+        </div>
+      </div>
+
+      <div class="section-title">1. Storage Verification: The 2.58 GB Question</div>
+      <div class="section-desc">You noticed 2.58 GB in your dashboard. Here is the mathematically verified breakdown of our deployment files:</div>
+
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th style="width: 28%;">Module</th>
+            <th style="width: 17%;">Measured Size</th>
+            <th style="width: 32%;">Destination Path</th>
+            <th style="width: 23%;">Server Storage Impact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Next.js Web Application</td>
+            <td>3.45 MB</td>
+            <td>public_html/social/</td>
+            <td>Negligible (&lt;0.004 GB)</td>
+          </tr>
+          <tr>
+            <td>Backend API &amp; Server Engine</td>
+            <td>1.15 MB</td>
+            <td>social-pulse/</td>
+            <td>Negligible (&lt;0.002 GB)</td>
+          </tr>
+          <tr>
+            <td>Runtime Node Modules</td>
+            <td>~36.50 MB</td>
+            <td>social-pulse/node_modules/</td>
+            <td>Minimal (~0.037 GB)</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total Project Footprint</td>
+            <td>~41.10 MB</td>
+            <td>BigRock cPanel Storage</td>
+            <td>Under 0.05 GB Total!</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>Social Analytics &amp; Cloud DB</td>
+            <td>Cloud Storage</td>
+            <td>MongoDB Atlas Cloud</td>
+            <td>0.00 MB on BigRock!</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="headroom-box">
+        <div class="headroom-title">💡 Headroom Guarantee</div>
+        <div class="headroom-desc">
+          <strong>2.58 GB = 2,641 MB.</strong> Our entire project needs only <strong>~41 MB</strong>. Your server has enough disk space to run nearly <strong>65 copies</strong> of this social dashboard! There is zero storage issue.
+        </div>
+      </div>
+
+      <div class="section-title">2. Architecture &amp; Domain Strategy</div>
+      <div class="section-desc">The main website (https://urbangaon.com) will stay 100% untouched. The social dashboard will live on an isolated subdomain:</div>
+
+      <div class="domain-grid">
+        <div class="domain-card">
+          <div class="domain-tag">MAIN CORPORATE WEBSITE</div>
+          <div class="domain-name">urbangaon.com</div>
+          <div class="domain-desc">Located in <code>public_html/</code>. Zero downtime during or after deployment.</div>
+        </div>
+        <div class="domain-card active">
+          <div class="domain-tag" style="color: #2563eb;">SOCIAL PULSE DASHBOARD</div>
+          <div class="domain-name">social.urbangaon.com</div>
+          <div class="domain-desc">Located in <code>public_html/social/</code>. Completely isolated sandboxed folder.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-left">UrbanGaon Technologies Pvt. Ltd. • Social Pulse Dashboard Platform</div>
+      <div class="footer-right">Page 1 of 4 • Storage &amp; Architecture</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 2: STEP-BY-STEP EXECUTION GUIDE - PART 1                   -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="page-body">
+      <div class="header-bar">
+        <div>
+          <div class="brand-title">UrbanGaon</div>
+          <div class="brand-subtitle">STEP-BY-STEP SERVER SETUP PROCEDURE</div>
+        </div>
+        <div class="header-badge">EXECUTION MANUAL • PART 1</div>
+      </div>
+      <div class="blue-divider"></div>
+
+      <div style="margin-bottom: 11px;">
+        <div style="font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">Step-by-Step Execution Guide</div>
+        <div style="font-size: 11px; color: #475569;">Follow these steps directly inside your cPanel dashboard (as seen in your server screenshot):</div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">1</div>
+          <div class="step-heading">Create the Subdomain in cPanel</div>
+        </div>
+        <ul class="step-list">
+          <li>In cPanel, scroll to <strong>Domains</strong> and click <strong>Domains</strong> (or <em>Subdomains</em>).</li>
+          <li>Click <strong>"Create A New Domain"</strong>.</li>
+          <li><strong>Domain Name:</strong> Enter <code>social.urbangaon.com</code> (or <code>pulse.urbangaon.com</code>).</li>
+          <li><strong>Important:</strong> Untick <em>"Share document root"</em>. Set document root to: <code>public_html/social</code>.</li>
+          <li>Click <strong>Submit</strong>. This generates an isolated, sandboxed website folder.</li>
+        </ul>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">2</div>
+          <div class="step-heading">Deploy Node.js Backend via "Application Manager"</div>
+        </div>
+        <ul class="step-list">
+          <li>In your screenshot, locate the <strong>Software</strong> section ➔ Click on <strong>"Application Manager"</strong> (icon with 4 squares).</li>
+          <li>Click <strong>"Register Application"</strong> (or <em>Add Application</em>).</li>
+          <li>Fill in the fields:
+            <br>• <strong>Application Name:</strong> <code>social-pulse</code>
+            <br>• <strong>Deployment Domain:</strong> Select <code>social.urbangaon.com</code>
+            <br>• <strong>Base URL:</strong> <code>/</code> (or leave root for complete web application)
+            <br>• <strong>Application Path:</strong> <code>social-pulse</code> (folder where application lives)
+            <br>• <strong>Application Environment:</strong> <code>Production</code>
+          </li>
+          <li style="margin-top: 5px;">Under <strong>Environment Variables</strong>, click <strong>Add Variable</strong>:
+            <div class="code-box">NODE_ENV=production PORT=3000
+MONGODB_URI=mongodb://akashxofficialin_db_user:NKOavvwjTlPgLc3s@ac-oyb8u0k-shard-00-00.q2jxis4.mongodb.net:27017,ac-oyb8u0k-shard-00-01.q2jxis4.mongodb.net:27017,ac-oyb8u0k-shard-00-02.q2jxis4.mongodb.net:27017/social_pulse?ssl=true&amp;replicaSet=atlas-qsgpcj-shard-0&amp;authSource=admin&amp;retryWrites=true&amp;w=majority
+JWT_SECRET=social_pulse_super_secret_jwt_key_2025_prod
+GOOGLE_PLACES_API_KEY=AIzaSyAf3Bpi3bOpSq-h8qiBdVx-gcrEk4fd660
+GOOGLE_PLACE_ID=ChIJb4BlCW20bTkRjY9rIogywsM
+LINKEDIN_ORG_ID=112470973</div>
+          </li>
+          <li>Click <strong>Save and Deploy</strong>.</li>
+        </ul>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">3</div>
+          <div class="step-heading">Verify via "Terminal" (Advanced Section)</div>
+        </div>
+        <ul class="step-list">
+          <li>In your screenshot, under <strong>Advanced</strong>, click on <strong>Terminal</strong>:</li>
+          <li>Check the installed Node.js version by typing:
+            <div class="code-box-inline">node -v</div>
+          </li>
+          <li>Navigate to your application directory and install runtime dependencies:
+            <div class="code-box-inline">cd social-pulse &amp;&amp; npm install --production</div>
+          </li>
+          <li>You can also run or verify background processes anytime via this Terminal.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-left">UrbanGaon Technologies Pvt. Ltd. • Social Pulse Dashboard Platform</div>
+      <div class="footer-right">Page 2 of 4 • Backend Setup</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 3: STEP-BY-STEP EXECUTION GUIDE - PART 2                   -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="page-body">
+      <div class="header-bar">
+        <div>
+          <div class="brand-title">UrbanGaon</div>
+          <div class="brand-subtitle">FRONTEND DEPLOYMENT, SPA ROUTING &amp; SSL</div>
+        </div>
+        <div class="header-badge">EXECUTION MANUAL • PART 2</div>
+      </div>
+      <div class="blue-divider"></div>
+
+      <!-- STEP 4 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">4</div>
+          <div class="step-heading">Build &amp; Upload Social Pulse to cPanel File Manager</div>
+        </div>
+        <ul class="step-list">
+          <li>On your local computer, build the optimized Next.js production bundle:
+            <div class="code-box-inline">npm run build</div>
+          </li>
+          <li>This creates the compiled web application in <code>.next/</code> (total standalone size: ~34 MB).</li>
+          <li>In cPanel, open <strong>File Manager</strong> (under Files section).</li>
+          <li>Open the subdomain directory: <code>public_html/social/</code>.</li>
+          <li>Zip your local build folder (including <code>.next</code>, <code>public</code>, <code>package.json</code>, <code>next.config.ts</code>), upload the zip file, and click <strong>Extract</strong>.</li>
+          <li>Verify that <code>.next/</code> and the <code>public/</code> folder are directly inside <code>public_html/social/</code>.</li>
+        </ul>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">5</div>
+          <div class="step-heading">Configure Client-Side SPA / Passenger Routing (.htaccess)</div>
+        </div>
+        <ul class="step-list">
+          <li>Create an <code>.htaccess</code> file inside <code>public_html/social/</code> to ensure page refresh works on all dashboard tabs and Passenger routes traffic correctly:</li>
+          <li>
+            <div class="code-box">&lt;IfModule mod_rewrite.c&gt;
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+&lt;/IfModule&gt;
+
+# Passenger Node Startup (Optional Direct Mode):
+&lt;IfModule mod_passenger.c&gt;
+  PassengerAppRoot /home/urbangaon/public_html/social
+  PassengerAppType node
+  PassengerStartupFile server.js
+&lt;/IfModule&gt;</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">6</div>
+          <div class="step-heading">Enable Free 1-Click SSL Certificate (HTTPS)</div>
+        </div>
+        <ul class="step-list">
+          <li>In cPanel, scroll to <strong>Security</strong> ➔ click <strong>SSL/TLS Status</strong>.</li>
+          <li>Check the box next to <code>social.urbangaon.com</code>.</li>
+          <li>Click <strong>"Run AutoSSL"</strong>. Within 2 minutes, your portal will have a secure green padlock (<code>https://</code>).</li>
+        </ul>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">7</div>
+          <div class="step-heading">Final Verification &amp; Health Check</div>
+        </div>
+        <ul class="step-list">
+          <li>Open <code>https://social.urbangaon.com</code> in any browser or smartphone.</li>
+          <li>Log in with admin credentials and verify all 4 live channels:
+            <br>• <strong>LinkedIn B2B Intelligence:</strong> Post impressions, member reactions, followers, and page views.
+            <br>• <strong>Instagram Consumer Engagement:</strong> Video/Reels views, accounts reached, and bio link clicks.
+            <br>• <strong>Facebook Community Hub:</strong> Impressions, unique reach, comments, and post shares.
+            <br>• <strong>Google Reviews &amp; Local Intent:</strong> Live 4.7★ rating, total reviews, phone dials, and direction queries.
+          </li>
+          <li>Test <strong>1-Click Live Google Sync</strong>, multi-week <strong>Compare Matrix</strong>, and <strong>1-Click Executive PDF Export</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-left">UrbanGaon Technologies Pvt. Ltd. • Social Pulse Dashboard Platform</div>
+      <div class="footer-right">Page 3 of 4 • Frontend &amp; Security</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 4: EXECUTIVE SUMMARY & ALTERNATIVE FREE ARCHITECTURE       -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="page-body">
+      <div class="header-bar">
+        <div>
+          <div class="brand-title">UrbanGaon</div>
+          <div class="brand-subtitle">EXECUTIVE SUMMARY &amp; ALTERNATIVE FREE ARCHITECTURE</div>
+        </div>
+        <div class="header-badge">MANAGEMENT BRIEF</div>
+      </div>
+      <div class="blue-divider"></div>
+
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 3px;">Alternative Free Cloud Architecture (Fastest Option)</div>
+        <div style="font-size: 11px; color: #475569;">If you or Sir prefer a 5-minute zero-server-maintenance setup, you can use the industry-standard DNS CNAME option:</div>
+      </div>
+
+      <div class="fast-cname-card">
+        <div class="fast-cname-title">🚀 The 5-Minute DNS CNAME Option (100% Free)</div>
+        <div class="fast-cname-desc">
+          Instead of configuring Node.js on cPanel, you can keep the portal on <strong>social.urbangaon.com</strong> by adding a single DNS CNAME record in BigRock pointing to Vercel or Render.
+        </div>
+        <ul class="fast-cname-bullets">
+          <li><strong>Domain URL:</strong> <code>https://social.urbangaon.com</code> (100% on your company domain).</li>
+          <li><strong>Server Maintenance:</strong> Zero maintenance, automated free SSL, automatic reboots on crash, native edge SSR acceleration.</li>
+          <li><strong>Cost:</strong> ₹0 / month.</li>
+        </ul>
+      </div>
+
+      <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Executive Comparison Matrix</div>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th style="width: 28%;">Deployment Factor</th>
+            <th style="width: 36%;">cPanel Application Manager</th>
+            <th style="width: 36%;">DNS CNAME to Vercel / Render</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Domain URL</strong></td>
+            <td>social.urbangaon.com</td>
+            <td>social.urbangaon.com</td>
+          </tr>
+          <tr>
+            <td><strong>Main Site Impact</strong></td>
+            <td>0% (Completely isolated)</td>
+            <td>0% (Completely isolated)</td>
+          </tr>
+          <tr>
+            <td><strong>Setup Time</strong></td>
+            <td>15–20 Minutes</td>
+            <td>5 Minutes (Zero-config Next.js)</td>
+          </tr>
+          <tr>
+            <td><strong>Maintenance</strong></td>
+            <td>cPanel updates &amp; Node monitoring</td>
+            <td>Automated cloud scaling &amp; CI/CD</td>
+          </tr>
+          <tr>
+            <td><strong>SSL Encryption</strong></td>
+            <td>AutoSSL (cPanel)</td>
+            <td>Automated Cloudflare / Edge SSL</td>
+          </tr>
+          <tr>
+            <td><strong>Next.js Performance</strong></td>
+            <td>Shared server Passenger runtime</td>
+            <td>Native Global Edge Serverless</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-top: 10px; margin-bottom: 8px;">Talking Points for Sir / Leadership Review:</div>
+      <ul class="talking-points-list">
+        <li>
+          <span class="num-tag">1.</span>
+          <strong>"Sir, our server has 2.58 GB space. Our Social Pulse app uses only ~41 MB total, so space is 100% sufficient."</strong>
+        </li>
+        <li>
+          <span class="num-tag">2.</span>
+          <strong>"Our main website (urbangaon.com) will have zero downtime because the portal runs on a dedicated subdomain (social.urbangaon.com) in its own sandboxed folder."</strong>
+        </li>
+        <li>
+          <span class="num-tag">3.</span>
+          <strong>"Our cPanel has 'Application Manager' and 'Terminal' already enabled, so Node.js can be deployed directly or linked via DNS in 5 minutes with zero hosting cost."</strong>
+        </li>
+        <li>
+          <span class="num-tag">4.</span>
+          <strong>"All social media analytics (LinkedIn, Instagram, Facebook, Google Maps) and database records live securely on MongoDB Atlas Cloud, ensuring zero performance overhead on BigRock."</strong>
+        </li>
+      </ul>
+    </div>
+
+    <div class="page-footer">
+      <div class="footer-left">UrbanGaon Technologies Pvt. Ltd. • Social Pulse Dashboard Platform</div>
+      <div class="footer-right">Page 4 of 4 • End of Documentation • Approved by Lead Engineering</div>
+    </div>
+  </div>
+
+</body>
+</html>

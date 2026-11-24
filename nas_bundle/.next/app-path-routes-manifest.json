@@ -1,0 +1,17 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/auth/login/route": "/api/auth/login",
+  "/api/auth/logout/route": "/api/auth/logout",
+  "/api/auth/me/route": "/api/auth/me",
+  "/api/auth/register/route": "/api/auth/register",
+  "/api/google-reviews/live/route": "/api/google-reviews/live",
+  "/api/social/live/route": "/api/social/live",
+  "/api/weeks/import/route": "/api/weeks/import",
+  "/api/weeks/route": "/api/weeks",
+  "/api/youtube/live/route": "/api/youtube/live",
+  "/favicon.ico/route": "/favicon.ico",
+  "/login/page": "/login",
+  "/page": "/",
+  "/register/page": "/register"
+}
