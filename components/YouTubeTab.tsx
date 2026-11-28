@@ -39,20 +39,20 @@ export default function YouTubeTab({
 
   const initialChannel: UrbanGaonChannelLiveData =
     weeks[activeIndex]?.youtube?.urbanGaonChannel &&
-    weeks[activeIndex].youtube!.urbanGaonChannel!.videos?.length > 0
+      weeks[activeIndex].youtube!.urbanGaonChannel!.videos?.length > 0
       ? weeks[activeIndex].youtube!.urbanGaonChannel!
       : {
-          channelId: URBANGAON_CHANNEL_ID,
-          handle: '@UrbanGaonOfficial',
-          channelName: 'UrbanGaon',
-          subscribers: num(curr.subscribers) || 19,
-          totalViews: DEFAULT_URBANGAON_CHANNEL_VIDEOS.reduce((acc, v) => acc + v.views, 0),
-          totalLikes: DEFAULT_URBANGAON_CHANNEL_VIDEOS.reduce((acc, v) => acc + (v.likes || 0), 0),
-          totalComments: DEFAULT_URBANGAON_CHANNEL_VIDEOS.reduce((acc, v) => acc + (v.comments || 0), 0),
-          videosCount: DEFAULT_URBANGAON_CHANNEL_VIDEOS.length,
-          videos: DEFAULT_URBANGAON_CHANNEL_VIDEOS,
-          syncedAt: '',
-        };
+        channelId: URBANGAON_CHANNEL_ID,
+        handle: '@UrbanGaonOfficial',
+        channelName: 'UrbanGaon',
+        subscribers: num(curr.subscribers) || 19,
+        totalViews: DEFAULT_URBANGAON_CHANNEL_VIDEOS.reduce((acc, v) => acc + v.views, 0),
+        totalLikes: DEFAULT_URBANGAON_CHANNEL_VIDEOS.reduce((acc, v) => acc + (v.likes || 0), 0),
+        totalComments: DEFAULT_URBANGAON_CHANNEL_VIDEOS.reduce((acc, v) => acc + (v.comments || 0), 0),
+        videosCount: DEFAULT_URBANGAON_CHANNEL_VIDEOS.length,
+        videos: DEFAULT_URBANGAON_CHANNEL_VIDEOS,
+        syncedAt: '',
+      };
 
   const [urbanGaonChannel, setUrbanGaonChannel] = useState<UrbanGaonChannelLiveData>(initialChannel);
   const [channelSyncing, setChannelSyncing] = useState(false);
