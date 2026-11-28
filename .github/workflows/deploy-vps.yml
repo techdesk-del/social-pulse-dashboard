@@ -1,0 +1,25 @@
+name: Auto-Deploy Social Pulse to BigRock VPS
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - '**.pdf'
+      - '**.zip'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy latest code to BigRock VPS (64.247.186.26)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: 22
+          script: |
+            set -e
+            bash /var/www/social-pulse/deploy/redeploy.sh
